@@ -20,15 +20,18 @@ u_word2 = "\u0441\u043e\u043a\u0435\u0442"
 u_word3 = "\u0434\u0435\u043a\u043e\u0440\u0430\u0442\u043e\u0440"
 list_of_u_words = [u_word1, u_word2, u_word3]
 
+
 def type_of(word_list):
     """
-    get type of word from list
+    get type of element from list
     :param word_list: list of words
     :return: string
     """
     for word in word_list:
-        print(f"type of {word} is {type(word)}")
+        print(f"тип {word}: {type(word)}")
 
-type_of(list_of_words)
-print("*"*10)
-type_of(list_of_u_words)
+
+if __name__ == '__main__':
+    type_of(list_of_words)
+    print("*" * 10)
+    type_of(list_of_u_words)
