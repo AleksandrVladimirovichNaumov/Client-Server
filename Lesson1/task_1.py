@@ -30,7 +30,7 @@ def type_of(word_list):
     for word in word_list:
         print(f"тип {word}: {type(word)}")
 
-
+# do not run this code in case of import
 if __name__ == '__main__':
     type_of(list_of_words)
     print("*" * 10)

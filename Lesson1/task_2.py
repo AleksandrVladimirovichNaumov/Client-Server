@@ -16,6 +16,7 @@ import task_1
 word1, word2, word3 = b"class", b"function", b"method"
 list_of_bytes = [word1, word2, word3]
 
+# show length of bytes
 for bytes in list_of_bytes:
     print(f'длина {bytes}: {bytes.__len__()}')
 
