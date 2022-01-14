@@ -34,6 +34,8 @@ with open('test_file.txt', 'rb') as file:
     print(f'кодировка: {detected_dict["encoding"]}')
     print(lines.decode(detected_dict["encoding"]).encode('UTF-8').decode('UTF-8'))
     print('*'*10)
+with open('test_file.txt', 'w', encoding='utf-8') as file:
+    file.write(lines.decode(detected_dict["encoding"]).encode('UTF-8').decode('UTF-8'))
 
 # open with UTF-8 characters encoding by default
 try:
