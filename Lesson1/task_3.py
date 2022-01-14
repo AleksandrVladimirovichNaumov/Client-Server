@@ -10,10 +10,9 @@
 придумайте как это сделать
 """
 word1, word2, word3, word4 = "attribute", "класс", "функция", "type"
-list_of_bytes = [word1, word2, word3, word4]
+list_of_words = [word1, word2, word3, word4]
 
-
-for word in list_of_bytes:
+for word in list_of_words:
     try:
         print(bytes(word, 'ASCII'))
     except Exception as e:
