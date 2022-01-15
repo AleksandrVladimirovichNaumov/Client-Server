@@ -1,0 +1,18 @@
+{
+    "orders": [
+        {
+            "item": "принтер",
+            "quantity": "10",
+            "price": "6700",
+            "buyer": "Ivanov I.I.",
+            "date": "27.05.1703"
+        },
+        {
+            "item": "принтер",
+            "quantity": "10",
+            "price": "6700",
+            "buyer": "Ivanov I.I.",
+            "date": "27.05.1703"
+        }
+    ]
+}
