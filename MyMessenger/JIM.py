@@ -1,10 +1,11 @@
-import datetime
+import time
+from datetime import datetime
 
 
 class JIM():
 
     def __init__(self):
-        errors = {
+        self.response = {
             100: 'базовое уведомление',
             101: 'важное уведомление',
             200: 'OK',
@@ -17,17 +18,30 @@ class JIM():
             404: 'пользователь/чат отсутствует на сервере',
             409: 'уже имеется подключение с указанным логином',
             410: 'адресат существует, но недоступен (offline)',
-            500: 'ошибка сервера'
+            500: 'ошибка сервера',
         }
+        self.jim_action = 'action'
+        self.jim_user = 'user'
+        self.jim_time = 'time'
+
+    def get_jim_responses(self):
+        return JIM().response
+
+    def get_jim_action(self):
+        return JIM().jim_action
+
+    def get_jim_user(self):
+        return JIM().jim_user
+
+    def get_jim_time(self):
+        return JIM().jim_time
 
 
 class JIMClient(JIM):
-
     def __init__(self):
-        super.__init__()
+        super().__init__()
 
-
-    def server_request(self, action, userdata, data=None):
+    def server_request(self, action, username, data=''):
         """
         шаблон для отправки запроса на сервер
         :param action: тип запроса
@@ -37,27 +51,18 @@ class JIMClient(JIM):
         """
         return {
             "action": action,
-            "time": datetime.datetime,
-            "user": userdata,
+            "time": str(datetime.utcnow()),
+            "user": username,
             "data": data
 
         }
 
-    def presence(self, name='username'):
-        """
-        первичный запрос на подключение к серверу
-        :param name: пользователь
-        :return: словарь для отправки на сервер
-        """
-        return self.server_request('presence', name)
-
 
 class JIMServer(JIM):
-
     def __init__(self):
-        super.__init__()
+        super().__init__()
 
-    def server_response(self, response, alert=None):
+    def server_response(self, response, alert=''):
         """
         шаблон ответа сервера
         :param response: ответ
