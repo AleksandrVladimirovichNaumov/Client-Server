@@ -1,7 +1,6 @@
 import unittest
 
-from MyMessenger import JIM
-from MyMessenger.client import MyMessengerClient
+from ..client import MyMessengerClient
 
 
 class TestClient(unittest.TestCase):
