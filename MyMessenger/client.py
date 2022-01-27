@@ -2,8 +2,8 @@ import json
 import socket
 import sys
 
-from JIM import JIMClient
-from MySocket import MessengerSocket
+from MyMessenger.JIM import JIMClient
+from MyMessenger.MySocket import MessengerSocket
 
 
 class MyMessengerClient(MessengerSocket, JIMClient):
