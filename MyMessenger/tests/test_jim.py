@@ -1,7 +1,7 @@
 from datetime import datetime
 import unittest
 
-from ..JIM import JIM, JIMClient, JIMServer
+from JIM import JIM, JIMClient, JIMServer
 
 
 class TestJIM(unittest.TestCase):
@@ -42,14 +42,12 @@ class TestJIM(unittest.TestCase):
         })
 
     def test_clientresponse(self):
-
-        self.assertEqual(method_result, {
-            "action": 'action',
-            "time": method_result.get('time'),
-            "user": 'username',
-            "data": 'data'
+        self.assertEqual(JIMServer().server_response('response', 'alert'), {
+            "response": 'response',
+            "alert": 'alert',
 
         })
+
 
 if __name__ == '__main__':
     unittest.main()
