@@ -1,8 +1,9 @@
 import sys
 import time
 
-from JIM import JIMServer
-from MySocket import MessengerSocket
+from jim import JIMServer
+from my_socket import MessengerSocket
+from log.server_log_config import server_logger
 
 
 class MessengerServer(MessengerSocket, JIMServer):
@@ -17,20 +18,20 @@ class MessengerServer(MessengerSocket, JIMServer):
         """
         self.sock.bind((self.address, self.port))
         self.sock.listen(self.max_connections)
-        print(f'Сервер {self.address}: {self.port} запущен')
+        server_logger.info(f'Сервер {self.address}: {self.port} запущен')
         try:
             while True:
                 client, client_address = self.sock.accept()
-                print(f'Сервер: получен запрос на соединение от клиента с адресом и портом: {client_address}')
+                server_logger.info(f'Сервер: получен запрос на соединение от клиента с адресом и портом: {client_address}')
                 self.send_message(self.answer(self.get_message(client)), client)
                 client.close()
         except Exception as e:
-            print(f'ошибка сервера {e}')
+            server_logger.error(f'ошибка сервера {e}')
         finally:
             self.sock.close()
 
     def answer(self, received_message):
-        print(received_message)
+        server_logger.info(received_message)
         if self.get_jim_time() and self.get_jim_action() and self.get_jim_user() in received_message:
             if received_message.get(self.get_jim_action()) == 'presence' and received_message.get(
                     self.get_jim_user()) == 'Guest':
@@ -52,11 +53,10 @@ if __name__ == "__main__":
             listen_port = False
 
     except IndexError:
-        print('После параметра -\'p\' необходимо указать номер порта.')
+        server_logger.error('После параметра -\'p\' необходимо указать номер порта.')
         sys.exit(1)
     except ValueError:
-        print(
-            'В качастве порта может быть указано только число в диапазоне от 1024 до 65535.')
+        server_logger.error('В качастве порта может быть указано только число в диапазоне от 1024 до 65535.')
         sys.exit(1)
 
     try:
@@ -66,8 +66,7 @@ if __name__ == "__main__":
             listen_address = False
 
     except IndexError:
-        print(
-            'После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
+        server_logger.error('После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
         sys.exit(1)
 # запускаем согласно параметрам
     if listen_port:

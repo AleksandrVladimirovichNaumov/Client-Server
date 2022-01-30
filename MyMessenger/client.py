@@ -2,8 +2,9 @@ import json
 import socket
 import sys
 
-from MyMessenger.JIM import JIMClient
-from MyMessenger.MySocket import MessengerSocket
+from jim import JIMClient
+from my_socket import MessengerSocket
+from log.client_log_config import client_logger
 
 
 class MyMessengerClient(MessengerSocket, JIMClient):
@@ -19,10 +20,11 @@ class MyMessengerClient(MessengerSocket, JIMClient):
         try:
             self.sock.connect((self.address, self.port))
             self.presence()
+            client_logger.info(f'отправлено precense сообщение на сервер [{self.address}:{self.port}]')
             server_answer = self.sock.recv(1024)
-            print(self.response_meaning(server_answer))
+            client_logger.info(f'получено сообщение от сервера [{self.address}:{self.port}]: {self.response_meaning(server_answer)}')
         except Exception as e:
-            print(f'ошибка отправки presence сообщения: {e}')
+            client_logger.error(f'ошибка отправки presence сообщения: {e}')
         finally:
             self.sock.close()
 
@@ -36,7 +38,7 @@ class MyMessengerClient(MessengerSocket, JIMClient):
 
     def response_meaning(self, response):
         dict_response = json.loads(response.decode())
-        return f'ответ сервера [{dict_response.get("response")}]: {self.get_jim_responses().get(dict_response.get("response"))}'
+        return f'ответ сервера {dict_response.get("response")} ({self.get_jim_responses().get(dict_response.get("response"))})'
 
 
 if __name__ == "__main__":
@@ -49,12 +51,11 @@ if __name__ == "__main__":
         server_address = False
         server_port = False
     except ValueError:
-        print('В качестве порта может быть указано только число в диапазоне от 1024 до 65535.')
+        client_logger.critical('В качестве порта может быть указано только число в диапазоне от 1024 до 65535.')
         sys.exit(1)
 
     except IndexError:
-        print(
-            'После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
+        client_logger.critical('После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
         sys.exit(1)
 
     if server_address:
