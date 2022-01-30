@@ -2,11 +2,13 @@ import json
 import socket
 import sys
 
+from decorators import log
 from jim import JIMClient
 from my_socket import MessengerSocket
 from log.client_log_config import client_logger
 
 
+@log
 class MyMessengerClient(MessengerSocket, JIMClient):
     def __init__(self, address='127.0.0.1', port=7777, size=1024, encoding='utf-8', username='Guest'):
         super().__init__(address, port, size, encoding)
@@ -22,7 +24,8 @@ class MyMessengerClient(MessengerSocket, JIMClient):
             self.presence()
             client_logger.info(f'отправлено precense сообщение на сервер [{self.address}:{self.port}]')
             server_answer = self.sock.recv(1024)
-            client_logger.info(f'получено сообщение от сервера [{self.address}:{self.port}]: {self.response_meaning(server_answer)}')
+            client_logger.info(
+                f'получено сообщение от сервера [{self.address}:{self.port}]: {self.response_meaning(server_answer)}')
         except Exception as e:
             client_logger.error(f'ошибка отправки presence сообщения: {e}')
         finally:
