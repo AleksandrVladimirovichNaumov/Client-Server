@@ -4,8 +4,10 @@ import time
 from jim import JIMServer
 from my_socket import MessengerSocket
 from log.server_log_config import server_logger
+from decorators import log
 
 
+@log
 class MessengerServer(MessengerSocket, JIMServer):
     def __init__(self, address='127.0.0.1', port=7777, size=1024, encoding='utf-8', max_connections=5):
         self.max_connections = max_connections
@@ -22,7 +24,8 @@ class MessengerServer(MessengerSocket, JIMServer):
         try:
             while True:
                 client, client_address = self.sock.accept()
-                server_logger.info(f'Сервер: получен запрос на соединение от клиента с адресом и портом: {client_address}')
+                server_logger.info(
+                    f'Сервер: получен запрос на соединение от клиента с адресом и портом: {client_address}')
                 self.send_message(self.answer(self.get_message(client)), client)
                 client.close()
         except Exception as e:
@@ -43,7 +46,7 @@ class MessengerServer(MessengerSocket, JIMServer):
 
 
 if __name__ == "__main__":
-# проверяем параметры
+    # проверяем параметры
     try:
         if '-p' in sys.argv:
             listen_port = int(sys.argv[sys.argv.index('-p') + 1])
@@ -68,7 +71,7 @@ if __name__ == "__main__":
     except IndexError:
         server_logger.error('После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
         sys.exit(1)
-# запускаем согласно параметрам
+    # запускаем согласно параметрам
     if listen_port:
         if listen_address:
             my_messenger_server = MessengerServer(port=listen_port, address=listen_address)
