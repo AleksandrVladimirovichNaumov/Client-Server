@@ -13,7 +13,7 @@ server_logs = logging.handlers.TimedRotatingFileHandler(path, encoding='UTF-8', 
 server_logs.setFormatter(server_format)
 
 #логгер
-server_logger = logging.getLogger('client_logger')
+server_logger = logging.getLogger('server_logger')
 server_logger.setLevel(logging.INFO)
 server_logger.addHandler(server_logs)
 server_logger.addHandler(steam_handler)
