@@ -1,7 +1,7 @@
 from datetime import datetime
 import unittest
 
-from JIM import JIM, JIMClient, JIMServer
+from jim import JIM, JIMClient, JIMServer
 
 
 class TestJIM(unittest.TestCase):
