@@ -4,9 +4,7 @@ from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
 
 class MessengerSocket():
 
-    def __init__(self, address, port, size, encoding):
-        self.address = address
-        self.port = port
+    def __init__(self, size, encoding):
         self.size = size
         self.encoding = encoding
         self.sock = socket(AF_INET, SOCK_STREAM)

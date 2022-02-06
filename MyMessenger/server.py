@@ -3,6 +3,7 @@ import sys
 import time
 from _socket import SOL_SOCKET, SO_REUSEADDR
 
+from arg_parser import ArgParser
 from jim import JIMServer
 from my_socket import MessengerSocket
 from log.server_log_config import server_logger
@@ -10,8 +11,10 @@ from decorators import log
 
 
 @log
-class MessengerServer(MessengerSocket, JIMServer):
-    def __init__(self, address='127.0.0.1', port=7777, size=1024, encoding='utf-8', max_connections=5):
+class MessengerServer(MessengerSocket, JIMServer, ArgParser):
+    def __init__(self, size=1024, encoding='utf-8', max_connections=5):
+        self.address = self.get_address()
+        self.port = self.get_port()
         self.max_connections = max_connections
         # список сообщений для клиентов
         self.message_list = []
@@ -22,7 +25,7 @@ class MessengerServer(MessengerSocket, JIMServer):
         self.send_data_list = []
         self.errors_list = []
 
-        super().__init__(address, port, size, encoding)
+        super().__init__(size, encoding)
 
     def start(self):
         """
@@ -141,15 +144,16 @@ if __name__ == "__main__":
         server_logger.error('После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
         sys.exit(1)
     # запускаем согласно параметрам
-    if listen_port:
-        if listen_address:
-            my_messenger_server = MessengerServer(port=listen_port, address=listen_address)
-        else:
-            my_messenger_server = MessengerServer(port=listen_port)
-    else:
-        if listen_address:
-            my_messenger_server = MessengerServer(address=listen_address)
-        else:
-            my_messenger_server = MessengerServer()
+    # if listen_port:
+    #     if listen_address:
+    #         my_messenger_server = MessengerServer(port=listen_port, address=listen_address)
+    #     else:
+    #         my_messenger_server = MessengerServer(port=listen_port)
+    # else:
+    #     if listen_address:
+    #         my_messenger_server = MessengerServer(address=listen_address)
+    #     else:
+    #         my_messenger_server = MessengerServer()
 
+    my_messenger_server = MessengerServer()
     my_messenger_server.start()

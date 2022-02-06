@@ -3,6 +3,7 @@ import socket
 import sys
 from time import sleep
 
+from arg_parser import ArgParser
 from decorators import log
 from jim import JIMClient
 from my_socket import MessengerSocket
@@ -10,10 +11,13 @@ from log.client_log_config import client_logger
 
 
 @log
-class MyMessengerClient(MessengerSocket, JIMClient):
-    def __init__(self, address='127.0.0.1', port=7777, size=1024, encoding='utf-8', username='Guest', type='reader'):
-        super().__init__(address, port, size, encoding)
+class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
+    def __init__(self, size=1024, encoding='utf-8', username='Guest'):
+        super().__init__(size, encoding)
         self.username = username
+        self.address = self.get_address()
+        self.port = self.get_port()
+        self.mode = self.get_mode()
         # пользователь может быть или отправитель или получатель (упращенный функционал)
         self.type = type
 
@@ -37,14 +41,14 @@ class MyMessengerClient(MessengerSocket, JIMClient):
             # основной цикл
             while True:
                 # если пользователь читатель
-                if self.type == 'reader':
+                if self.mode == 'reader':
                     try:
                         # выводим сообщение на экран
                         print(self.message_meaning(self.get_message(self.sock)))
                     except:
                         pass
                 # если пользователь отправитель
-                elif self.type == 'sender':
+                elif self.mode == 'sender':
                     # ждем сообщение для отправки
                     message = input('введите сообщение для рассылки или q для выхода: ')
                     # q - выход, остальное отправляем
@@ -93,31 +97,33 @@ class MyMessengerClient(MessengerSocket, JIMClient):
 
 
 if __name__ == "__main__":
-    try:
-        server_address = sys.argv[1]
-        server_port = int(sys.argv[2])
-        type = sys.argv[3]
-        if server_port < 1024 or server_port > 65535:
-            raise ValueError
-    except IndexError:
-        server_address = False
-        server_port = False
-    except ValueError:
-        client_logger.critical('В качестве порта может быть указано только число в диапазоне от 1024 до 65535.')
-        sys.exit(1)
+    # try:
+    #     server_address = sys.argv[1]
+    #     server_port = int(sys.argv[2])
+    #     type = sys.argv[3]
+    #     if server_port < 1024 or server_port > 65535:
+    #         raise ValueError
+    # except IndexError:
+    #     server_address = False
+    #     server_port = False
+    # except ValueError:
+    #     client_logger.critical('В качестве порта может быть указано только число в диапазоне от 1024 до 65535.')
+    #     sys.exit(1)
+    #
+    # except IndexError:
+    #     client_logger.critical('После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
+    #     sys.exit(1)
+    #
+    # if server_address:
+    #     if server_port:
+    #         my_messenger_client = MyMessengerClient(address=server_address, port=server_port)
+    #     else:
+    #         my_messenger_client = MyMessengerClient(address=server_address)
+    # else:
+    #     if server_port:
+    #         my_messenger_client = MyMessengerClient(port=server_port)
+    #     else:
+    #         my_messenger_client = MyMessengerClient()
 
-    except IndexError:
-        client_logger.critical('После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
-        sys.exit(1)
-
-    if server_address:
-        if server_port:
-            my_messenger_client = MyMessengerClient(address=server_address, port=server_port)
-        else:
-            my_messenger_client = MyMessengerClient(address=server_address)
-    else:
-        if server_port:
-            my_messenger_client = MyMessengerClient(port=server_port)
-        else:
-            my_messenger_client = MyMessengerClient()
+    my_messenger_client = MyMessengerClient()
     my_messenger_client.start()
