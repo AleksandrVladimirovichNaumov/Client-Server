@@ -3,7 +3,9 @@ from datetime import datetime
 
 
 class JIM():
-
+    """
+    протокол структуры сообщений и отправки ответов от сервера
+    """
     def __init__(self):
         self.response = {
             100: 'базовое уведомление',
@@ -23,6 +25,10 @@ class JIM():
         self.jim_action = 'action'
         self.jim_user = 'user'
         self.jim_time = 'time'
+        self.jim_data = 'data'
+
+    def get_jim_data(self):
+        return JIM().jim_data
 
     def get_jim_responses(self):
         return JIM().response
@@ -36,14 +42,9 @@ class JIM():
     def get_jim_time(self):
         return JIM().jim_time
 
-
-class JIMClient(JIM):
-    def __init__(self):
-        super().__init__()
-
-    def server_request(self, action, username, data=''):
+    def jim_create_message(self, action, username, data=''):
         """
-        шаблон для отправки запроса на сервер
+        шаблон для отправки сообщения
         :param action: тип запроса
         :param userdata: от кого
         :param data: что отправляем
@@ -58,11 +59,24 @@ class JIMClient(JIM):
         }
 
 
-class JIMServer(JIM):
+class JIMClient(JIM):
+    """
+    протокол для клиентов. пока что функционал базового протокола JIM
+    """
     def __init__(self):
         super().__init__()
 
-    def server_response(self, response, alert=''):
+
+
+
+class JIMServer(JIM):
+    """
+    протокол для сервера
+    """
+    def __init__(self):
+        super().__init__()
+
+    def jim_create_server_response(self, response, alert=''):
         """
         шаблон ответа сервера
         :param response: ответ
@@ -73,3 +87,4 @@ class JIMServer(JIM):
             "response": response,
             "alert": alert,
         }
+

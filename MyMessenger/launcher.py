@@ -1,19 +1,27 @@
-"""Лаунчер"""
-
 import subprocess
+import time
 
 PROCESS = []
 
 while True:
-    ACTION = input('Выберите действие: q - выход, s - запустить сервер и клиенты, x - закрыть все окна:\n')
+    ACTION = input('Выберите действие: q - выход, '
+                   's - запустить сервер и клиенты, x - закрыть все окна: ')
 
     if ACTION == 'q':
         break
     elif ACTION == 's':
-        PROCESS.append(subprocess.Popen('python server.py', shell=True))
-        for i in range(5):
-            PROCESS.append(subprocess.Popen('python client.py', shell=True))
+        PROCESS.append(subprocess.Popen('gnome-terminal -- python3 server.py', shell=True))
+        print('s')
+        time.sleep(2)
+        for i in range(2):
+            PROCESS.append(subprocess.Popen('gnome-terminal -- python3 client.py -m reader', shell=True))
+            print('r', i)
+            time.sleep(2)
+        for m in range(2):
+            PROCESS.append(subprocess.Popen('gnome-terminal -- python3 client.py -m sender', shell=True))
+            time.sleep(1)
+            print('s', m)
     elif ACTION == 'x':
-        while PROCESS:
-            VICTIM = PROCESS.pop()
-            VICTIM.kill()
+        while PROCESS != []:
+            PROCESS[len(PROCESS) - 1].kill()
+            PROCESS.pop()

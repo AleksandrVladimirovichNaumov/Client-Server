@@ -1,15 +1,14 @@
 import json
-from socket import socket, AF_INET, SOCK_STREAM
+from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
 
 
 class MessengerSocket():
 
-    def __init__(self, address, port, size, encoding):
-        self.address = address
-        self.port = port
+    def __init__(self, size, encoding):
         self.size = size
         self.encoding = encoding
         self.sock = socket(AF_INET, SOCK_STREAM)
+        self.sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 
     def get_message(self, client):
         """
@@ -26,7 +25,9 @@ class MessengerSocket():
                 raise ValueError
             raise ValueError
         except Exception as e:
-            print(f'Ошибка получения сообщения: {e}')
+            # print(f'Ошибка получения сообщения: {e}')
+            return e
+
 
     def send_message(self, message, client):
         """
@@ -38,7 +39,6 @@ class MessengerSocket():
             if isinstance(message, dict):
                 bytes_message = json.dumps(message).encode(self.encoding)
                 client.send(bytes_message)
-            else:
-                raise ValueError
+                # print(f'сообщение отправлено получателю {client}')
         except Exception as e:
             print(f'Ошибка отправки сообщения: {e}')
