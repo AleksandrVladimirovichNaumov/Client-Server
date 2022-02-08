@@ -14,7 +14,7 @@ from log.client_log_config import client_logger
 class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
     def __init__(self, size=1024, encoding='utf-8', username='Guest'):
         super().__init__(size, encoding)
-        self.username = username
+        self.username = self.get_username()
         self.address = self.get_address()
         self.port = self.get_port()
         self.mode = self.get_mode()
