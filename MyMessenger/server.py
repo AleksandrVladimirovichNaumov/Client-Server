@@ -88,6 +88,7 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser):
                 for waiting_client in self.send_data_list:
                     try:
                         self.send_message(message, waiting_client)
+                        print(message, waiting_client)
                     except:
                         #если не удалось отправить клиенту сообщение - удаляем клиента из списка рассылки
                         server_logger.info(f'Клиент {waiting_client.getpeername()} отключился от сервера.')

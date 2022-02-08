@@ -1,6 +1,8 @@
 import json
 import socket
 import sys
+import time
+from threading import Thread
 from time import sleep
 
 from arg_parser import ArgParser
@@ -12,7 +14,7 @@ from log.client_log_config import client_logger
 
 @log
 class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
-    def __init__(self, size=1024, encoding='utf-8', username='Guest'):
+    def __init__(self, size=1024, encoding='utf-8'):
         super().__init__(size, encoding)
         self.username = self.get_username()
         self.address = self.get_address()
@@ -20,6 +22,13 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
         self.mode = self.get_mode()
         # пользователь может быть или отправитель или получатель (упращенный функционал)
         self.type = type
+        # поток для получения сообщений
+        self.receiver_thread = Thread(target=self.message_meaning)
+        self.receiver_thread.daemon = True
+        # поток для отправки сообщений
+        self.sender_thread = Thread(target=self.message)
+        self.sender_thread.daemon = True
+
 
     def start(self):
         """
@@ -38,24 +47,33 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
         except Exception as e:
             client_logger.error(f'ошибка отправки presence сообщения: {e}')
         else:
+            # запускаем потоки на прием и отправку сообщений
+            time.sleep(1)
+            self.receiver_thread.start()
+
+            self.sender_thread.start()
             # основной цикл
             while True:
-                # если пользователь читатель
-                if self.mode == 'reader':
-                    try:
-                        # выводим сообщение на экран
-                        print(self.message_meaning(self.get_message(self.sock)))
-                    except:
-                        pass
-                # если пользователь отправитель
-                elif self.mode == 'sender':
-                    # ждем сообщение для отправки
-                    message = input('введите сообщение для рассылки или q для выхода: ')
-                    # q - выход, остальное отправляем
-                    if message == 'q':
-                        break
-                    else:
-                        self.message(message)
+                time.sleep(1)
+                if self.sender_thread.is_alive() and self.receiver_thread.is_alive():
+                    continue
+                break
+                # # если пользователь читатель
+                # if self.mode == 'reader':
+                #     try:
+                #         # выводим сообщение на экран
+                #         print(self.message_meaning(self.get_message(self.sock)))
+                #     except:
+                #         pass
+                # # если пользователь отправитель
+                # elif self.mode == 'sender':
+                #     # ждем сообщение для отправки
+                #     message = input('введите сообщение для рассылки или q для выхода: ')
+                #     # q - выход, остальное отправляем
+                #     if message == 'q':
+                #         break
+                #     else:
+                #         self.message(message, 'guest')
 
         finally:
             self.sock.close()
@@ -69,14 +87,20 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
         self.send_message(self.jim_create_message('presence', self.username), self.sock)
         client_logger.info(f'отправлено precense сообщение от {self.username}')
 
-    def message(self, message):
+    def message(self):
         """
-        рассылка сообщений
-        :param message: сообщение для отправки
+        отправка сообщения
+
         :return: -
         """
-        self.send_message(self.jim_create_message('message', self.username, message), self.sock)
-        client_logger.info(f'отправлено message сообщение от {self.username}')
+        while True:
+            to_user = input('кому отправить сообщение (q - выйти): ')
+            if to_user.lower() == 'q':
+                break
+            else:
+                message = input('введите сообщение: ')
+                self.send_message(self.jim_create_message('message', self.username, message, to_user), self.sock)
+                client_logger.debug(f'отправлено message сообщение от {self.username}')
 
     def response_meaning(self, response):
         """
@@ -87,43 +111,21 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
         dict_response = json.loads(response.decode())
         return f'ответ сервера {dict_response.get("response")} ({self.get_jim_responses().get(dict_response.get("response"))})'
 
-    def message_meaning(self, message):
+    def message_meaning(self):
         """
         расшифровка сообщения от клиента
         :param response:
         :return:
         """
-        return f'сообщение от  {message[self.get_jim_user()]} [{message[self.get_jim_time()]}]: {message[self.get_jim_data()]}'
+        while True:
+            try:
+                message = self.get_message(self.sock)
+                print(f'\n сообщение от  {message[self.get_jim_user()]} [{message[self.get_jim_time()]}]: {message[self.get_jim_data()]}')
+            except:
+                pass
 
 
 if __name__ == "__main__":
-    # try:
-    #     server_address = sys.argv[1]
-    #     server_port = int(sys.argv[2])
-    #     type = sys.argv[3]
-    #     if server_port < 1024 or server_port > 65535:
-    #         raise ValueError
-    # except IndexError:
-    #     server_address = False
-    #     server_port = False
-    # except ValueError:
-    #     client_logger.critical('В качестве порта может быть указано только число в диапазоне от 1024 до 65535.')
-    #     sys.exit(1)
-    #
-    # except IndexError:
-    #     client_logger.critical('После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
-    #     sys.exit(1)
-    #
-    # if server_address:
-    #     if server_port:
-    #         my_messenger_client = MyMessengerClient(address=server_address, port=server_port)
-    #     else:
-    #         my_messenger_client = MyMessengerClient(address=server_address)
-    # else:
-    #     if server_port:
-    #         my_messenger_client = MyMessengerClient(port=server_port)
-    #     else:
-    #         my_messenger_client = MyMessengerClient()
 
     my_messenger_client = MyMessengerClient()
     my_messenger_client.start()
