@@ -19,7 +19,7 @@ class MessengerSocket():
         try:
             response = client.recv(self.size)
             if isinstance(response, bytes):
-                json_response=json.loads(response.decode(self.encoding))
+                json_response = json.loads(response.decode(self.encoding))
                 if isinstance(json_response, dict):
                     return json_response
                 raise ValueError
@@ -27,7 +27,6 @@ class MessengerSocket():
         except Exception as e:
             # print(f'Ошибка получения сообщения: {e}')
             return e
-
 
     def send_message(self, message, client):
         """

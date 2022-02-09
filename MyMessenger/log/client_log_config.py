@@ -8,7 +8,7 @@ client_format = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(mess
 #поток для логов
 steam_handler = logging.StreamHandler(sys.stderr)
 steam_handler.setFormatter(client_format)
-steam_handler.setLevel(logging.DEBUG)
+steam_handler.setLevel(logging.INFO)
 client_logs = logging.FileHandler(path, encoding='UTF-8')
 client_logs.setFormatter(client_format)
 

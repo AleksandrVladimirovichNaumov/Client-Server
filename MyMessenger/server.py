@@ -1,7 +1,6 @@
 import select
 import sys
-import time
-from _socket import SOL_SOCKET, SO_REUSEADDR
+
 
 from arg_parser import ArgParser
 from jim import JIMServer
@@ -20,6 +19,8 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser):
         self.message_list = []
         # список пользователей
         self.client_list = []
+        # адресная книга (словарь ник:сокет)
+        self.adress_book = {}
         # списки для select
         self.recv_data_list = []
         self.send_data_list = []
@@ -76,22 +77,23 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser):
 
             # рассылаем сообщения, если они есть и если есть кому рассылать
             if self.message_list and self.send_data_list:
+                print('это список сообщений',self.message_list)
+                print('это адресаты',self.client_list)
                 # создаем сообщение для отправки согласно jim протоколй
                 message = self.jim_create_message(
                     'message',
                     self.message_list[0][0],
                     self.message_list[0][1]
                 )
-                #удаляем сообщение из списка входящих на сервер
+                to_user = self.message_list[0][2]
+                # удаляем сообщение из списка входящих на сервер
                 del self.message_list[0]
-                # отправляем каждому пользователю-читателю
-                for waiting_client in self.send_data_list:
-                    try:
-                        self.send_message(message, waiting_client)
-                    except:
-                        #если не удалось отправить клиенту сообщение - удаляем клиента из списка рассылки
-                        server_logger.info(f'Клиент {waiting_client.getpeername()} отключился от сервера.')
-                        self.client_list.remove(waiting_client)
+                # отправляем необходимому клиенту (берем сокет из адресной книги)
+                try:
+                    self.send_message(message, self.adress_book.get(to_user))
+                except Exception as e:
+                    print(e)
+
 
     def answer(self, received_message, client):
         server_logger.info(received_message)
@@ -100,12 +102,16 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser):
             # обработка precense сообщения
             if received_message[self.get_jim_action()] == 'presence':
                 self.send_message(self.jim_create_server_response(200), client)
+                # добавляем его в адресную книгу
+                self.adress_book[received_message[self.get_jim_user()]]=client
                 return
             # обработка сообщения от клиента
             elif received_message[self.get_jim_action()] == 'message':
                 self.message_list.append((
                     received_message[self.get_jim_user()],
-                    received_message[self.get_jim_data()]
+                    received_message[self.get_jim_data()],
+                    received_message[self.get_jim_to_user()]
+
                 ))
                 server_logger.info(self.message_list)
                 return
