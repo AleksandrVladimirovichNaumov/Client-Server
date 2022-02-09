@@ -88,7 +88,7 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser):
                 to_user = self.message_list[0][2]
                 # удаляем сообщение из списка входящих на сервер
                 del self.message_list[0]
-                # отправляем необходимому клиенту
+                # отправляем необходимому клиенту (берем сокет из адресной книги)
                 try:
                     self.send_message(message, self.adress_book.get(to_user))
                 except Exception as e:
@@ -104,7 +104,6 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser):
                 self.send_message(self.jim_create_server_response(200), client)
                 # добавляем его в адресную книгу
                 self.adress_book[received_message[self.get_jim_user()]]=client
-                print(self.adress_book)
                 return
             # обработка сообщения от клиента
             elif received_message[self.get_jim_action()] == 'message':
