@@ -29,7 +29,6 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
         self.sender_thread = Thread(target=self.message)
         self.sender_thread.daemon = True
 
-
     def start(self):
         """
         запускаем клиента: пробуем подключится и отправить presence сообщение, далее работаем согласно типу клиента
@@ -113,19 +112,19 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
 
     def message_meaning(self):
         """
-        расшифровка сообщения от клиента
+        расшифровка сообщения от клиента в цикле для потока
         :param response:
         :return:
         """
         while True:
             try:
                 message = self.get_message(self.sock)
-                print(f'\n сообщение от  {message[self.get_jim_user()]} [{message[self.get_jim_time()]}]: {message[self.get_jim_data()]}')
+                print(
+                    f'\n сообщение от  {message[self.get_jim_user()]} [{message[self.get_jim_time()]}]: {message[self.get_jim_data()]}')
             except:
                 pass
 
 
 if __name__ == "__main__":
-
     my_messenger_client = MyMessengerClient()
     my_messenger_client.start()
