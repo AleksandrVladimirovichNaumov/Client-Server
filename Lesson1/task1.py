@@ -14,11 +14,12 @@ def host_ping(list_to_ping):
     ping_result = {"Узел доступен": [], "Узел недоступен": []}
     for address in list_to_ping:
         try:
-            # если получается, получаем ip и проверяем пинг
-            ping_process = subprocess.Popen(['ping', ipaddress.ip_address(address), '-c 1'], stdout=subprocess.PIPE)
-        except:
-            # если не получается, адресс введен не как ip и проверяем пинг
-            ping_process = subprocess.Popen(['ping', address, '-c 1'], stdout=subprocess.PIPE)
+            # пробуем получить ip
+            address = str(ipaddress.ip_address(address))
+        except Exception as e:
+            print(e)
+
+        ping_process = subprocess.Popen(['ping', address, '-c 1'], stdout=subprocess.PIPE)
         # ждем завершения пинга
 
         ping_process.wait()
@@ -28,8 +29,9 @@ def host_ping(list_to_ping):
             ping_result.get("Узел доступен").append(address)
         else:
             ping_result.get("Узел недоступен").append(address)
+        ping_process.kill()
     return ping_result
 
 
 if __name__ == '__main__':
-    print(host_ping(['yandex.ru', '156.485.477.11', 'google.ru', '192.168.0.1', 'net-takogo-adresa.ru']))
+    print(host_ping(['yandex.ru', '156.185.177.11', 'google.ru', '192.168.0.1', 'net-takogo-adresa.ru']))
