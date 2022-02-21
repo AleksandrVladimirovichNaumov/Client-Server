@@ -9,12 +9,13 @@ from arg_parser import ArgParser
 from decorators import log
 from descriptor import ServerPort, ServerHost
 from jim import JIMClient
+from metaclasses import ClientVerifier
 from my_socket import MessengerSocket
 from log.client_log_config import client_logger
 
 
 @log
-class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
+class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientVerifier):
     # используем дескриптер ServerPort ServerHost, чтобы проверять номер порта и адрес, к которому хотим подключиться
     port = ServerPort()
     address = ServerHost()
