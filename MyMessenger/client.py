@@ -7,6 +7,7 @@ from time import sleep
 
 from arg_parser import ArgParser
 from decorators import log
+from descriptor import ServerPort, ServerHost
 from jim import JIMClient
 from my_socket import MessengerSocket
 from log.client_log_config import client_logger
@@ -14,14 +15,17 @@ from log.client_log_config import client_logger
 
 @log
 class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
+    # используем дескриптер ServerPort ServerHost, чтобы проверять номер порта и адрес, к которому хотим подключиться
+    port = ServerPort()
+    address = ServerHost()
+
     def __init__(self, size=1024, encoding='utf-8'):
         super().__init__(size, encoding)
+        # с помощью методов родителя ArgParser берем значения если сервер запущен с параметрами
         self.username = self.get_username()
         self.address = self.get_address()
         self.port = self.get_port()
         self.mode = self.get_mode()
-        # пользователь может быть или отправитель или получатель (упращенный функционал)
-        self.type = type
         # поток для получения сообщений
         self.receiver_thread = Thread(target=self.message_meaning)
         self.receiver_thread.daemon = True
@@ -57,22 +61,6 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser):
                 if self.sender_thread.is_alive() and self.receiver_thread.is_alive():
                     continue
                 break
-                # # если пользователь читатель
-                # if self.mode == 'reader':
-                #     try:
-                #         # выводим сообщение на экран
-                #         print(self.message_meaning(self.get_message(self.sock)))
-                #     except:
-                #         pass
-                # # если пользователь отправитель
-                # elif self.mode == 'sender':
-                #     # ждем сообщение для отправки
-                #     message = input('введите сообщение для рассылки или q для выхода: ')
-                #     # q - выход, остальное отправляем
-                #     if message == 'q':
-                #         break
-                #     else:
-                #         self.message(message, 'guest')
 
         finally:
             self.sock.close()
