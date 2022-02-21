@@ -5,13 +5,14 @@ import sys
 from arg_parser import ArgParser
 from descriptor import ServerPort, ServerHost
 from jim import JIMServer
+from metaclasses import ServerVerifier
 from my_socket import MessengerSocket
 from log.server_log_config import server_logger
 from decorators import log
 
 
 @log
-class MessengerServer(MessengerSocket, JIMServer, ArgParser):
+class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVerifier):
     # используем дескриптер ServerPort ServerHost, чтобы проверять номер порта и адрес
     port = ServerPort()
     address = ServerHost()
