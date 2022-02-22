@@ -64,6 +64,9 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
                 break
 
         finally:
+            # отправляем сообщение об отключении
+            self.exit_messsage()
+            time.sleep(2)
             self.sock.close()
             sys.exit(0)
 
@@ -75,6 +78,14 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         self.send_message(self.jim_create_message('presence', self.username), self.sock)
         client_logger.info(f'отправлено precense сообщение от {self.username}')
 
+    def exit_messsage(self):
+        """
+        сообщение об отключении от сервера
+        :return: -
+        """
+        self.send_message(self.jim_create_message('exit', self.username), self.sock)
+        client_logger.info(f'отправлено exit сообщение от {self.username}')
+
     def message(self):
         """
         отправка сообщения
@@ -82,9 +93,11 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         :return: -
         """
         while True:
-            to_user = input('кому отправить сообщение (q - выйти): ')
+            to_user = input('кому отправить сообщение (q - выйти, c - контакты): ')
             if to_user.lower() == 'q':
                 break
+            elif to_user.lower() == 'c':
+                self.send_message(self.jim_create_message('contacts', self.username), self.sock)
             else:
                 message = input('введите сообщение: ')
                 self.send_message(self.jim_create_message('message', self.username, message, to_user), self.sock)
