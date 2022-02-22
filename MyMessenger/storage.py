@@ -3,6 +3,7 @@ import datetime
 from sqlalchemy import __version__, create_engine, Table, Column, MetaData, Integer, String, Boolean, DateTime, \
     ForeignKey, PrimaryKeyConstraint
 from sqlalchemy.orm import mapper, sessionmaker, relationship
+from sqlalchemy.pool import NullPool
 
 
 class MessengerStorage:
@@ -47,7 +48,7 @@ class MessengerStorage:
             self.contact_id = contact_id
 
     def __init__(self):
-        self.engine = create_engine('sqlite:///messenger_db.sqlite', echo=False)
+        self.engine = create_engine('sqlite:///messenger_db.sqlite', echo=False, connect_args={'check_same_thread': False})
         self.metadata = MetaData()
         # таблица со всеми пользователями
         self.user_table = Table('Users', self.metadata,
