@@ -1,0 +1,4 @@
+chardet==4.0.0
+pyaml==21.10.1
+PyYAML==6.0
+tabulate==0.8.9
