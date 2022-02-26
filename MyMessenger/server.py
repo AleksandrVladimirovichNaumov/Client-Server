@@ -3,6 +3,10 @@ import sys
 import threading
 from threading import Thread
 
+from PyQt5 import uic
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtWidgets import QWidget, qApp, QApplication
+
 from arg_parser import ArgParser
 from descriptor import ServerPort, ServerHost
 from jim import JIMServer
@@ -13,6 +17,7 @@ from decorators import log
 from storage import MessengerStorage
 
 conflag_lock = threading.Lock()
+
 
 @log
 class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVerifier):
@@ -36,11 +41,17 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
         self.errors_list = []
         # база данных
         self.database = MessengerStorage()
-
+        # поток обработки команд пользователя
         self.user_commands_thread = Thread(target=self.user_commands)
         self.user_commands_thread.daemon = True
+        # поток работы сервера
+        self.server_thread = Thread(target=self.start)
+        self.server_thread.daemon = True
 
         super().__init__(size, encoding)
+
+    def turn_on(self):
+        self.server_thread.start()
 
     def start(self):
         """
@@ -211,7 +222,80 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                 print('Команда не распознана.')
 
 
+class AdminConsole(QWidget):
+    def __init__(self, parent=None):
+        super().__init__()
+        # Использование функции loadUi()
+        uic.loadUi('gui_server.ui', self)  # загружаем наше окно
+
+        # Обрабокта события нажатия кнопки
+        # self.btnQuit.clicked.connect(qApp.quit)
+
+    def users_list(self, database, online=False):
+        if not online:
+            user_list = database.get_user_list()
+        else:
+            user_list = database.get_online_user_list()
+        users_table = QStandardItemModel()
+        users_table.setHorizontalHeaderLabels(['Username', 'Last login'])
+        for row in user_list:
+            user, time = row
+            user = QStandardItem(user)  # создаем элемент
+            user.setEditable(False)  # редактирование
+            # ip = QStandardItem(ip)
+            # ip.setEditable(False)
+            # port = QStandardItem(str(port))
+            # port.setEditable(False)
+            # Уберём милисекунды из строки времени, т.к. такая точность не требуется.
+            time = QStandardItem(str(time.replace(microsecond=0)))
+            time.setEditable(False)
+            users_table.appendRow([user, time])  # добавляем строку
+        return users_table
+
+    def login_history_list(self, database):
+        login_history_list = database.get_login_history_list()
+        login_history_table = QStandardItemModel()
+        login_history_table.setHorizontalHeaderLabels(['Username', 'Last login', 'IP', "Port"])
+        for row in login_history_list:
+            user, id, time, ip, port = row
+            user = QStandardItem(user)  # создаем элемент
+            user.setEditable(False)  # редактирование
+            ip = QStandardItem(ip)
+            ip.setEditable(False)
+            port = QStandardItem(str(port))
+            port.setEditable(False)
+            # Уберём милисекунды из строки времени, т.к. такая точность не требуется.
+            time = QStandardItem(str(time.replace(microsecond=0)))
+            time.setEditable(False)
+            login_history_table.appendRow([user, time, ip, port])  # добавляем строку
+        return login_history_table
+
+
 if __name__ == "__main__":
+    # запуск сервака
     my_messenger_server = MessengerServer()
-    # my_messenger_server.daemon = True
-    my_messenger_server.start()
+    my_messenger_server.turn_on()
+
+    """
+    Каждое приложение PyQt5 должно создать объект Qapplication. 
+    Этот объект находится в модуле QtGui. 
+    Параметр sys.argv это список аргументов командной строки. 
+    Скрипты на Пайтон могут быть запущены из консоли, 
+    и с помощью аргументов мы можем контролировать запуск приложения.
+    """
+    APP = QApplication(sys.argv)  # создание нашего приложение
+    WINDOW_OBJ = AdminConsole()  # создаем объект
+
+    WINDOW_OBJ.tableView.setModel(WINDOW_OBJ.users_list(my_messenger_server.database))
+    WINDOW_OBJ.tableView_2.setModel(WINDOW_OBJ.login_history_list(my_messenger_server.database))
+    WINDOW_OBJ.show()  # показываем наше окно
+    """
+    В конце мы запускаем основной цикл приложения. Отсюда начинается обработка событий. 
+    Приложение получает события от оконной системы и распределяет их по виджетам. 
+
+    Когда цикл заканчивается, и если мы вызовем метод exit(), то наше окно (главный виджет) 
+    будет уничтожено. Метод sys.exit() гарантирует чистый выход. 
+    Окружение будет проинформировано о том, как приложение завершилось.
+    """
+
+    sys.exit(APP.exec_())  # выход
