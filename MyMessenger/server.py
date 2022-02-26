@@ -1,5 +1,6 @@
 import select
 import sys
+import threading
 from threading import Thread
 
 from arg_parser import ArgParser
@@ -11,6 +12,7 @@ from log.server_log_config import server_logger
 from decorators import log
 from storage import MessengerStorage
 
+conflag_lock = threading.Lock()
 
 @log
 class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVerifier):
@@ -38,9 +40,7 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
         self.user_commands_thread = Thread(target=self.user_commands)
         self.user_commands_thread.daemon = True
 
-        # Thread.__init__(self)
         super().__init__(size, encoding)
-
 
     def start(self):
         """
@@ -89,8 +89,9 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                         # пробуем ответить на precense сообщение или добавить входящее сообщение в список рассылки
                         self.answer(self.get_message(client_with_message), client_with_message)
                     except:
+                        pass
                         # если в сообщении ошибка - исключаем клиента из списка входящих
-                        self.client_list.remove(client_with_message)
+                        # self.client_list.remove(client_with_message)
 
             # рассылаем сообщения, если они есть и если есть кому рассылать
             if self.message_list and self.send_data_list:
@@ -111,14 +112,13 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                 except Exception as e:
                     print(e)
 
-
     def answer(self, received_message, client):
         server_logger.info(received_message)
 
         if self.get_jim_time() and self.get_jim_action() and self.get_jim_user() in received_message:
             # обработка precense сообщения
             if received_message[self.get_jim_action()] == 'presence':
-                self.send_message(self.jim_create_server_response(200), client)
+                self.send_message(self.jim_create_server_response(200, 'OK'), client)
                 # получаем username из сообщения
                 new_username = received_message[self.get_jim_user()]
                 # добавляем его в адресную книгу
@@ -141,22 +141,43 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                 # добавляем в список контактов в бд
                 self.database.add_contact(from_user, to_user)
                 return
-            if received_message[self.get_jim_action()] == 'exit':
+            # обработка сообщения о выходе клиента
+            elif received_message[self.get_jim_action()] == 'exit':
                 logout_user = received_message[self.get_jim_user()]
                 # удаляем клиента в из списка онлайн из бд
                 self.database.logout(logout_user)
                 server_logger.info(f'{logout_user} отключился от сервера')
                 return
-            if received_message[self.get_jim_action()] == 'contacts':
+            # обработка сообщения о запросе списка контактов
+            elif received_message[self.get_jim_action()] == 'contacts':
                 from_user = received_message[self.get_jim_user()]
-                to_user = from_user
-                self.message_list.append((
-                    'server',
-                    str(self.database.get_contacts_list(from_user)),
-                    to_user
-
-                ))
-                server_logger.info(self.message_list)
+                # подготавливаем список контактов
+                contact_list = self.database.get_contacts_list(from_user)
+                # отправляем список контактов
+                self.send_message(self.jim_create_server_response(202, contact_list), client)
+                server_logger.info(f'Список контактов был отправлен пользователю {from_user}')
+                return
+            # обработка сообщения об удалении контакта
+            elif received_message[self.get_jim_action()] == 'delete':
+                from_user = received_message[self.get_jim_user()]
+                contact = received_message[self.get_jim_data()]
+                result = f'Контакт {contact} был удален из списка пользователя {from_user}'
+                # подготавливаем список контактов
+                self.database.delete_contact(from_user, contact)
+                # отправляем список контактов
+                self.send_message(self.jim_create_server_response(203, result), client)
+                server_logger.info(result)
+                return
+            # обработка сообщения об добавлении контакта
+            elif received_message[self.get_jim_action()] == 'add':
+                from_user = received_message[self.get_jim_user()]
+                contact = received_message[self.get_jim_data()]
+                result = f'Контакт {contact} был добавлен в список пользователя {from_user}'
+                # добавляем контакт
+                self.database.add_contact(from_user, contact)
+                # отправляем список контактов
+                self.send_message(self.jim_create_server_response(204, result), client)
+                server_logger.info(result)
                 return
             # обработка неправильных сообщений
             else:
@@ -194,5 +215,3 @@ if __name__ == "__main__":
     my_messenger_server = MessengerServer()
     # my_messenger_server.daemon = True
     my_messenger_server.start()
-
-
