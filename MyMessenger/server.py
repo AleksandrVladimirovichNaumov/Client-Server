@@ -240,6 +240,10 @@ if __name__ == "__main__":
     APP = QApplication(sys.argv)  # создание нашего приложение
     WINDOW_OBJ = AdminConsole()  # создаем объект
     def data_load():
+        """
+        то, что будет обновлять по таймеру
+        :return: -
+        """
         # загружаем таблицу с пользователями
         WINDOW_OBJ.tableView.setModel(WINDOW_OBJ.users_list(my_messenger_server.database))
         WINDOW_OBJ.tableView.resizeColumnsToContents()
@@ -250,12 +254,14 @@ if __name__ == "__main__":
         WINDOW_OBJ.tableView_2.resizeRowsToContents()
         # загружаем логи
         WINDOW_OBJ.listView.setModel(WINDOW_OBJ.logs_list())
-        # загружаем ip
-        WINDOW_OBJ.lineEdit.setText(my_messenger_server.address)
-        # загружаем порт
-        WINDOW_OBJ.lineEdit_2.setText(str(my_messenger_server.port))
-        # загружаем максимум подключений к серверу
-        WINDOW_OBJ.lineEdit_3.setText(str(my_messenger_server.max_connections))
+
+
+    # загружаем ip
+    WINDOW_OBJ.lineEdit.setText(my_messenger_server.address)
+    # загружаем порт
+    WINDOW_OBJ.lineEdit_2.setText(str(my_messenger_server.port))
+    # загружаем максимум подключений к серверу
+    WINDOW_OBJ.lineEdit_3.setText(str(my_messenger_server.max_connections))
     WINDOW_OBJ.show()  # показываем наше окно
     """
     В конце мы запускаем основной цикл приложения. Отсюда начинается обработка событий. 

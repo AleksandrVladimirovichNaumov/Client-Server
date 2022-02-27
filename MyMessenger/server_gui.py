@@ -1,12 +1,19 @@
-from PyQt5 import uic
+from PyQt5 import uic, QtWidgets
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, qApp
+
+from descriptor import ServerPort, ServerHost
+from server_settings import SERVER_PORT, SERVER_MAX_CONNECTIONS, SERVER_IP
 
 
 class AdminConsole(QWidget):
     '''
     класс графичееского иннтерфеса сервера
     '''
+
+    # используем дескрипторы
+    port = ServerPort()
+    address = ServerHost()
 
     def __init__(self, parent=None):
         super().__init__()
@@ -15,6 +22,7 @@ class AdminConsole(QWidget):
 
         # Обрабокта события нажатия кнопки
         self.actionExit.triggered.connect(qApp.quit)
+        self.pushButton.clicked.connect(self.save_settings)
 
 
     def users_list(self, database):
@@ -112,3 +120,33 @@ class AdminConsole(QWidget):
             row = QStandardItem(str(e))
             logs_listview.appendRow(row)
             return logs_listview
+
+    def save_settings(self):
+        """
+        сохраняем настройки с вкладки settings
+        :return: -
+        """
+
+        try:
+            self.address = self.lineEdit.text()
+        except Exception as e:
+            print(e)
+            self.address = SERVER_IP
+            self.lineEdit.setText(self.address)
+        try:
+            self.port = int(self.lineEdit_2.text())
+        except Exception as e:
+            print(e)
+            self.port = SERVER_PORT
+            self.lineEdit_2.setText(str(self.port))
+        try:
+            max_connections = int(self.lineEdit_3.text())
+        except Exception as e:
+            print(e)
+            max_connections = SERVER_MAX_CONNECTIONS
+            self.lineEdit_3.setText(str(max_connections))
+
+        with open("server_settings.py", 'w') as settings_file:
+            settings_file.write(
+                f"SERVER_IP = '{self.address}' \nSERVER_PORT = {self.port} \nSERVER_MAX_CONNECTIONS = {max_connections}"
+            )
