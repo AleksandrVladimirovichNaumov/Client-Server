@@ -4,6 +4,7 @@ import threading
 from threading import Thread
 
 from PyQt5 import uic
+from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, qApp, QApplication
 
@@ -14,6 +15,7 @@ from metaclasses import ServerVerifier
 from my_socket import MessengerSocket
 from log.server_log_config import server_logger
 from decorators import log
+from server_gui import AdminConsole
 from storage import MessengerStorage
 
 conflag_lock = threading.Lock()
@@ -222,55 +224,6 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                 print('Команда не распознана.')
 
 
-class AdminConsole(QWidget):
-    def __init__(self, parent=None):
-        super().__init__()
-        # Использование функции loadUi()
-        uic.loadUi('gui_server.ui', self)  # загружаем наше окно
-
-        # Обрабокта события нажатия кнопки
-        # self.btnQuit.clicked.connect(qApp.quit)
-
-    def users_list(self, database, online=False):
-        if not online:
-            user_list = database.get_user_list()
-        else:
-            user_list = database.get_online_user_list()
-        users_table = QStandardItemModel()
-        users_table.setHorizontalHeaderLabels(['Username', 'Last login'])
-        for row in user_list:
-            user, time = row
-            user = QStandardItem(user)  # создаем элемент
-            user.setEditable(False)  # редактирование
-            # ip = QStandardItem(ip)
-            # ip.setEditable(False)
-            # port = QStandardItem(str(port))
-            # port.setEditable(False)
-            # Уберём милисекунды из строки времени, т.к. такая точность не требуется.
-            time = QStandardItem(str(time.replace(microsecond=0)))
-            time.setEditable(False)
-            users_table.appendRow([user, time])  # добавляем строку
-        return users_table
-
-    def login_history_list(self, database):
-        login_history_list = database.get_login_history_list()
-        login_history_table = QStandardItemModel()
-        login_history_table.setHorizontalHeaderLabels(['Username', 'Last login', 'IP', "Port"])
-        for row in login_history_list:
-            user, id, time, ip, port = row
-            user = QStandardItem(user)  # создаем элемент
-            user.setEditable(False)  # редактирование
-            ip = QStandardItem(ip)
-            ip.setEditable(False)
-            port = QStandardItem(str(port))
-            port.setEditable(False)
-            # Уберём милисекунды из строки времени, т.к. такая точность не требуется.
-            time = QStandardItem(str(time.replace(microsecond=0)))
-            time.setEditable(False)
-            login_history_table.appendRow([user, time, ip, port])  # добавляем строку
-        return login_history_table
-
-
 if __name__ == "__main__":
     # запуск сервака
     my_messenger_server = MessengerServer()
@@ -285,9 +238,23 @@ if __name__ == "__main__":
     """
     APP = QApplication(sys.argv)  # создание нашего приложение
     WINDOW_OBJ = AdminConsole()  # создаем объект
-
-    WINDOW_OBJ.tableView.setModel(WINDOW_OBJ.users_list(my_messenger_server.database))
-    WINDOW_OBJ.tableView_2.setModel(WINDOW_OBJ.login_history_list(my_messenger_server.database))
+    def data_load():
+        # загружаем таблицу с пользователями
+        WINDOW_OBJ.tableView.setModel(WINDOW_OBJ.users_list(my_messenger_server.database))
+        WINDOW_OBJ.tableView.resizeColumnsToContents()
+        WINDOW_OBJ.tableView.resizeRowsToContents()
+        #загружаем таблицу с историей подключений
+        WINDOW_OBJ.tableView_2.setModel(WINDOW_OBJ.login_history_list(my_messenger_server.database))
+        WINDOW_OBJ.tableView_2.resizeColumnsToContents()
+        WINDOW_OBJ.tableView_2.resizeRowsToContents()
+        # загружаем логи
+        WINDOW_OBJ.listView.setModel(WINDOW_OBJ.logs_list())
+        # загружаем ip
+        WINDOW_OBJ.lineEdit.setText(my_messenger_server.address)
+        # загружаем порт
+        WINDOW_OBJ.lineEdit_2.setText(str(my_messenger_server.port))
+        # загружаем максимум подключений к серверу
+        WINDOW_OBJ.lineEdit_3.setText(str(my_messenger_server.max_connections))
     WINDOW_OBJ.show()  # показываем наше окно
     """
     В конце мы запускаем основной цикл приложения. Отсюда начинается обработка событий. 
@@ -297,5 +264,11 @@ if __name__ == "__main__":
     будет уничтожено. Метод sys.exit() гарантирует чистый выход. 
     Окружение будет проинформировано о том, как приложение завершилось.
     """
+
+
+    # Таймер, обновляющий список клиентов 1 раз в секунду
+    timer = QTimer()
+    timer.timeout.connect(data_load)
+    timer.start(1000)
 
     sys.exit(APP.exec_())  # выход
