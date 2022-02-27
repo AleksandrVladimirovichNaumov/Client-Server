@@ -16,6 +16,7 @@ from my_socket import MessengerSocket
 from log.server_log_config import server_logger
 from decorators import log
 from server_gui import AdminConsole
+from server_settings import SERVER_MAX_CONNECTIONS
 from storage import MessengerStorage
 
 conflag_lock = threading.Lock()
@@ -27,7 +28,7 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
     port = ServerPort()
     address = ServerHost()
 
-    def __init__(self, size=1024, encoding='utf-8', max_connections=5):
+    def __init__(self, size=1024, encoding='utf-8', max_connections=SERVER_MAX_CONNECTIONS):
         self.address = self.get_address()
         self.port = self.get_port()
         self.max_connections = max_connections

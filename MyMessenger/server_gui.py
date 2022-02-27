@@ -31,25 +31,35 @@ class AdminConsole(QWidget):
         if self.checkBox.isChecked():
             # обозначаем заголовки
             users_table.setHorizontalHeaderLabels(['Username', 'Last login', 'IP', 'Port'])
-            # забираем userlist из бд
-            user_list = database.get_online_user_list()
+            # забираем userlist из бд безопасно, малоли бд занята
+            while True:
+                try:
+                    user_list = database.get_online_user_list()
+                    break
+                except:
+                    pass
             # создаем ячейку из каждой строки
             for row in user_list:
-                user, id, time, port, ip = row
+                user, id, time, ip , port = row
                 user = QStandardItem(user)  # создаем элемент
                 user.setEditable(False)  # редактирование
                 time = QStandardItem(str(time.replace(microsecond=0)))
                 time.setEditable(False)
                 ip = QStandardItem(ip)  # создаем элемент
                 ip.setEditable(False)  # редактирование
-                port = QStandardItem(port)  # создаем элемент
+                port = QStandardItem(str(port))  # создаем элемент
                 port.setEditable(False)  # редактирование
                 users_table.appendRow([user, time, ip, port])  # добавляем строку
         else:
             # обозначаем заголовки
             users_table.setHorizontalHeaderLabels(['Username', 'Last login'])
-            # забираем userlist из бд
-            user_list = database.get_user_list()
+            # забираем userlist из бд безопасно, малоли бд занята
+            while True:
+                try:
+                    user_list = database.get_user_list()
+                    break
+                except:
+                    pass
             # создаем ячейку из каждой строки
             for row in user_list:
                 user, time = row
