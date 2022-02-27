@@ -1,6 +1,12 @@
 import select
 import sys
+import threading
 from threading import Thread
+
+from PyQt5 import uic
+from PyQt5.QtCore import QTimer
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtWidgets import QWidget, qApp, QApplication
 
 from arg_parser import ArgParser
 from descriptor import ServerPort, ServerHost
@@ -9,7 +15,11 @@ from metaclasses import ServerVerifier
 from my_socket import MessengerSocket
 from log.server_log_config import server_logger
 from decorators import log
+from server_gui import AdminConsole
+from server_settings import SERVER_MAX_CONNECTIONS
 from storage import MessengerStorage
+
+conflag_lock = threading.Lock()
 
 
 @log
@@ -18,7 +28,7 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
     port = ServerPort()
     address = ServerHost()
 
-    def __init__(self, size=1024, encoding='utf-8', max_connections=5):
+    def __init__(self, size=1024, encoding='utf-8', max_connections=SERVER_MAX_CONNECTIONS):
         self.address = self.get_address()
         self.port = self.get_port()
         self.max_connections = max_connections
@@ -34,13 +44,17 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
         self.errors_list = []
         # база данных
         self.database = MessengerStorage()
-
+        # поток обработки команд пользователя
         self.user_commands_thread = Thread(target=self.user_commands)
         self.user_commands_thread.daemon = True
+        # поток работы сервера
+        self.server_thread = Thread(target=self.start)
+        self.server_thread.daemon = True
 
-        # Thread.__init__(self)
         super().__init__(size, encoding)
 
+    def turn_on(self):
+        self.server_thread.start()
 
     def start(self):
         """
@@ -89,8 +103,9 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                         # пробуем ответить на precense сообщение или добавить входящее сообщение в список рассылки
                         self.answer(self.get_message(client_with_message), client_with_message)
                     except:
+                        pass
                         # если в сообщении ошибка - исключаем клиента из списка входящих
-                        self.client_list.remove(client_with_message)
+                        # self.client_list.remove(client_with_message)
 
             # рассылаем сообщения, если они есть и если есть кому рассылать
             if self.message_list and self.send_data_list:
@@ -111,14 +126,13 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                 except Exception as e:
                     print(e)
 
-
     def answer(self, received_message, client):
         server_logger.info(received_message)
 
         if self.get_jim_time() and self.get_jim_action() and self.get_jim_user() in received_message:
             # обработка precense сообщения
             if received_message[self.get_jim_action()] == 'presence':
-                self.send_message(self.jim_create_server_response(200), client)
+                self.send_message(self.jim_create_server_response(200, 'OK'), client)
                 # получаем username из сообщения
                 new_username = received_message[self.get_jim_user()]
                 # добавляем его в адресную книгу
@@ -141,22 +155,43 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                 # добавляем в список контактов в бд
                 self.database.add_contact(from_user, to_user)
                 return
-            if received_message[self.get_jim_action()] == 'exit':
+            # обработка сообщения о выходе клиента
+            elif received_message[self.get_jim_action()] == 'exit':
                 logout_user = received_message[self.get_jim_user()]
                 # удаляем клиента в из списка онлайн из бд
                 self.database.logout(logout_user)
                 server_logger.info(f'{logout_user} отключился от сервера')
                 return
-            if received_message[self.get_jim_action()] == 'contacts':
+            # обработка сообщения о запросе списка контактов
+            elif received_message[self.get_jim_action()] == 'contacts':
                 from_user = received_message[self.get_jim_user()]
-                to_user = from_user
-                self.message_list.append((
-                    'server',
-                    str(self.database.get_contacts_list(from_user)),
-                    to_user
-
-                ))
-                server_logger.info(self.message_list)
+                # подготавливаем список контактов
+                contact_list = self.database.get_contacts_list(from_user)
+                # отправляем список контактов
+                self.send_message(self.jim_create_server_response(202, contact_list), client)
+                server_logger.info(f'Список контактов был отправлен пользователю {from_user}')
+                return
+            # обработка сообщения об удалении контакта
+            elif received_message[self.get_jim_action()] == 'delete':
+                from_user = received_message[self.get_jim_user()]
+                contact = received_message[self.get_jim_data()]
+                result = f'Контакт {contact} был удален из списка пользователя {from_user}'
+                # подготавливаем список контактов
+                self.database.delete_contact(from_user, contact)
+                # отправляем список контактов
+                self.send_message(self.jim_create_server_response(203, result), client)
+                server_logger.info(result)
+                return
+            # обработка сообщения об добавлении контакта
+            elif received_message[self.get_jim_action()] == 'add':
+                from_user = received_message[self.get_jim_user()]
+                contact = received_message[self.get_jim_data()]
+                result = f'Контакт {contact} был добавлен в список пользователя {from_user}'
+                # добавляем контакт
+                self.database.add_contact(from_user, contact)
+                # отправляем список контактов
+                self.send_message(self.jim_create_server_response(204, result), client)
+                server_logger.info(result)
                 return
             # обработка неправильных сообщений
             else:
@@ -191,8 +226,56 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
 
 
 if __name__ == "__main__":
+    # запуск сервака
     my_messenger_server = MessengerServer()
-    # my_messenger_server.daemon = True
-    my_messenger_server.start()
+    my_messenger_server.turn_on()
+
+    """
+    Каждое приложение PyQt5 должно создать объект Qapplication. 
+    Этот объект находится в модуле QtGui. 
+    Параметр sys.argv это список аргументов командной строки. 
+    Скрипты на Пайтон могут быть запущены из консоли, 
+    и с помощью аргументов мы можем контролировать запуск приложения.
+    """
+    APP = QApplication(sys.argv)  # создание нашего приложение
+    WINDOW_OBJ = AdminConsole()  # создаем объект
+    def data_load():
+        """
+        то, что будет обновлять по таймеру
+        :return: -
+        """
+        # загружаем таблицу с пользователями
+        WINDOW_OBJ.tableView.setModel(WINDOW_OBJ.users_list(my_messenger_server.database))
+        WINDOW_OBJ.tableView.resizeColumnsToContents()
+        WINDOW_OBJ.tableView.resizeRowsToContents()
+        #загружаем таблицу с историей подключений
+        WINDOW_OBJ.tableView_2.setModel(WINDOW_OBJ.login_history_list(my_messenger_server.database))
+        WINDOW_OBJ.tableView_2.resizeColumnsToContents()
+        WINDOW_OBJ.tableView_2.resizeRowsToContents()
+        # загружаем логи
+        WINDOW_OBJ.listView.setModel(WINDOW_OBJ.logs_list())
 
 
+    # загружаем ip
+    WINDOW_OBJ.lineEdit.setText(my_messenger_server.address)
+    # загружаем порт
+    WINDOW_OBJ.lineEdit_2.setText(str(my_messenger_server.port))
+    # загружаем максимум подключений к серверу
+    WINDOW_OBJ.lineEdit_3.setText(str(my_messenger_server.max_connections))
+    WINDOW_OBJ.show()  # показываем наше окно
+    """
+    В конце мы запускаем основной цикл приложения. Отсюда начинается обработка событий. 
+    Приложение получает события от оконной системы и распределяет их по виджетам. 
+
+    Когда цикл заканчивается, и если мы вызовем метод exit(), то наше окно (главный виджет) 
+    будет уничтожено. Метод sys.exit() гарантирует чистый выход. 
+    Окружение будет проинформировано о том, как приложение завершилось.
+    """
+
+
+    # Таймер, обновляющий список клиентов 1 раз в секунду
+    timer = QTimer()
+    timer.timeout.connect(data_load)
+    timer.start(1000)
+
+    sys.exit(APP.exec_())  # выход

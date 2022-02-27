@@ -21,6 +21,8 @@ class ServerPort:
             server_loger.critical(f'значение порта {value} недопустимо')
         elif str(type(instance)) == "<class '__main__.MyMessengerClient'>":
             client_logger.critical(f'значение порта {value} недопустимо')
+        elif str(type(instance)) == "<class 'server_gui.AdminConsole'>":
+            raise ValueError
 
     def __set_name__(self, owner, name):
         self.name = name
@@ -43,6 +45,8 @@ class ServerHost:
                 server_loger.critical(e)
             elif str(type(instance)) == "<class '__main__.MyMessengerClient'>":
                 client_logger.critical(e)
+            elif str(type(instance)) == "<class 'server_gui.AdminConsole'>":
+                raise ValueError
             exit(1)
 
     def __set_name__(self, owner, name):

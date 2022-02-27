@@ -1,6 +1,7 @@
 import json
 import socket
 import sys
+import threading
 import time
 from threading import Thread
 from time import sleep
@@ -12,6 +13,8 @@ from jim import JIMClient
 from metaclasses import ClientVerifier
 from my_socket import MessengerSocket
 from log.client_log_config import client_logger
+
+sock_lock = threading.Lock()
 
 
 @log
@@ -47,6 +50,12 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
             server_answer = self.sock.recv(self.size)
             client_logger.info(
                 f'получено сообщение от сервера [{self.address}:{self.port}]: {self.response_meaning(server_answer)}')
+            # отправляем запрос на получение контактов
+            self.send_message(self.jim_create_message('contacts', self.username), self.sock)
+            client_logger.info(f'произошел запрос на получение контактов')
+            server_answer = self.sock.recv(self.size)
+            client_logger.info(
+                f'список контактов: {self.response_meaning(server_answer)}')
 
         except Exception as e:
             client_logger.error(f'ошибка отправки presence сообщения: {e}')
@@ -93,13 +102,27 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         :return: -
         """
         while True:
-            to_user = input('кому отправить сообщение (q - выйти, c - контакты): ')
-            if to_user.lower() == 'q':
+            to_user = input(
+                'кому отправить сообщение (exit - выйти, contacts - контакты, add - добавить контакт, delete):\n')
+            if to_user.lower() == 'exit':
                 break
-            elif to_user.lower() == 'c':
+            elif to_user.lower() == 'contacts':
                 self.send_message(self.jim_create_message('contacts', self.username), self.sock)
+                client_logger.info(f'произошел запрос на получение контактов')
+
+            elif to_user.lower() == 'add':
+                contact = input('введите имя контакта для добавления: ')
+                self.send_message(self.jim_create_message('add', self.username, contact), self.sock)
+                client_logger.info(f'произошел запрос на добавление контакта {contact}')
+
+            elif to_user.lower() == 'delete':
+                contact = input('введите имя контакта для удаления: ')
+                self.send_message(self.jim_create_message('delete', self.username, contact), self.sock)
+                client_logger.info(f'произошел запрос на удаление контакта {contact}')
+
             else:
                 message = input('введите сообщение: ')
+
                 self.send_message(self.jim_create_message('message', self.username, message, to_user), self.sock)
                 client_logger.debug(f'отправлено message сообщение от {self.username}')
 
@@ -110,7 +133,9 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         :return:
         """
         dict_response = json.loads(response.decode())
-        return f'ответ сервера {dict_response.get("response")} ({self.get_jim_responses().get(dict_response.get("response"))})'
+        client_logger.info(
+            f'ответ сервера {dict_response.get("response")} ({self.get_jim_responses().get(dict_response.get("response"))})')
+        return dict_response.get("alert")
 
     def message_meaning(self):
         """
@@ -119,10 +144,17 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         :return:
         """
         while True:
+            time.sleep(1)
+
             try:
+                # получить сообщение от пользователя
                 message = self.get_message(self.sock)
-                print(
-                    f'\n сообщение от  {message[self.get_jim_user()]} [{message[self.get_jim_time()]}]: {message[self.get_jim_data()]}')
+                if self.get_jim_user() in message:
+                    print(f'\n сообщение от  {message[self.get_jim_user()]} '
+                          f'[{message[self.get_jim_time()]}]: {message[self.get_jim_data()]}')
+                else:
+                    print(message['alert'])
+
             except:
                 pass
 

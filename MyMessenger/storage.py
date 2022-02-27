@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy import __version__, create_engine, Table, Column, MetaData, Integer, String, Boolean, DateTime, \
-    ForeignKey, PrimaryKeyConstraint
+    ForeignKey, PrimaryKeyConstraint, UniqueConstraint
 from sqlalchemy.orm import mapper, sessionmaker, relationship
 from sqlalchemy.pool import NullPool
 
@@ -74,7 +74,9 @@ class MessengerStorage:
         self.contacts_table = Table('Contacts', self.metadata,
                                     Column('id', Integer, primary_key=True),
                                     Column('owner_id', ForeignKey('Users.id')),
-                                    Column('contact_id', ForeignKey('Users.id'))
+                                    Column('contact_id', ForeignKey('Users.id')),
+                                    UniqueConstraint('owner_id', 'contact_id')
+
                                     )
         # создание таблиц
         self.metadata.create_all(self.engine)
@@ -141,8 +143,14 @@ class MessengerStorage:
         query = self.session.query(self.ContactList.contact_id).filter_by(owner_id=owner_id)
         contact_list = []
         # находим имя для каждого id
-        for i in query.all():
-            contact_list.append(self.session.query(self.AllUsers.username).filter_by(id=i[0]).first())
+        try:
+            for i in query.all():
+                # получаем контакт
+                contact = self.session.query(self.AllUsers.username).filter_by(id=i[0]).first()
+                # так как контакт получен как кортеж, берем его первый элемент
+                contact_list.append(contact[0])
+        except Exception as e:
+            print(e)
         return contact_list
 
     def login(self, username, ip, port):
@@ -198,9 +206,34 @@ class MessengerStorage:
         owner_id = self.session.query(self.AllUsers).filter_by(username=owner_name).first().id
         contact_id = self.session.query(self.AllUsers).filter_by(username=contact_name).first().id
         # добавляем запись в таблицу
-        new_contact = self.ContactList(owner_id, contact_id)
-        self.session.add(new_contact)
-        self.session.commit()
+        try:
+            new_contact = self.ContactList(owner_id, contact_id)
+            self.session.add(new_contact)
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            print(e)
+
+    def delete_contact(self, owner_name, contact_name):
+        """
+        удаляем контакт
+        :param owner_name: владелец контакта
+        :param contact_name: имя контакта
+        :return: -
+        """
+        # находим id
+        owner_id = self.session.query(self.AllUsers).filter_by(username=owner_name).first().id
+        contact_id = self.session.query(self.AllUsers).filter_by(username=contact_name).first().id
+        # добавляем запись в таблицу
+        try:
+            self.session.query(self.ContactList).filter(
+                self.ContactList.owner_id == owner_id,
+                self.ContactList.contact_id == contact_id
+            ).delete()
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            print(e)
 
 
 # Отладка
