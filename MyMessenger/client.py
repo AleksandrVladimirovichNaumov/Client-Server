@@ -6,6 +6,7 @@ import time
 from threading import Thread
 from time import sleep
 
+from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
 
 from MyMessenger.client_gui import ClientGui
@@ -187,7 +188,10 @@ if __name__ == "__main__":
     APP = QApplication(sys.argv)  # создание нашего приложение
     WINDOW_OBJ = ClientGui()  # создаем объект
 
-    WINDOW_OBJ.listView.setModel(WINDOW_OBJ.contact_list(my_messenger_client.database))
+    WINDOW_OBJ.set_database(my_messenger_client.database)
+
+    WINDOW_OBJ.listView.setModel(WINDOW_OBJ.contact_list())
+
 
     def data_load():
         """
@@ -203,8 +207,9 @@ if __name__ == "__main__":
         # WINDOW_OBJ.tableView_2.resizeColumnsToContents()
         # WINDOW_OBJ.tableView_2.resizeRowsToContents()
         # загружаем логи
-        WINDOW_OBJ.listView.setModel(WINDOW_OBJ.contact_list(my_messenger_client.database))
 
+
+    data_load()
 
     # # загружаем ip
     # WINDOW_OBJ.lineEdit.setText(my_messenger_server.address)
@@ -221,4 +226,10 @@ if __name__ == "__main__":
     будет уничтожено. Метод sys.exit() гарантирует чистый выход. 
     Окружение будет проинформировано о том, как приложение завершилось.
     """
+
+    # Таймер, обновляющий список клиентов 1 раз в секунду
+    timer = QTimer()
+    timer.timeout.connect(data_load)
+    timer.start(1000)
+
     sys.exit(APP.exec_())  # выход

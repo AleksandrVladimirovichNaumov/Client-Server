@@ -16,11 +16,15 @@ class ClientGui(QWidget):
         # usage of loadUi()
         uic.loadUi('gui_client.ui', self)  # load client window
 
+        self.database = None
+
         # client events processing
         self.actionExit.triggered.connect(qApp.quit)
-        # self.pushButton.clicked.connect(self.save_settings)
+        # self.pushButton_2.clicked.connect(self.save_settings)
+        self.pushButton_3.clicked.connect(self.add_contact)
+        self.pushButton_4.clicked.connect(self.delete_contact)
 
-    def contact_list(self, database):
+    def contact_list(self):
         """
         make a contact list for a client
         :param database: local client db
@@ -31,7 +35,7 @@ class ClientGui(QWidget):
         # проверяем онлайн или нет
         while True:
             try:
-                contacts_list = database.get_contact_list()
+                contacts_list = self.database.get_contact_list()
                 break
             except:
                 pass
@@ -39,6 +43,36 @@ class ClientGui(QWidget):
             row = QStandardItem(contact)
             contact_list_result.appendRow(row)
         return contact_list_result
+
+    def set_database(self, database):
+        self.database = database
+
+    def refresh_contact_list(self):
+        contact_for_model = QStandardItemModel()
+        for contact in self.database.get_contact_list():
+            row = QStandardItem(contact)
+            contact_for_model.appendRow(row)
+        self.listView.setModel(contact_for_model)
+
+    def add_contact(self):
+        """
+        adding contact to database
+        """
+        new_contact = self.lineEdit_4.text()
+        if new_contact != '':
+            result = self.database.add_contact(new_contact)
+            if result:
+                self.refresh_contact_list()
+
+    def delete_contact(self):
+        """
+        deleting contact from database
+        """
+
+        selected_contact = self.listView.currentIndex().data()
+        result = self.database.delete_contact(selected_contact)
+        if result:
+            self.refresh_contact_list()
 
 
 def login_history_list(self, database):

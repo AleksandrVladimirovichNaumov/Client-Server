@@ -41,19 +41,29 @@
          </widget>
         </item>
         <item>
-         <widget class="QListView" name="listView_2"/>
+         <widget class="QListView" name="listView_2">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+         </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QTextEdit" name="textEdit"/>
-          </item>
-          <item>
            <widget class="QPushButton" name="pushButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
              <string>Send</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <widget class="QTextEdit" name="textEdit"/>
           </item>
          </layout>
         </item>
@@ -64,7 +74,7 @@
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Contacts</string>
+           <string>Contacts:</string>
           </property>
          </widget>
         </item>
@@ -83,7 +93,18 @@
          </layout>
         </item>
         <item>
-         <widget class="QListView" name="listView"/>
+         <widget class="QListView" name="listView">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_4">
+          <property name="text">
+           <string>Delete contact</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

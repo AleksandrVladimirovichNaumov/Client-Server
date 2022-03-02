@@ -46,7 +46,7 @@ class ClientStorage:
         self.contact_list_table = Table('Contact_list',
                                         self.metadata,
                                         Column('id', Integer, primary_key=True),
-                                        Column('contact_username', String))
+                                        Column('contact_username', String, unique=True))
 
         # table for message history
         self.message_history_table = Table('Message_history',
@@ -92,14 +92,34 @@ class ClientStorage:
         """
         add contact to contact list table
         """
-        new_contact = self.ContactList(contact_username)
-        self.session.add(new_contact)
-        self.session.commit()
+        try:
+            new_contact = self.ContactList(contact_username)
+            self.session.add(new_contact)
+            self.session.commit()
+            return True
+        except:
+            self.session.rollback()
+            return False
+
+    def delete_contact(self, contact_username):
+        """
+        delete contact from contact list table
+        """
+        try:
+            self.session.query(self.ContactList).filter(self.ContactList.contact_username == contact_username).delete()
+            self.session.commit()
+            return True
+        except:
+            self.session.rollback()
+            return False
 
     def add_message(self, contact_username, from_or_to, message):
         """
         add message to local message history table
         """
-        new_message = self.MessageHistory(contact_username, from_or_to, message, datetime.datetime.utcnow())
-        self.session.add(new_message)
-        self.session.commit()
+        try:
+            new_message = self.MessageHistory(contact_username, from_or_to, message, datetime.datetime.utcnow())
+            self.session.add(new_message)
+            self.session.commit()
+        except:
+            self.session.rollback()
