@@ -140,6 +140,9 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
 
                 self.send_message(self.jim_create_message('message', self.username, message, to_user), self.sock)
                 client_logger.debug(f'отправлено message сообщение от {self.username}')
+                self.database.add_message(to_user,
+                                          False,
+                                          message)
 
     def response_meaning(self, response):
         """
@@ -167,6 +170,9 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
                 if self.get_jim_user() in message:
                     print(f'\n сообщение от  {message[self.get_jim_user()]} '
                           f'[{message[self.get_jim_time()]}]: {message[self.get_jim_data()]}')
+                    self.database.add_message(message[self.get_jim_user()],
+                                              True,
+                                              message[self.get_jim_time()])
                 else:
                     print(message['alert'])
 

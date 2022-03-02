@@ -52,6 +52,7 @@ class ClientStorage:
         self.message_history_table = Table('Message_history',
                                            self.metadata,
                                            Column('id', Integer, primary_key=True),
+                                           Column('contact_username', String),
                                            Column('from_or_to', Boolean),
                                            Column('message', String),
                                            Column('datetime', DateTime))
