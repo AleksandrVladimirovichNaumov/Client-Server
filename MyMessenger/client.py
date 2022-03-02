@@ -6,6 +6,10 @@ import time
 from threading import Thread
 from time import sleep
 
+from PyQt5.QtWidgets import QApplication
+
+from MyMessenger.client_gui import ClientGui
+from MyMessenger.client_storage import ClientStorage
 from arg_parser import ArgParser
 from decorators import log
 from descriptor import ServerPort, ServerHost
@@ -36,6 +40,16 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         # поток для отправки сообщений
         self.sender_thread = Thread(target=self.message)
         self.sender_thread.daemon = True
+        # thread for command from terminal
+        self.client_thread = Thread(target=self.start)
+        self.client_thread.daemon = True
+        self.database = ClientStorage(self.username)
+
+    def turn_on(self):
+        """
+        start a thread of a client
+        """
+        self.client_thread.start()
 
     def start(self):
         """
@@ -161,4 +175,50 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
 
 if __name__ == "__main__":
     my_messenger_client = MyMessengerClient()
-    my_messenger_client.start()
+    my_messenger_client.turn_on()
+
+    """
+        Каждое приложение PyQt5 должно создать объект Qapplication. 
+        Этот объект находится в модуле QtGui. 
+        Параметр sys.argv это список аргументов командной строки. 
+        Скрипты на Пайтон могут быть запущены из консоли, 
+        и с помощью аргументов мы можем контролировать запуск приложения.
+        """
+    APP = QApplication(sys.argv)  # создание нашего приложение
+    WINDOW_OBJ = ClientGui()  # создаем объект
+
+    WINDOW_OBJ.listView.setModel(WINDOW_OBJ.contact_list(my_messenger_client.database))
+
+    def data_load():
+        """
+        то, что будет обновлять по таймеру
+        :return: -
+        """
+        # загружаем таблицу с пользователями
+        # WINDOW_OBJ.tableView.setModel(WINDOW_OBJ.users_list(my_messenger_server.database))
+        # WINDOW_OBJ.tableView.resizeColumnsToContents()
+        # WINDOW_OBJ.tableView.resizeRowsToContents()
+        # # загружаем таблицу с историей подключений
+        # WINDOW_OBJ.tableView_2.setModel(WINDOW_OBJ.login_history_list(my_messenger_server.database))
+        # WINDOW_OBJ.tableView_2.resizeColumnsToContents()
+        # WINDOW_OBJ.tableView_2.resizeRowsToContents()
+        # загружаем логи
+        WINDOW_OBJ.listView.setModel(WINDOW_OBJ.contact_list(my_messenger_client.database))
+
+
+    # # загружаем ip
+    # WINDOW_OBJ.lineEdit.setText(my_messenger_server.address)
+    # # загружаем порт
+    # WINDOW_OBJ.lineEdit_2.setText(str(my_messenger_server.port))
+    # # загружаем максимум подключений к серверу
+    # WINDOW_OBJ.lineEdit_3.setText(str(my_messenger_server.max_connections))
+    WINDOW_OBJ.show()  # показываем наше окно
+    """
+    В конце мы запускаем основной цикл приложения. Отсюда начинается обработка событий. 
+    Приложение получает события от оконной системы и распределяет их по виджетам. 
+
+    Когда цикл заканчивается, и если мы вызовем метод exit(), то наше окно (главный виджет) 
+    будет уничтожено. Метод sys.exit() гарантирует чистый выход. 
+    Окружение будет проинформировано о том, как приложение завершилось.
+    """
+    sys.exit(APP.exec_())  # выход
