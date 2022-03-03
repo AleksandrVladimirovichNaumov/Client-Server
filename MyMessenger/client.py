@@ -138,11 +138,18 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
             else:
                 message = input('введите сообщение: ')
 
-                self.send_message(self.jim_create_message('message', self.username, message, to_user), self.sock)
-                client_logger.debug(f'отправлено message сообщение от {self.username}')
-                self.database.add_message(to_user,
-                                          False,
-                                          message)
+                self.client_send_message('message', message, to_user)
+
+    def client_send_message(self, type, message, to_user=None):
+        """
+        send any type messages from client to server/contacts
+        """
+        self.send_message(self.jim_create_message(type, self.username, message, to_user), self.sock)
+        client_logger.debug(f'отправлено {type} сообщение от {self.username}')
+        if type == 'message':
+            self.database.add_message(to_user,
+                                      False,
+                                      message)
 
     def response_meaning(self, response):
         """
@@ -172,7 +179,7 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
                           f'[{message[self.get_jim_time()]}]: {message[self.get_jim_data()]}')
                     self.database.add_message(message[self.get_jim_user()],
                                               True,
-                                              message[self.get_jim_time()])
+                                              message[self.get_jim_data()])
                 else:
                     print(message['alert'])
 
@@ -195,6 +202,7 @@ if __name__ == "__main__":
     WINDOW_OBJ = ClientGui()  # создаем объект
 
     WINDOW_OBJ.set_database(my_messenger_client.database)
+    WINDOW_OBJ.set_client_obj(my_messenger_client)
 
     WINDOW_OBJ.listView.setModel(WINDOW_OBJ.contact_list())
 
@@ -213,8 +221,7 @@ if __name__ == "__main__":
         # WINDOW_OBJ.tableView_2.resizeColumnsToContents()
         # WINDOW_OBJ.tableView_2.resizeRowsToContents()
         # загружаем логи
-
-
+        WINDOW_OBJ.refresh_messages_history()
     data_load()
 
     # # загружаем ip

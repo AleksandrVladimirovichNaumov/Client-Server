@@ -124,3 +124,15 @@ class ClientStorage:
             self.session.commit()
         except:
             self.session.rollback()
+
+    def get_messages_history(self, contact_username):
+        """
+        get message history for selected contact
+        """
+        try:
+            messages_history = self.session.query(self.MessageHistory).filter(
+                self.MessageHistory.contact_username == contact_username).all()
+            return [(f'{row.message} \n {row.datetime.replace(microsecond=0)}', row.from_or_to) for row in
+                    messages_history]
+        except:
+            return []

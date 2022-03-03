@@ -1,4 +1,4 @@
-from PyQt5 import uic, QtWidgets
+from PyQt5 import QtWidgets, QtCore, uic
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, qApp
 
@@ -15,14 +15,20 @@ class ClientGui(QWidget):
         super().__init__()
         # usage of loadUi()
         uic.loadUi('gui_client.ui', self)  # load client window
-
+        # local database
         self.database = None
+
+        self.client_obj = None
+        # active contact
+        self.active_contact = ''
 
         # client events processing
         self.actionExit.triggered.connect(qApp.quit)
+        self.pushButton.clicked.connect(self.send_message)
         # self.pushButton_2.clicked.connect(self.save_settings)
         self.pushButton_3.clicked.connect(self.add_contact)
         self.pushButton_4.clicked.connect(self.delete_contact)
+        self.listView.doubleClicked.connect(self.refresh_messages_history)
 
     def contact_list(self):
         """
@@ -46,6 +52,9 @@ class ClientGui(QWidget):
 
     def set_database(self, database):
         self.database = database
+
+    def set_client_obj(self, client_obj):
+        self.client_obj = client_obj
 
     def refresh_contact_list(self):
         contact_for_model = QStandardItemModel()
@@ -73,6 +82,35 @@ class ClientGui(QWidget):
         result = self.database.delete_contact(selected_contact)
         if result:
             self.refresh_contact_list()
+
+    def refresh_messages_history(self):
+        """
+        refresh message history in a chat
+        """
+        messages_for_model = QStandardItemModel()
+        for message in self.database.get_messages_history(self.listView.currentIndex().data()):
+            row = QStandardItem(message[0])
+            if not message[1]:
+                row.setTextAlignment(QtCore.Qt.AlignRight)
+            messages_for_model.appendRow(row)
+        self.listView_2.setModel(messages_for_model)
+        self.listView_2.scrollToBottom()
+        self.label_2.setText(f'Chat with:   {self.listView.currentIndex().data()}')
+        self.active_contact = self.listView.currentIndex().data()
+
+    def send_message(self):
+        """
+        send message to active contact
+        """
+
+        # checking that message is not empty
+        if self.textEdit.toPlainText() != '' and self.active_contact != '':
+            self.client_obj.client_send_message('message',
+                                                self.textEdit.toPlainText(),
+                                                self.active_contact)
+
+            self.refresh_messages_history()
+            self.textEdit.clear()
 
 
 def login_history_list(self, database):
