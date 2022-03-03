@@ -68,21 +68,30 @@ class ClientGui(QWidget):
 
     def add_contact(self):
         """
-        adding contact to database
+        adding contact to database local and server
         """
         new_contact = self.lineEdit_4.text()
         if new_contact != '':
             result = self.database.add_contact(new_contact)
+            self.client_obj.client_send_message('add',
+                                                self.client_obj.username,
+                                                new_contact
+                                                )
             if result:
                 self.refresh_contact_list()
 
+
     def delete_contact(self):
         """
-        deleting contact from database
+        deleting contact from database local and server
         """
 
         selected_contact = self.listView.currentIndex().data()
         result = self.database.delete_contact(selected_contact)
+        self.client_obj.client_send_message('delete',
+                                            self.client_obj.username,
+                                            selected_contact
+                                            )
         if result:
             self.refresh_contact_list()
 
@@ -129,3 +138,4 @@ class ClientGui(QWidget):
             settings_file.write(
                 f"CLIENT_USERNAME = '{username}'"
             )
+

@@ -151,6 +151,7 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
                                       False,
                                       message)
 
+
     def response_meaning(self, response):
         """
         расшифровка ответа сервера
@@ -245,4 +246,6 @@ if __name__ == "__main__":
     timer.timeout.connect(data_load)
     timer.start(1000)
 
-    sys.exit(APP.exec_())  # выход
+    APP.exec_()
+    # sys.exit(APP.exec_())  # выход
+    my_messenger_client.exit_messsage()
