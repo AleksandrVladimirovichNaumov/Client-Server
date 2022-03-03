@@ -22,10 +22,12 @@ class ClientGui(QWidget):
         # active contact
         self.active_contact = ''
 
+
+
         # client events processing
         self.actionExit.triggered.connect(qApp.quit)
         self.pushButton.clicked.connect(self.send_message)
-        # self.pushButton_2.clicked.connect(self.save_settings)
+        self.pushButton_2.clicked.connect(self.save_settings)
         self.pushButton_3.clicked.connect(self.add_contact)
         self.pushButton_4.clicked.connect(self.delete_contact)
         self.listView.doubleClicked.connect(self.refresh_messages_history)
@@ -55,6 +57,7 @@ class ClientGui(QWidget):
 
     def set_client_obj(self, client_obj):
         self.client_obj = client_obj
+        self.lineEdit_2.setText(self.client_obj.username)
 
     def refresh_contact_list(self):
         contact_for_model = QStandardItemModel()
@@ -112,78 +115,17 @@ class ClientGui(QWidget):
             self.refresh_messages_history()
             self.textEdit.clear()
 
+    def save_settings(self):
 
-def login_history_list(self, database):
-    """
-    создаем таблицу с историй подключения к серверу
-    :param database: используемая база данных
-    :return: таблицу с историей
-    """
-    login_history_list = database.get_login_history_list()
-    login_history_table = QStandardItemModel()
-    login_history_table.setHorizontalHeaderLabels(['Username', 'Last login', 'IP', "Port"])
-    for row in login_history_list:
-        user, id, time, ip, port = row
-        user = QStandardItem(user)  # создаем элемент
-        user.setEditable(False)  # редактирование
-        ip = QStandardItem(ip)
-        ip.setEditable(False)
-        port = QStandardItem(str(port))
-        port.setEditable(False)
-        # Уберём милисекунды из строки времени, т.к. такая точность не требуется.
-        time = QStandardItem(str(time.replace(microsecond=0)))
-        time.setEditable(False)
-        login_history_table.appendRow([user, time, ip, port])  # добавляем строку
-    return login_history_table
+        """
+        save settings from settings tab
+        сохраняем настройки с вкладки settings
+        :return: -
+        """
 
+        username = self.lineEdit_2.text()
 
-def logs_list(self):
-    """
-    передаем логи в listview
-    :return: логи или ошибку
-    """
-    logs_listview = QStandardItemModel()
-    # пробуем открыть файл с логами
-    try:
-        with open('log/server.log') as logs_file:
-            # построчно заполняем логи в модель
-            for line in logs_file:
-                row = QStandardItem(line)
-                logs_listview.appendRow(row)
-            return logs_listview
-    # если ошибка, то выводим ее вместо логов
-    except Exception as e:
-        row = QStandardItem(str(e))
-        logs_listview.appendRow(row)
-        return logs_listview
-
-
-def save_settings(self):
-    """
-    сохраняем настройки с вкладки settings
-    :return: -
-    """
-
-    try:
-        self.address = self.lineEdit.text()
-    except Exception as e:
-        print(e)
-        self.address = SERVER_IP
-        self.lineEdit.setText(self.address)
-    try:
-        self.port = int(self.lineEdit_2.text())
-    except Exception as e:
-        print(e)
-        self.port = SERVER_PORT
-        self.lineEdit_2.setText(str(self.port))
-    try:
-        max_connections = int(self.lineEdit_3.text())
-    except Exception as e:
-        print(e)
-        max_connections = SERVER_MAX_CONNECTIONS
-        self.lineEdit_3.setText(str(max_connections))
-
-    with open("server_settings.py", 'w') as settings_file:
-        settings_file.write(
-            f"SERVER_IP = '{self.address}' \nSERVER_PORT = {self.port} \nSERVER_MAX_CONNECTIONS = {max_connections}"
-        )
+        with open("client_settings.py", 'w') as settings_file:
+            settings_file.write(
+                f"CLIENT_USERNAME = '{username}'"
+            )

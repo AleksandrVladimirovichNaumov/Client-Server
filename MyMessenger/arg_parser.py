@@ -1,6 +1,7 @@
 import argparse
 import sys
 
+from MyMessenger.client_settings import CLIENT_USERNAME
 from server_settings import SERVER_PORT, SERVER_IP
 
 
@@ -10,7 +11,7 @@ class ArgParser():
         self.parser.add_argument('-p', default=SERVER_PORT, type=int, nargs='?')
         self.parser.add_argument('-a', default=SERVER_IP, nargs='?')
         self.parser.add_argument('-m', default='reader', nargs='?')
-        self.parser.add_argument('-u', default='Guest', nargs='?')
+        self.parser.add_argument('-u', default=CLIENT_USERNAME, nargs='?')
         namespace = self.parser.parse_args(sys.argv[1:])
         self.address = namespace.a
         self.port = namespace.p
