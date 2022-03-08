@@ -188,24 +188,28 @@ class MessengerStorage:
         # пробуем достать юзера
         login_user = self.session.query(self.AllUsers).filter_by(username=username).first()
         # если юзер подключается впервые создаем запись в таблицу всех изеров
-        if login_user is None:
-            login_user = self.AllUsers(username, password, publick_key)
-            self.session.add(login_user)
-            self.session.commit()
-        # если юзер подключается не впервые - обновляем дату входа
-        else:
-            login_user.last_login = datetime.datetime.utcnow()
-            self.session.commit()
+        try:
+            if login_user is None:
+                login_user = self.AllUsers(username, password, publick_key)
+                self.session.add(login_user)
+                self.session.commit()
+            # если юзер подключается не впервые - обновляем дату входа
+            else:
+                login_user.last_login = datetime.datetime.utcnow()
+                self.session.commit()
+                # добавляем в таблицу юзеров онлайн
+                new_online_user = self.OnlineUsers(login_user.id, datetime.datetime.utcnow(), ip, port)
+                self.session.add(new_online_user)
+                # добавляем в таблицу историй подключений
+                new_login_history_item = self.LoginHistory(login_user.id, datetime.datetime.utcnow(), ip, port)
+                self.session.add(new_login_history_item)
 
-        # добавляем в таблицу юзеров онлайн
-        new_online_user = self.OnlineUsers(login_user.id, datetime.datetime.utcnow(), ip, port)
-        self.session.add(new_online_user)
-        # добавляем в таблицу историй подключений
-        new_login_history_item = self.LoginHistory(login_user.id, datetime.datetime.utcnow(), ip, port)
-        self.session.add(new_login_history_item)
+                # сохраняем изменения
+                self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            print(e)
 
-        # сохраняем изменения
-        self.session.commit()
 
     def logout(self, username):
         """
