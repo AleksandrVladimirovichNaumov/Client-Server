@@ -1,4 +1,8 @@
+import binascii
+import hashlib
+import hmac
 import json
+import os
 import socket
 import sys
 import threading
@@ -6,10 +10,12 @@ import time
 from threading import Thread
 from time import sleep
 
+from Crypto.PublicKey import RSA
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
 
-from MyMessenger.client_gui import ClientGui
+from MyMessenger.client_gui import ClientGui, ClientLoginGui
 from MyMessenger.client_storage import ClientStorage
 from arg_parser import ArgParser
 from decorators import log
@@ -46,6 +52,8 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         self.client_thread.daemon = True
         self.database = ClientStorage(self.username)
 
+        self.keys = None
+
     def turn_on(self):
         """
         start a thread of a client
@@ -59,12 +67,12 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         """
         try:
             # отправка precence и получение ок ответа от сервера
-            self.sock.connect((self.address, self.port))
-            client_logger.info(f'произошло подключение к серверу [{self.address}:{self.port}]')
-            self.presence()
-            server_answer = self.sock.recv(self.size)
-            client_logger.info(
-                f'получено сообщение от сервера [{self.address}:{self.port}]: {self.response_meaning(server_answer)}')
+            # self.sock.connect((self.address, self.port))
+            # client_logger.info(f'произошло подключение к серверу [{self.address}:{self.port}]')
+            # self.presence()
+            # server_answer = self.sock.recv(self.size)
+            # client_logger.info(
+            #     f'получено сообщение от сервера [{self.address}:{self.port}]: {self.response_meaning(server_answer)}')
             # отправляем запрос на получение контактов
             self.send_message(self.jim_create_message('contacts', self.username), self.sock)
             client_logger.info(f'произошел запрос на получение контактов')
@@ -94,12 +102,69 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
             self.sock.close()
             sys.exit(0)
 
-    def presence(self):
+    def login(self, username, password):
+        """
+        trying to login
+        """
+        try:
+            # Загружаем ключи с файла, если же файла нет, то генерируем новую пару.
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            key_file = os.path.join(dir_path, f'{username}.key')
+            if not os.path.exists(key_file):
+                self.keys = RSA.generate(2048, os.urandom)
+                with open(key_file, 'wb') as key:
+                    key.write(self.keys.export_key())
+            else:
+                with open(key_file, 'rb') as key:
+                    self.keys = RSA.import_key(key.read())
+            client_logger.debug("Keys sucsessfully loaded.")
+            # connect to server
+            try:
+                self.sock.connect((self.address, self.port))
+            except:
+                pass
+            client_logger.info(f'connected to server [{self.address}:{self.port}]')
+            # making hash from password
+            passwd_bytes = password.encode('utf-8')
+            salt = username.lower().encode('utf-8')
+            passwd_hash = hashlib.pbkdf2_hmac('sha512', passwd_bytes, salt, 10000)
+            passwd_hash_string = binascii.hexlify(passwd_hash)
+            # sending username and password
+            self.presence(username,
+                          {'password': passwd_hash_string.decode('ascii'),
+                           'public_key': self.keys.publickey().export_key().decode('ascii')})
+            server_answer = self.sock.recv(self.size)
+
+            servers_answer_meaning = self.response_meaning(server_answer)
+            hash = hmac.new(passwd_hash_string, servers_answer_meaning.encode('utf-8'), 'MD5')
+            digest = hash.digest()
+
+            self.presence(username,
+                          {'password': passwd_hash_string.decode('ascii'),
+                           'public_key': binascii.b2a_base64(digest).decode('ascii')})
+
+            server_answer = self.sock.recv(self.size)
+            # decode answer from server
+            servers_answer_meaning = self.response_meaning(server_answer)
+            client_logger.info(
+                f'получено сообщение от сервера [{self.address}:{self.port}]: {servers_answer_meaning}')
+            return servers_answer_meaning
+        except Exception as e:
+            client_logger.error(f'registration/authentication error: {e}')
+
+    def presence(self, username, data):
         """
         первичный запрос на подключение к серверу
         :return: -
         """
-        self.send_message(self.jim_create_message('presence', self.username), self.sock)
+
+        # checking username from login dialog and in instance of a class
+        if username != self.username:
+            self.username = username
+        # creating message
+        jim_message = self.jim_create_message('presence', username, data)
+        # sending message
+        self.send_message(jim_message, self.sock)
         client_logger.info(f'отправлено precense сообщение от {self.username}')
 
     def exit_messsage(self):
@@ -151,7 +216,6 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
                                       False,
                                       message)
 
-
     def response_meaning(self, response):
         """
         расшифровка ответа сервера
@@ -190,7 +254,6 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
 
 if __name__ == "__main__":
     my_messenger_client = MyMessengerClient()
-    my_messenger_client.turn_on()
 
     """
         Каждое приложение PyQt5 должно создать объект Qapplication. 
@@ -200,12 +263,24 @@ if __name__ == "__main__":
         и с помощью аргументов мы можем контролировать запуск приложения.
         """
     APP = QApplication(sys.argv)  # создание нашего приложение
-    WINDOW_OBJ = ClientGui()  # создаем объект
 
-    WINDOW_OBJ.set_database(my_messenger_client.database)
-    WINDOW_OBJ.set_client_obj(my_messenger_client)
+    LOGIN_OBJ = ClientLoginGui()  # creating login dialog
+    LOGIN_OBJ.set_client_obj(my_messenger_client)  # providing client to gui
 
-    WINDOW_OBJ.listView.setModel(WINDOW_OBJ.contact_list())
+    # checking login - if correct open main windows
+    while True:
+
+        if LOGIN_OBJ.exec_() == QtWidgets.QDialog.Accepted:
+            # starting client threads
+            my_messenger_client.turn_on()
+            WINDOW_OBJ = ClientGui()  # создаем объект
+
+            WINDOW_OBJ.set_database(my_messenger_client.database)
+            WINDOW_OBJ.set_client_obj(my_messenger_client)
+
+            WINDOW_OBJ.listView.setModel(WINDOW_OBJ.contact_list())
+            break
+        time.sleep(1)
 
 
     def data_load():
@@ -223,6 +298,8 @@ if __name__ == "__main__":
         # WINDOW_OBJ.tableView_2.resizeRowsToContents()
         # загружаем логи
         WINDOW_OBJ.refresh_messages_history()
+
+
     data_load()
 
     # # загружаем ip
