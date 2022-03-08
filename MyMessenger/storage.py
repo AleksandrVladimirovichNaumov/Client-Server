@@ -1,9 +1,8 @@
 import datetime
 
 from sqlalchemy import __version__, create_engine, Table, Column, MetaData, Integer, String, Boolean, DateTime, \
-    ForeignKey, PrimaryKeyConstraint, UniqueConstraint
+    ForeignKey, PrimaryKeyConstraint, UniqueConstraint, Text
 from sqlalchemy.orm import mapper, sessionmaker, relationship
-from sqlalchemy.pool import NullPool
 
 
 class MessengerStorage:
@@ -14,9 +13,11 @@ class MessengerStorage:
         класс для таблицы со всеми пользователями
         """
 
-        def __init__(self, username):
+        def __init__(self, username, password, public_key):
             self.id = None
             self.username = username
+            self.password = password
+            self.public_key = public_key
             self.last_login = datetime.datetime.utcnow()
 
     class OnlineUsers():
@@ -54,7 +55,9 @@ class MessengerStorage:
         self.user_table = Table('Users', self.metadata,
                                 Column('id', Integer, primary_key=True),
                                 Column('username', String),
-                                Column('last_login', DateTime))
+                                Column('last_login', DateTime),
+                                Column('password', String),
+                                Column('public_key', Text))
         # таблица с пользователями онлайн
         self.online_user_table = Table('Online_users', self.metadata,
                                        Column('id', Integer, primary_key=True),
@@ -93,6 +96,16 @@ class MessengerStorage:
         self.session.commit()
 
     # геттеры
+    def get_only_usernames(self):
+        """
+        list with only usernames
+        """
+        list_of_usernames = []
+        query = self.session.query(self.AllUsers.username)
+        for username in query.all():
+            list_of_usernames.append(username[0])
+        return list_of_usernames
+
     def get_user_list(self):
         """
         геттер списка всех пользователей
@@ -153,7 +166,17 @@ class MessengerStorage:
             print(e)
         return contact_list
 
-    def login(self, username, ip, port):
+    def get_password(self, username):
+        """
+        get password of a contact
+        :return: hash
+        """
+
+        # определяем id всех контактов
+        query = self.session.query(self.AllUsers.password).filter_by(username=username).first()
+        return query[0]
+
+    def login(self, username, ip, port, password=None, publick_key=None):
         """
         обновление таблиц при подключении пользователя
         :param username: имя
@@ -165,24 +188,28 @@ class MessengerStorage:
         # пробуем достать юзера
         login_user = self.session.query(self.AllUsers).filter_by(username=username).first()
         # если юзер подключается впервые создаем запись в таблицу всех изеров
-        if login_user is None:
-            login_user = self.AllUsers(username)
-            self.session.add(login_user)
-            self.session.commit()
-        # если юзер подключается не впервые - обновляем дату входа
-        else:
-            login_user.last_login = datetime.datetime.utcnow()
-            self.session.commit()
+        try:
+            if login_user is None:
+                login_user = self.AllUsers(username, password, publick_key)
+                self.session.add(login_user)
+                self.session.commit()
+            # если юзер подключается не впервые - обновляем дату входа
+            else:
+                login_user.last_login = datetime.datetime.utcnow()
+                self.session.commit()
+                # добавляем в таблицу юзеров онлайн
+                new_online_user = self.OnlineUsers(login_user.id, datetime.datetime.utcnow(), ip, port)
+                self.session.add(new_online_user)
+                # добавляем в таблицу историй подключений
+                new_login_history_item = self.LoginHistory(login_user.id, datetime.datetime.utcnow(), ip, port)
+                self.session.add(new_login_history_item)
 
-        # добавляем в таблицу юзеров онлайн
-        new_online_user = self.OnlineUsers(login_user.id, datetime.datetime.utcnow(), ip, port)
-        self.session.add(new_online_user)
-        # добавляем в таблицу историй подключений
-        new_login_history_item = self.LoginHistory(login_user.id, datetime.datetime.utcnow(), ip, port)
-        self.session.add(new_login_history_item)
+                # сохраняем изменения
+                self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            print(e)
 
-        # сохраняем изменения
-        self.session.commit()
 
     def logout(self, username):
         """
