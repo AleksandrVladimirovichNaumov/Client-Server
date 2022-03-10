@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from MyMessenger.client_settings import CLIENT_USERNAME
+from client_settings import CLIENT_USERNAME
 from server_settings import SERVER_PORT, SERVER_IP
 
 

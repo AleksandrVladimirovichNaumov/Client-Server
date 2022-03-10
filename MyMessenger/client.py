@@ -15,8 +15,8 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
 
-from MyMessenger.client_gui import ClientGui, ClientLoginGui
-from MyMessenger.client_storage import ClientStorage
+from client_gui import ClientGui, ClientLoginGui
+from client_storage import ClientStorage
 from arg_parser import ArgParser
 from decorators import log
 from descriptor import ServerPort, ServerHost
