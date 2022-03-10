@@ -1,6 +1,8 @@
 import json
 from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
 
+from metaclasses import ServerVerifier
+
 
 class MessengerSocket():
 
