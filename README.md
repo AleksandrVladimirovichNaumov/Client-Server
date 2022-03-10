@@ -4,39 +4,52 @@ For English please scroll down
 
 
 Данный проект – мессенджер. Состоит и серверного клиентских приложений.
-![API](https://github.com/AleksandrVladimirovichNaumov/Client-Server/raw/main/Client-Server/screenshots/client-server.png)
+![API](https://github.com/AleksandrVladimirovichNaumov/Client-Server/raw/main/Client-Server/MyMessenger/screenshots/client-server.png)
 
+Перед запуском приложений установите необходимые пакеты из requirements.txt
 
-npm install
+Для запуска сервера запустите server.py.
+Для запуска клиента запустите client.py.
+Для запуска на сервера и двух клиентов на одной машине запустите launcher.py (работает только на linux).
 
-npm start
+Структура проека:
+client.py - главный модуль клиента
+client_gui.py - модуль графической оболочки клиента
+client_storage.py - модуль локальной бд клиента
+server.py - главный модуль сервера
+server.py - модуль графической оболочки сервера
+storage.py - модуль бд сервера
 
-Сам frontend был написан с помощью React'a.
-
-![API](https://github.com/AleksandrVladimirovichNaumov/Django-REST/raw/main/TODO/screenshots/frontend.png)
-
-Ветка lesson12 предназначена для запуска проекта из-под Docker'a.
-
+decorators.py - общий модуль декораторов для клиента и сервера
+descriptor.py - общий модуль дескрипторов для клиента и сервера
+arg_parser.py - общий модуль обработки аргументов командной строки для клиента и сервера
+metaclasses.py - общий модуль метаклассов для клиента и сервера
+my_socket.py - общий модуль сокета для клиента и сервера
 
 
 *******************************************************************************************************************************************
 
 
 
-This project is a task planner. Registered users can create their own projects and add users to projects.
-Tasks (called ToDo) can be created in a projects and assigned to users. Todos can be changed to a status completed in case of finish.
+This project is a messanger. It consists from server and client app.
+![API](https://github.com/AleksandrVladimirovichNaumov/Client-Server/raw/main/Client-Server/MyMessenger/screenshots/client-server.png)
 
-Backend works based on API for users, projects and tasks:
-![API](https://github.com/AleksandrVladimirovichNaumov/Django-REST/raw/main/TODO/screenshots/DRF-API-ROOT.png)
+Install required packages from requirements.txt before applications run.
 
-It is required to make commands from directory  'frontend' to start a frontend:
+To start a server run server.py.
+To start a client run client.py.
+To start a server and two client run launcher.py (works only on linux).
 
-npm install
+Project structure:
+client.py - main client module
+client_gui.py - client gui module
+client_storage.py - client local database module
+server.py - main server module
+server.py - server gui module
+storage.py - server database module
 
-npm start
-
-Frontend was created based on a React.
-
-![API](https://github.com/AleksandrVladimirovichNaumov/Django-REST/raw/main/TODO/screenshots/frontend.png)
-
-Branch  lesson12 can be used for project launch in Docker.
+decorators.py - decorators module for client and server
+descriptor.py - descriptors module for client and server
+arg_parser.py - command line arguments module for client and server
+metaclasses.py - metaclass module for client and server
+my_socket.py - socket module for client and server
