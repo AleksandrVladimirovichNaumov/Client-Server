@@ -4,7 +4,7 @@ For English please scroll down
 
 
 Данный проект – мессенджер. Состоит и серверного клиентских приложений.
-![API](https://github.com/AleksandrVladimirovichNaumov/Client-Server/raw/main/Client-Server/MyMessenger/screenshots/client-server.png)
+![API](https://github.com/AleksandrVladimirovichNaumov/Client-Server/raw/main/MyMessenger/screenshots/client-server.png)
 
 Перед запуском приложений установите необходимые пакеты из requirements.txt
 
@@ -32,7 +32,7 @@ my_socket.py - общий модуль сокета для клиента и с�
 
 
 This project is a messanger. It consists from server and client app.
-![API](https://github.com/AleksandrVladimirovichNaumov/Client-Server/raw/main/Client-Server/MyMessenger/screenshots/client-server.png)
+![API](https://github.com/AleksandrVladimirovichNaumov/Client-Server/raw/main/MyMessenger/screenshots/client-server.png)
 
 Install required packages from requirements.txt before applications run.
 
