@@ -50,7 +50,7 @@ Install required packages from requirements.txt before applications run.
 
 To start a server run server.py.
 To start a client run client.py.
-To start a server and two client run launcher.py (works only on linux).
+To start a server and two clients run launcher.py (works only on linux).
 
 Project structure:
 
