@@ -1,3 +1,4 @@
+"""main server module"""
 import binascii
 import hmac
 import os
@@ -9,13 +10,13 @@ from threading import Thread
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
 
-from arg_parser import ArgParser
-from descriptor import ServerPort, ServerHost
-from jim import JIMServer
-from metaclasses import ServerVerifier
-from my_socket import MessengerSocket
+from MyMessenger.common.arg_parser import ArgParser
+from MyMessenger.common.descriptor import ServerPort, ServerHost
+from MyMessenger.common.jim import JIMServer
+from MyMessenger.common.metaclasses import ServerVerifier
+from MyMessenger.common.my_socket import MessengerSocket
 from log.server_log_config import server_logger
-from decorators import log
+from MyMessenger.common.decorators import Log
 from server_gui import AdminConsole
 from server_settings import SERVER_MAX_CONNECTIONS
 from storage import MessengerStorage
@@ -23,7 +24,7 @@ from storage import MessengerStorage
 conflag_lock = threading.Lock()
 
 
-@log
+@Log
 class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVerifier):
     # используем дескриптер ServerPort ServerHost, чтобы проверять номер порта и адрес
     port = ServerPort()
@@ -55,6 +56,9 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
         super().__init__(size, encoding)
 
     def turn_on(self):
+        """
+        start server main thread
+        """
         self.server_thread.start()
 
     def start(self):
@@ -75,14 +79,15 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                 # пробуем подключить клиента
                 client, client_address = self.sock.accept()
 
-            except:
+            except Exception:
                 pass
             else:
                 # добавляем клиента в список пользователей чата
                 self.client_list.append(client)
 
                 server_logger.info(
-                    f'Сервер: получен запрос на соединение от клиента с адресом и портом: {client_address}')
+                    'Сервер: получен запрос на соединение от'
+                    f' клиента с адресом и портом: {client_address}')
 
             # обнуляем списки select'a перед каждой итерацией
             self.recv_data_list = []
@@ -92,21 +97,24 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
             try:
                 # если есть ждущие клиенты - добавляем в список
                 if self.client_list:
-                    self.recv_data_list, self.send_data_list, self.errors_list = select.select(self.client_list,
-                                                                                               self.client_list,
-                                                                                               [],
-                                                                                               0)
-            except Exception as e:
-                print(e)
+                    self.recv_data_list, \
+                    self.send_data_list, \
+                    self.errors_list = select.select(self.client_list,
+                                                     self.client_list,
+                                                     [],
+                                                     0)
+            except Exception as exception:
+                print(exception)
 
             # обрабатываем поступивших клиентов с сообщениями
             if self.recv_data_list:
                 for client_with_message in self.recv_data_list:
                     try:
-                        # пробуем ответить на precense сообщение или добавить входящее сообщение в список рассылки
+                        # пробуем ответить на precense сообщение или
+                        # добавить входящее сообщение в список рассылки
                         self.answer(self.get_message(client_with_message), client_with_message)
-                    except Exception as e:
-                        print(e)
+                    except Exception as exception:
+                        print(exception)
                         # если в сообщении ошибка - исключаем клиента из списка входящих
                         self.client_list.remove(client_with_message)
 
@@ -126,13 +134,17 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                 # отправляем необходимому клиенту (берем сокет из адресной книги)
                 try:
                     self.send_message(message, self.adress_book.get(to_user))
-                except Exception as e:
-                    print(e)
+                except Exception as exception:
+                    print(exception)
 
     def answer(self, received_message, client):
+        """
+        create answer from server
+        """
         server_logger.info(received_message)
 
-        if self.get_jim_time() and self.get_jim_action() and self.get_jim_user() in received_message:
+        if self.get_jim_time() and self.get_jim_action() \
+                and self.get_jim_user() in received_message:
 
             # обработка precense сообщения
             if received_message[self.get_jim_action()] == 'presence':
@@ -143,13 +155,14 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                 if new_username not in self.database.get_only_usernames():
                     try:
                         # getting password from message
-                        new_password = received_message[self.get_jim_data()]['password'].encode('utf-8')
+                        new_password = \
+                            received_message[self.get_jim_data()]['password'].encode('utf-8')
                         self.database.login(new_username,
                                             client.getpeername()[0],
                                             client.getpeername()[1],
                                             new_password)
-                    except Exception as e:
-                        server_logger.debug(e)
+                    except Exception as exception:
+                        server_logger.debug(exception)
 
                 random_str = binascii.hexlify(os.urandom(64))
 
@@ -158,23 +171,24 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                                 'MD5')
                 digest = hash.digest()
                 try:
-                    self.send_message(self.jim_create_server_response(205, random_str.decode('ascii')),
+                    self.send_message(self.jim_create_server_response(205,
+                                                                      random_str.decode('ascii')),
                                       client)
                     answer = self.get_message(client)
-                except Exception as e:
+                except Exception as exception:
                     # client.close()
                     # self.client_list.remove(client)
-                    server_logger.debug(e)
+                    server_logger.debug(exception)
 
                     return
                 client_digest = binascii.a2b_base64(answer['data']['public_key'])
                 if hmac.compare_digest(client_digest, digest):
                     try:
                         self.send_message(self.jim_create_server_response(200, 'OK'), client)
-                    except Exception as e:
+                    except Exception as exception:
                         # client.close()
                         # self.client_list.remove(client)
-                        server_logger.debug(e)
+                        server_logger.debug(exception)
                         return
                     # добавляем его в адресную книгу
                     self.adress_book[new_username] = client
@@ -188,14 +202,13 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                     return
                 else:
                     try:
-                        self.send_message(self.jim_create_server_response(402, 'bad password'), client)
+                        self.send_message(self.jim_create_server_response(402, 'bad password'),
+                                          client)
                         # client.close()
                         # self.client_list.remove(client)
-                    except Exception as e:
+                    except Exception:
                         # client.close()
                         # self.client_list.remove(client)
-
-
 
                         return
 
@@ -260,6 +273,9 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
             return self.jim_create_server_response(400)
 
     def user_commands(self):
+        """
+        terminal commands service
+        """
         while True:
             command = input('Введите команду: ')
             if command == 'help':
@@ -276,10 +292,12 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
             elif command == 'connected':
                 for user in sorted(self.database.get_online_user_list()):
                     print(
-                        f'Пользователь {user[0]}, подключен: {user[1]}:{user[2]}, время установки соединения: {user[3]}')
+                        f'Пользователь {user[0]}, подключен: {user[1]}:{user[2]}, '
+                        f'время установки соединения: {user[3]}')
             elif command == 'loglist':
                 for user in sorted(self.database.get_login_history_list()):
-                    print(f'Пользователь: {user[0]} время входа: {user[1]}. Вход с: {user[2]}:{user[3]}')
+                    print(f'Пользователь: {user[0]} время входа: {user[1]}. '
+                          f'Вход с: {user[2]}:{user[3]}')
             else:
                 print('Команда не распознана.')
 
@@ -289,13 +307,6 @@ if __name__ == "__main__":
     my_messenger_server = MessengerServer()
     my_messenger_server.turn_on()
 
-    """
-    Каждое приложение PyQt5 должно создать объект Qapplication. 
-    Этот объект находится в модуле QtGui. 
-    Параметр sys.argv это список аргументов командной строки. 
-    Скрипты на Пайтон могут быть запущены из консоли, 
-    и с помощью аргументов мы можем контролировать запуск приложения.
-    """
     APP = QApplication(sys.argv)  # создание нашего приложение
     WINDOW_OBJ = AdminConsole()  # создаем объект
 
@@ -324,14 +335,7 @@ if __name__ == "__main__":
     # загружаем максимум подключений к серверу
     WINDOW_OBJ.lineEdit_3.setText(str(my_messenger_server.max_connections))
     WINDOW_OBJ.show()  # показываем наше окно
-    """
-    В конце мы запускаем основной цикл приложения. Отсюда начинается обработка событий. 
-    Приложение получает события от оконной системы и распределяет их по виджетам. 
 
-    Когда цикл заканчивается, и если мы вызовем метод exit(), то наше окно (главный виджет) 
-    будет уничтожено. Метод sys.exit() гарантирует чистый выход. 
-    Окружение будет проинформировано о том, как приложение завершилось.
-    """
 
     # Таймер, обновляющий список клиентов 1 раз в секунду
     timer = QTimer()

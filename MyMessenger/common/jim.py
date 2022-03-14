@@ -1,4 +1,4 @@
-import time
+"""module for jim protocol"""
 from datetime import datetime
 
 
@@ -32,25 +32,38 @@ class JIM():
         self.jim_data = 'data'
         self.jim_to_user = 'to_user'
 
-    def get_jim_data(self):
+    @staticmethod
+    def get_jim_data():
+        """data getter"""
         return JIM().jim_data
 
-    def get_jim_responses(self):
+    @staticmethod
+    def get_jim_responses():
+        """response getter"""
         return JIM().response
 
-    def get_jim_action(self):
+    @staticmethod
+    def get_jim_action():
+        """action getter"""
         return JIM().jim_action
 
-    def get_jim_user(self):
+    @staticmethod
+    def get_jim_user():
+        """user getter"""
         return JIM().jim_user
 
-    def get_jim_time(self):
+    @staticmethod
+    def get_jim_time():
+        """time getter"""
         return JIM().jim_time
 
-    def get_jim_to_user(self):
+    @staticmethod
+    def get_jim_to_user():
+        """to_user getter"""
         return JIM().jim_to_user
 
-    def jim_create_message(self, action, username, data='', to_user=''):
+    @staticmethod
+    def jim_create_message(action, username, data='', to_user=''):
         """
         шаблон для отправки сообщения
         :param action: тип запроса
@@ -86,7 +99,8 @@ class JIMServer(JIM):
     def __init__(self):
         super().__init__()
 
-    def jim_create_server_response(self, response, alert=''):
+    @staticmethod
+    def jim_create_server_response(response, alert=''):
         """
         шаблон ответа сервера
         :param response: ответ

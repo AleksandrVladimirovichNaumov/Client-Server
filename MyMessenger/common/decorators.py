@@ -1,8 +1,10 @@
+"""module for custom decorators"""
 import logging
 import sys
 
 
-class log:
+class Log:
+    """main class for logger"""
     def __init__(self, class_obj):
         # класс, который оборачивает декортор
         self.class_obj = class_obj

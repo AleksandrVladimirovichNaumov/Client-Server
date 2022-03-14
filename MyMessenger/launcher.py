@@ -10,12 +10,12 @@ while True:
     if ACTION == 'q':
         break
     elif ACTION == 's':
-        PROCESS.append(subprocess.Popen('gnome-terminal -- python3 server.py', shell=True))
+        PROCESS.append(subprocess.Popen('gnome-terminal -- python3 server/server.py', shell=True))
         print('s')
         time.sleep(4)
         for i in range(2):
             PROCESS.append(
-                subprocess.Popen(f'gnome-terminal -- python3 client.py -m reader -u NewUser{i + 1}', shell=True))
+                subprocess.Popen(f'gnome-terminal -- python3 client/client.py -m reader -u NewUser{i + 1}', shell=True))
             print('r', i)
             time.sleep(4)
     elif ACTION == 'x':

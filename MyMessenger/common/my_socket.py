@@ -1,10 +1,10 @@
+"""module with socket initialisation"""
 import json
 from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
 
-from metaclasses import ServerVerifier
 
-
-class MessengerSocket():
+class MessengerSocket:
+    """class for socket initialisation"""
 
     def __init__(self, size, encoding):
         self.size = size
@@ -26,9 +26,9 @@ class MessengerSocket():
                     return json_response
                 raise ValueError
             raise ValueError
-        except Exception as e:
+        except Exception as exception:
             # print(f'Ошибка получения сообщения: {e}')
-            return e
+            return exception
 
     def send_message(self, message, client):
         """
@@ -41,5 +41,5 @@ class MessengerSocket():
                 bytes_message = json.dumps(message).encode(self.encoding)
                 client.send(bytes_message)
                 # print(f'сообщение отправлено получателю {client}')
-        except Exception as e:
-            print(f'Ошибка отправки сообщения: {e}')
+        except Exception as exception:
+            print(f'Ошибка отправки сообщения: {exception}')

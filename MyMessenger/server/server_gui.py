@@ -1,8 +1,9 @@
-from PyQt5 import uic, QtWidgets
+"""module for server GUI"""
+from PyQt5 import uic
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, qApp
 
-from descriptor import ServerPort, ServerHost
+from common.descriptor import ServerPort, ServerHost
 from server_settings import SERVER_PORT, SERVER_MAX_CONNECTIONS, SERVER_IP
 
 
@@ -15,15 +16,14 @@ class AdminConsole(QWidget):
     port = ServerPort()
     address = ServerHost()
 
-    def __init__(self, parent=None):
+    def __init__(self):
         super().__init__()
         # Использование функции loadUi()
-        uic.loadUi('gui_server.ui', self)  # загружаем наше окно
+        uic.loadUi('server/gui_server.ui', self)  # загружаем наше окно
 
         # Обрабокта события нажатия кнопки
         self.actionExit.triggered.connect(qApp.quit)
         self.pushButton.clicked.connect(self.save_settings)
-
 
     def users_list(self, database):
         """
@@ -44,11 +44,11 @@ class AdminConsole(QWidget):
                 try:
                     user_list = database.get_online_user_list()
                     break
-                except:
+                except Exception:
                     pass
             # создаем ячейку из каждой строки
             for row in user_list:
-                user, id, time, ip , port = row
+                user, id, time, ip, port = row
                 user = QStandardItem(user)  # создаем элемент
                 user.setEditable(False)  # редактирование
                 time = QStandardItem(str(time.replace(microsecond=0)))
@@ -66,7 +66,7 @@ class AdminConsole(QWidget):
                 try:
                     user_list = database.get_user_list()
                     break
-                except:
+                except Exception:
                     pass
             # создаем ячейку из каждой строки
             for row in user_list:
@@ -77,8 +77,8 @@ class AdminConsole(QWidget):
                 time.setEditable(False)
                 users_table.appendRow([user, time])  # добавляем строку
         return users_table
-
-    def login_history_list(self, database):
+    @staticmethod
+    def login_history_list(database):
         """
         создаем таблицу с историй подключения к серверу
         :param database: используемая база данных
@@ -101,7 +101,8 @@ class AdminConsole(QWidget):
             login_history_table.appendRow([user, time, ip, port])  # добавляем строку
         return login_history_table
 
-    def logs_list(self):
+    @staticmethod
+    def logs_list():
         """
         передаем логи в listview
         :return: логи или ошибку
@@ -109,15 +110,15 @@ class AdminConsole(QWidget):
         logs_listview = QStandardItemModel()
         # пробуем открыть файл с логами
         try:
-            with open ('log/server.log') as logs_file:
+            with open('log/server.log') as logs_file:
                 # построчно заполняем логи в модель
                 for line in logs_file:
                     row = QStandardItem(line)
                     logs_listview.appendRow(row)
                 return logs_listview
         # если ошибка, то выводим ее вместо логов
-        except Exception as e:
-            row = QStandardItem(str(e))
+        except Exception as exception:
+            row = QStandardItem(str(exception))
             logs_listview.appendRow(row)
             return logs_listview
 
@@ -129,24 +130,25 @@ class AdminConsole(QWidget):
 
         try:
             self.address = self.lineEdit.text()
-        except Exception as e:
-            print(e)
+        except Exception as exception:
+            print(exception)
             self.address = SERVER_IP
             self.lineEdit.setText(self.address)
         try:
             self.port = int(self.lineEdit_2.text())
-        except Exception as e:
-            print(e)
+        except Exception as exception:
+            print(exception)
             self.port = SERVER_PORT
             self.lineEdit_2.setText(str(self.port))
         try:
             max_connections = int(self.lineEdit_3.text())
-        except Exception as e:
-            print(e)
+        except Exception as exception:
+            print(exception)
             max_connections = SERVER_MAX_CONNECTIONS
             self.lineEdit_3.setText(str(max_connections))
 
         with open("server_settings.py", 'w') as settings_file:
             settings_file.write(
-                f"SERVER_IP = '{self.address}' \nSERVER_PORT = {self.port} \nSERVER_MAX_CONNECTIONS = {max_connections}"
+                f"SERVER_IP = '{self.address}' \nSERVER_PORT = {self.port} "
+                f"\nSERVER_MAX_CONNECTIONS = {max_connections}"
             )

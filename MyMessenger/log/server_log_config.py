@@ -1,3 +1,4 @@
+"""module for server logger"""
 import os
 import sys
 from logging import handlers

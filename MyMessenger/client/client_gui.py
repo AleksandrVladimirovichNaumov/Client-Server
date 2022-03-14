@@ -1,20 +1,18 @@
+"""Module for client GUI"""
 from PyQt5 import QtWidgets, QtCore, uic
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, qApp
 
-from descriptor import ServerPort, ServerHost
-from server_settings import SERVER_PORT, SERVER_MAX_CONNECTIONS, SERVER_IP
-
 
 class ClientGui(QWidget):
     '''
-    gui of client
+    class for gui client
     '''
 
-    def __init__(self, parent=None):
+    def __init__(self):
         super().__init__()
         # usage of loadUi()
-        uic.loadUi('gui_client.ui', self)  # load client window
+        uic.loadUi('client/gui_client.ui', self)  # load client window
         # local database
         self.database = None
 
@@ -43,7 +41,7 @@ class ClientGui(QWidget):
             try:
                 contacts_list = self.database.get_contact_list()
                 break
-            except:
+            except Exception:
                 pass
         for contact in contacts_list:
             row = QStandardItem(contact)
@@ -150,8 +148,9 @@ class ClientLoginGui(QtWidgets.QDialog):
     """
     class for login dialog
     """
+
     def __init__(self, parent=None):
-        super(ClientLoginGui, self).__init__(parent)
+        super().__init__(parent)
         # create contect of dialog
         self.spacer = QtWidgets.QLabel(' ')
         self.login_title = QtWidgets.QLabel('Username')

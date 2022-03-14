@@ -1,14 +1,16 @@
+"""
+main module for client app
+"""
+
 import binascii
 import hashlib
 import hmac
 import json
 import os
-import socket
 import sys
 import threading
 import time
 from threading import Thread
-from time import sleep
 
 from Crypto.PublicKey import RSA
 from PyQt5 import QtWidgets
@@ -17,22 +19,26 @@ from PyQt5.QtWidgets import QApplication
 
 from client_gui import ClientGui, ClientLoginGui
 from client_storage import ClientStorage
-from arg_parser import ArgParser
-from decorators import log
-from descriptor import ServerPort, ServerHost
-from jim import JIMClient
-from metaclasses import ClientVerifier
-from my_socket import MessengerSocket
+from common.arg_parser import ArgParser
+from common.decorators import Log
+from common.descriptor import ServerPort, ServerHost
+from common.jim import JIMClient
+from common.metaclasses import ClientVerifier
+from common.my_socket import MessengerSocket
 from log.client_log_config import client_logger
 
 sock_lock = threading.Lock()
 
 
-@log
+@Log
 class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientVerifier):
-    # используем дескриптер ServerPort ServerHost, чтобы проверять номер порта и адрес, к которому хотим подключиться
+    # используем дескриптер ServerPort ServerHost,
+    # чтобы проверять номер порта и адрес, к которому хотим подключиться
     port = ServerPort()
     address = ServerHost()
+
+    # используем дескриптер ServerPort ServerHost,
+    # чтобы проверять номер порта и адрес, к которому хотим подключиться
 
     def __init__(self, size=1024, encoding='utf-8'):
         super().__init__(size, encoding)
@@ -42,14 +48,25 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         self.port = self.get_port()
         self.mode = self.get_mode()
         # поток для получения сообщений
-        self.receiver_thread = Thread(target=self.message_meaning)
-        self.receiver_thread.daemon = True
+        receiver_thread = Thread(target=self.message_meaning)
+        receiver_thread.daemon = True
         # поток для отправки сообщений
-        self.sender_thread = Thread(target=self.message)
-        self.sender_thread.daemon = True
+        sender_thread = Thread(target=self.message)
+        sender_thread.daemon = True
         # thread for command from terminal
-        self.client_thread = Thread(target=self.start)
-        self.client_thread.daemon = True
+        client_thread = Thread(target=self.start)
+        client_thread.daemon = True
+
+        self.list_of_threads = [receiver_thread, sender_thread, client_thread]
+        # поток для получения сообщений
+        # self.receiver_thread = Thread(target=self.message_meaning)
+        # self.receiver_thread.daemon = True
+        # # поток для отправки сообщений
+        # self.sender_thread = Thread(target=self.message)
+        # self.sender_thread.daemon = True
+        # # thread for command from terminal
+        # self.client_thread = Thread(target=self.start)
+        # self.client_thread.daemon = True
         self.database = ClientStorage(self.username)
 
         self.keys = None
@@ -58,40 +75,34 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         """
         start a thread of a client
         """
-        self.client_thread.start()
+        self.list_of_threads[2].start()
 
     def start(self):
         """
-        запускаем клиента: пробуем подключится и отправить presence сообщение, далее работаем согласно типу клиента
+        запускаем клиента: пробуем подключится и отправить
+        presence сообщение, далее работаем согласно типу клиента
         :return: -
         """
         try:
-            # отправка precence и получение ок ответа от сервера
-            # self.sock.connect((self.address, self.port))
-            # client_logger.info(f'произошло подключение к серверу [{self.address}:{self.port}]')
-            # self.presence()
-            # server_answer = self.sock.recv(self.size)
-            # client_logger.info(
-            #     f'получено сообщение от сервера [{self.address}:{self.port}]: {self.response_meaning(server_answer)}')
-            # отправляем запрос на получение контактов
+
             self.send_message(self.jim_create_message('contacts', self.username), self.sock)
-            client_logger.info(f'произошел запрос на получение контактов')
+            client_logger.info('произошел запрос на получение контактов')
             server_answer = self.sock.recv(self.size)
             client_logger.info(
                 f'список контактов: {self.response_meaning(server_answer)}')
 
-        except Exception as e:
-            client_logger.error(f'ошибка отправки presence сообщения: {e}')
+        except Exception as exception:
+            client_logger.error(f'ошибка отправки presence сообщения: {exception}')
         else:
             # запускаем потоки на прием и отправку сообщений
             time.sleep(1)
-            self.receiver_thread.start()
+            self.list_of_threads[0].start()
 
-            self.sender_thread.start()
+            self.list_of_threads[1].start()
             # основной цикл
             while True:
                 time.sleep(1)
-                if self.sender_thread.is_alive() and self.receiver_thread.is_alive():
+                if self.list_of_threads[1].is_alive() and self.list_of_threads[0].is_alive():
                     continue
                 break
 
@@ -121,7 +132,7 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
             # connect to server
             try:
                 self.sock.connect((self.address, self.port))
-            except:
+            except Exception:
                 pass
             client_logger.info(f'connected to server [{self.address}:{self.port}]')
             # making hash from password
@@ -136,8 +147,10 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
             server_answer = self.sock.recv(self.size)
 
             servers_answer_meaning = self.response_meaning(server_answer)
-            hash = hmac.new(passwd_hash_string, servers_answer_meaning.encode('utf-8'), 'MD5')
-            digest = hash.digest()
+            resulted_hash = hmac.new(passwd_hash_string,
+                                     servers_answer_meaning.encode('utf-8'),
+                                     'MD5')
+            digest = resulted_hash.digest()
 
             self.presence(username,
                           {'password': passwd_hash_string.decode('ascii'),
@@ -147,10 +160,11 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
             # decode answer from server
             servers_answer_meaning = self.response_meaning(server_answer)
             client_logger.info(
-                f'получено сообщение от сервера [{self.address}:{self.port}]: {servers_answer_meaning}')
+                'получено сообщение от сервера '
+                f'[{self.address}:{self.port}]: {servers_answer_meaning}')
             return servers_answer_meaning
-        except Exception as e:
-            client_logger.error(f'registration/authentication error: {e}')
+        except Exception as exception:
+            client_logger.error(f'registration/authentication error: {exception}')
 
     def presence(self, username, data):
         """
@@ -183,12 +197,13 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         """
         while True:
             to_user = input(
-                'кому отправить сообщение (exit - выйти, contacts - контакты, add - добавить контакт, delete):\n')
+                'кому отправить сообщение '
+                '(exit - выйти, contacts - контакты, add - добавить контакт, delete):\n')
             if to_user.lower() == 'exit':
                 break
             elif to_user.lower() == 'contacts':
                 self.send_message(self.jim_create_message('contacts', self.username), self.sock)
-                client_logger.info(f'произошел запрос на получение контактов')
+                client_logger.info('произошел запрос на получение контактов')
 
             elif to_user.lower() == 'add':
                 contact = input('введите имя контакта для добавления: ')
@@ -197,7 +212,8 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
 
             elif to_user.lower() == 'delete':
                 contact = input('введите имя контакта для удаления: ')
-                self.send_message(self.jim_create_message('delete', self.username, contact), self.sock)
+                self.send_message(self.jim_create_message('delete', self.username, contact),
+                                  self.sock)
                 client_logger.info(f'произошел запрос на удаление контакта {contact}')
 
             else:
@@ -205,13 +221,14 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
 
                 self.client_send_message('message', message, to_user)
 
-    def client_send_message(self, type, message, to_user=None):
+    def client_send_message(self, message_type, message, to_user=None):
         """
         send any type messages from client to server/contacts
         """
-        self.send_message(self.jim_create_message(type, self.username, message, to_user), self.sock)
-        client_logger.debug(f'отправлено {type} сообщение от {self.username}')
-        if type == 'message':
+        self.send_message(self.jim_create_message(message_type, self.username, message, to_user),
+                          self.sock)
+        client_logger.debug(f'отправлено {message_type} сообщение от {self.username}')
+        if message_type == 'message':
             self.database.add_message(to_user,
                                       False,
                                       message)
@@ -224,7 +241,8 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         """
         dict_response = json.loads(response.decode())
         client_logger.info(
-            f'ответ сервера {dict_response.get("response")} ({self.get_jim_responses().get(dict_response.get("response"))})')
+            f'ответ сервера {dict_response.get("response")} '
+            f'({self.get_jim_responses().get(dict_response.get("response"))})')
         return dict_response.get("alert")
 
     def message_meaning(self):
@@ -248,20 +266,13 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
                 else:
                     print(message['alert'])
 
-            except:
+            except Exception:
                 pass
 
 
 if __name__ == "__main__":
     my_messenger_client = MyMessengerClient()
 
-    """
-        Каждое приложение PyQt5 должно создать объект Qapplication. 
-        Этот объект находится в модуле QtGui. 
-        Параметр sys.argv это список аргументов командной строки. 
-        Скрипты на Пайтон могут быть запущены из консоли, 
-        и с помощью аргументов мы можем контролировать запуск приложения.
-        """
     APP = QApplication(sys.argv)  # создание нашего приложение
 
     LOGIN_OBJ = ClientLoginGui()  # creating login dialog
@@ -288,35 +299,12 @@ if __name__ == "__main__":
         то, что будет обновлять по таймеру
         :return: -
         """
-        # загружаем таблицу с пользователями
-        # WINDOW_OBJ.tableView.setModel(WINDOW_OBJ.users_list(my_messenger_server.database))
-        # WINDOW_OBJ.tableView.resizeColumnsToContents()
-        # WINDOW_OBJ.tableView.resizeRowsToContents()
-        # # загружаем таблицу с историей подключений
-        # WINDOW_OBJ.tableView_2.setModel(WINDOW_OBJ.login_history_list(my_messenger_server.database))
-        # WINDOW_OBJ.tableView_2.resizeColumnsToContents()
-        # WINDOW_OBJ.tableView_2.resizeRowsToContents()
-        # загружаем логи
+
         WINDOW_OBJ.refresh_messages_history()
 
 
     data_load()
-
-    # # загружаем ip
-    # WINDOW_OBJ.lineEdit.setText(my_messenger_server.address)
-    # # загружаем порт
-    # WINDOW_OBJ.lineEdit_2.setText(str(my_messenger_server.port))
-    # # загружаем максимум подключений к серверу
-    # WINDOW_OBJ.lineEdit_3.setText(str(my_messenger_server.max_connections))
     WINDOW_OBJ.show()  # показываем наше окно
-    """
-    В конце мы запускаем основной цикл приложения. Отсюда начинается обработка событий. 
-    Приложение получает события от оконной системы и распределяет их по виджетам. 
-
-    Когда цикл заканчивается, и если мы вызовем метод exit(), то наше окно (главный виджет) 
-    будет уничтожено. Метод sys.exit() гарантирует чистый выход. 
-    Окружение будет проинформировано о том, как приложение завершилось.
-    """
 
     # Таймер, обновляющий список клиентов 1 раз в секунду
     timer = QTimer()

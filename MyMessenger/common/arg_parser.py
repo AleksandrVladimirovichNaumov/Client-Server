@@ -1,11 +1,16 @@
+"""module to parse arguments from terminal"""
 import argparse
 import sys
 
-from client_settings import CLIENT_USERNAME
-from server_settings import SERVER_PORT, SERVER_IP
+from MyMessenger.client.client_settings import CLIENT_USERNAME
+from MyMessenger.server.server_settings import SERVER_PORT, SERVER_IP
 
 
 class ArgParser():
+    """
+    main class for arguments parsing
+    """
+
     def __init__(self):
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument('-p', default=SERVER_PORT, type=int, nargs='?')
@@ -18,14 +23,30 @@ class ArgParser():
         self.mode = namespace.m
         self.username = namespace.u
 
-    def get_address(self):
+    @staticmethod
+    def get_address():
+        """
+        get arg of address
+        """
         return ArgParser().address
 
-    def get_port(self):
+    @staticmethod
+    def get_port():
+        """
+        get arg of port
+        """
         return ArgParser().port
 
-    def get_mode(self):
-        return  ArgParser().mode
+    @staticmethod
+    def get_mode():
+        """
+        get arg of mode
+        """
+        return ArgParser().mode
 
-    def get_username(self):
-        return  ArgParser().username
+    @staticmethod
+    def get_username():
+        """
+        get arg of username
+        """
+        return ArgParser().username

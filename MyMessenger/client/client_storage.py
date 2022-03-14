@@ -1,13 +1,14 @@
+"""module for work with client local database"""
 import datetime
 import os
 
-from sqlalchemy import __version__, create_engine, Table, Column, MetaData, Integer, String, Boolean, DateTime, \
-    ForeignKey, PrimaryKeyConstraint, UniqueConstraint
-from sqlalchemy.orm import mapper, sessionmaker, relationship
-from sqlalchemy.pool import NullPool
+from sqlalchemy import __version__, create_engine, Table, Column, MetaData,\
+    Integer, String, Boolean, DateTime
+from sqlalchemy.orm import mapper, sessionmaker
 
 
 class ClientStorage:
+    """main class for client local database"""
     print(f"Version of SQLAlchemy: {__version__}")
 
     class ContactList:
@@ -24,12 +25,12 @@ class ClientStorage:
         local message history
         """
 
-        def __init__(self, contact_username, from_or_to, message, datetime):
+        def __init__(self, contact_username, from_or_to, message, date_time):
             self.id = None
             self.contact_username = contact_username
             self.from_or_to = from_or_to
             self.message = message
-            self.datetime = datetime
+            self.datetime = date_time
 
     def __init__(self, username):
         # each client will have local db
@@ -98,7 +99,7 @@ class ClientStorage:
             self.session.add(new_contact)
             self.session.commit()
             return True
-        except:
+        except Exception:
             self.session.rollback()
             return False
 
@@ -107,10 +108,11 @@ class ClientStorage:
         delete contact from contact list table
         """
         try:
-            self.session.query(self.ContactList).filter(self.ContactList.contact_username == contact_username).delete()
+            self.session.query(self.ContactList).filter(
+                self.ContactList.contact_username == contact_username).delete()
             self.session.commit()
             return True
-        except:
+        except Exception:
             self.session.rollback()
             return False
 
@@ -119,10 +121,13 @@ class ClientStorage:
         add message to local message history table
         """
         try:
-            new_message = self.MessageHistory(contact_username, from_or_to, message, datetime.datetime.utcnow())
+            new_message = self.MessageHistory(contact_username,
+                                              from_or_to,
+                                              message,
+                                              datetime.datetime.utcnow())
             self.session.add(new_message)
             self.session.commit()
-        except:
+        except Exception:
             self.session.rollback()
 
     def get_messages_history(self, contact_username):
@@ -132,7 +137,8 @@ class ClientStorage:
         try:
             messages_history = self.session.query(self.MessageHistory).filter(
                 self.MessageHistory.contact_username == contact_username).all()
-            return [(f'{row.message} \n {row.datetime.replace(microsecond=0)}', row.from_or_to) for row in
+            return [(f'{row.message} \n {row.datetime.replace(microsecond=0)}',
+                     row.from_or_to) for row in
                     messages_history]
-        except:
+        except Exception:
             return []

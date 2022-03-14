@@ -1,8 +1,8 @@
 import datetime
 
-from sqlalchemy import __version__, create_engine, Table, Column, MetaData, Integer, String, Boolean, DateTime, \
-    ForeignKey, PrimaryKeyConstraint, UniqueConstraint, Text
-from sqlalchemy.orm import mapper, sessionmaker, relationship
+from sqlalchemy import __version__, create_engine, Table, Column, MetaData, Integer,\
+    String, DateTime, ForeignKey, UniqueConstraint, Text
+from sqlalchemy.orm import mapper, sessionmaker
 
 
 class MessengerStorage:
@@ -49,7 +49,9 @@ class MessengerStorage:
             self.contact_id = contact_id
 
     def __init__(self):
-        self.engine = create_engine('sqlite:///messenger_db.sqlite', echo=False, connect_args={'check_same_thread': False})
+        self.engine = create_engine('sqlite:///server/messenger_db.sqlite',
+                                    echo=False,
+                                    connect_args={'check_same_thread': False})
         self.metadata = MetaData()
         # таблица со всеми пользователями
         self.user_table = Table('Users', self.metadata,
@@ -162,8 +164,8 @@ class MessengerStorage:
                 contact = self.session.query(self.AllUsers.username).filter_by(id=i[0]).first()
                 # так как контакт получен как кортеж, берем его первый элемент
                 contact_list.append(contact[0])
-        except Exception as e:
-            print(e)
+        except Exception as exception:
+            print(exception)
         return contact_list
 
     def get_password(self, username):
@@ -198,17 +200,23 @@ class MessengerStorage:
                 login_user.last_login = datetime.datetime.utcnow()
                 self.session.commit()
                 # добавляем в таблицу юзеров онлайн
-                new_online_user = self.OnlineUsers(login_user.id, datetime.datetime.utcnow(), ip, port)
+                new_online_user = self.OnlineUsers(login_user.id,
+                                                   datetime.datetime.utcnow(),
+                                                   ip,
+                                                   port)
                 self.session.add(new_online_user)
                 # добавляем в таблицу историй подключений
-                new_login_history_item = self.LoginHistory(login_user.id, datetime.datetime.utcnow(), ip, port)
+                new_login_history_item = self.LoginHistory(login_user.id,
+                                                           datetime.datetime.utcnow(),
+                                                           ip,
+                                                           port)
                 self.session.add(new_login_history_item)
 
                 # сохраняем изменения
                 self.session.commit()
-        except Exception as e:
+        except Exception as exception:
             self.session.rollback()
-            print(e)
+            print(exception)
 
 
     def logout(self, username):
@@ -237,9 +245,9 @@ class MessengerStorage:
             new_contact = self.ContactList(owner_id, contact_id)
             self.session.add(new_contact)
             self.session.commit()
-        except Exception as e:
+        except Exception as exception:
             self.session.rollback()
-            print(e)
+            print(exception)
 
     def delete_contact(self, owner_name, contact_name):
         """
@@ -258,9 +266,9 @@ class MessengerStorage:
                 self.ContactList.contact_id == contact_id
             ).delete()
             self.session.commit()
-        except Exception as e:
+        except Exception as exception:
             self.session.rollback()
-            print(e)
+            print(exception)
 
 
 # Отладка
