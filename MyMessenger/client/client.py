@@ -1,6 +1,4 @@
-"""
-main module for client app
-"""
+"""main module for client app"""
 
 import binascii
 import hashlib
@@ -32,6 +30,7 @@ sock_lock = threading.Lock()
 
 @Log
 class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientVerifier):
+    """client"""
     # используем дескриптер ServerPort ServerHost,
     # чтобы проверять номер порта и адрес, к которому хотим подключиться
     port = ServerPort()

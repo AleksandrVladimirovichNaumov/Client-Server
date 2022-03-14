@@ -1,3 +1,4 @@
+"""launcher to start a server and two clients"""
 import subprocess
 import time
 

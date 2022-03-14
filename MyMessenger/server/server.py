@@ -10,13 +10,13 @@ from threading import Thread
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
 
-from MyMessenger.common.arg_parser import ArgParser
-from MyMessenger.common.descriptor import ServerPort, ServerHost
-from MyMessenger.common.jim import JIMServer
-from MyMessenger.common.metaclasses import ServerVerifier
-from MyMessenger.common.my_socket import MessengerSocket
+from common.arg_parser import ArgParser
+from common.descriptor import ServerPort, ServerHost
+from common.jim import JIMServer
+from common.metaclasses import ServerVerifier
+from common.my_socket import MessengerSocket
 from log.server_log_config import server_logger
-from MyMessenger.common.decorators import Log
+from common.decorators import Log
 from server_gui import AdminConsole
 from server_settings import SERVER_MAX_CONNECTIONS
 from storage import MessengerStorage
@@ -26,6 +26,7 @@ conflag_lock = threading.Lock()
 
 @Log
 class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVerifier):
+    """server"""
     # используем дескриптер ServerPort ServerHost, чтобы проверять номер порта и адрес
     port = ServerPort()
     address = ServerHost()
