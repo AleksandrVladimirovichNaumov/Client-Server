@@ -35,15 +35,22 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
         self.port = self.get_port()
         self.max_connections = max_connections
         # список сообщений для клиентов
-        self.message_list = []
+        message_list = []
         # список пользователей
-        self.client_list = []
+        client_list = []
         # адресная книга (словарь ник:сокет)
         self.adress_book = {}
         # списки для select
-        self.recv_data_list = []
-        self.send_data_list = []
-        self.errors_list = []
+        recv_data_list = []
+        send_data_list = []
+        errors_list = []
+        self.dict_of_lists = {
+            'message_list': message_list,
+            'client_list': client_list,
+            'recv_data_list': recv_data_list,
+            'send_data_list': send_data_list,
+            'errors_list': errors_list
+        }
         # база данных
         self.database = MessengerStorage()
         # поток обработки команд пользователя
@@ -83,32 +90,32 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                 pass
             else:
                 # добавляем клиента в список пользователей чата
-                self.client_list.append(client)
+                self.dict_of_lists['client_list'].append(client)
 
                 server_logger.info(
                     'Сервер: получен запрос на соединение от'
                     f' клиента с адресом и портом: {client_address}')
 
             # обнуляем списки select'a перед каждой итерацией
-            self.recv_data_list = []
-            self.send_data_list = []
-            self.errors_list = []
+            self.dict_of_lists['recv_data_list'] = []
+            self.dict_of_lists['send_data_list'] = []
+            self.dict_of_lists['errors_list'] = []
 
             try:
                 # если есть ждущие клиенты - добавляем в список
-                if self.client_list:
-                    self.recv_data_list, \
-                    self.send_data_list, \
-                    self.errors_list = select.select(self.client_list,
-                                                     self.client_list,
+                if self.dict_of_lists['client_list']:
+                    self.dict_of_lists['recv_data_list'], \
+                    self.dict_of_lists['send_data_list'], \
+                    self.dict_of_lists['errors_list'] = select.select(self.dict_of_lists['client_list'],
+                                                     self.dict_of_lists['client_list'],
                                                      [],
                                                      0)
             except Exception as exception:
                 print(exception)
 
             # обрабатываем поступивших клиентов с сообщениями
-            if self.recv_data_list:
-                for client_with_message in self.recv_data_list:
+            if self.dict_of_lists['recv_data_list']:
+                for client_with_message in self.dict_of_lists['recv_data_list']:
                     try:
                         # пробуем ответить на precense сообщение или
                         # добавить входящее сообщение в список рассылки
@@ -116,21 +123,21 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                     except Exception as exception:
                         print(exception)
                         # если в сообщении ошибка - исключаем клиента из списка входящих
-                        self.client_list.remove(client_with_message)
+                        self.dict_of_lists['client_list'].remove(client_with_message)
 
             # рассылаем сообщения, если они есть и если есть кому рассылать
-            if self.message_list and self.send_data_list:
-                print('это список сообщений', self.message_list)
-                print('это адресаты', self.client_list)
+            if self.dict_of_lists['message_list'] and self.dict_of_lists['send_data_list']:
+                print('это список сообщений', self.dict_of_lists['message_list'])
+                print('это адресаты', self.dict_of_lists['client_list'])
                 # создаем сообщение для отправки согласно jim протоколй
                 message = self.jim_create_message(
                     'message',
-                    self.message_list[0][0],
-                    self.message_list[0][1]
+                    self.dict_of_lists['message_list'][0][0],
+                    self.dict_of_lists['message_list'][0][1]
                 )
-                to_user = self.message_list[0][2]
+                to_user = self.dict_of_lists['message_list'][0][2]
                 # удаляем сообщение из списка входящих на сервер
-                del self.message_list[0]
+                del self.dict_of_lists['message_list'][0]
                 # отправляем необходимому клиенту (берем сокет из адресной книги)
                 try:
                     self.send_message(message, self.adress_book.get(to_user))
@@ -176,8 +183,7 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                                       client)
                     answer = self.get_message(client)
                 except Exception as exception:
-                    # client.close()
-                    # self.client_list.remove(client)
+
                     server_logger.debug(exception)
 
                     return
@@ -186,8 +192,7 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                     try:
                         self.send_message(self.jim_create_server_response(200, 'OK'), client)
                     except Exception as exception:
-                        # client.close()
-                        # self.client_list.remove(client)
+
                         server_logger.debug(exception)
                         return
                     # добавляем его в адресную книгу
@@ -204,11 +209,9 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
                     try:
                         self.send_message(self.jim_create_server_response(402, 'bad password'),
                                           client)
-                        # client.close()
-                        # self.client_list.remove(client)
+
                     except Exception:
-                        # client.close()
-                        # self.client_list.remove(client)
+
 
                         return
 
@@ -216,13 +219,13 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
             elif received_message[self.get_jim_action()] == 'message':
                 from_user = received_message[self.get_jim_user()]
                 to_user = received_message[self.get_jim_to_user()]
-                self.message_list.append((
+                self.dict_of_lists['message_list'].append((
                     from_user,
                     received_message[self.get_jim_data()],
                     to_user
 
                 ))
-                server_logger.info(self.message_list)
+                server_logger.info(self.dict_of_lists['message_list'])
 
                 # добавляем в список контактов в бд
                 # self.database.add_contact(from_user, to_user)
@@ -335,7 +338,6 @@ if __name__ == "__main__":
     # загружаем максимум подключений к серверу
     WINDOW_OBJ.lineEdit_3.setText(str(my_messenger_server.max_connections))
     WINDOW_OBJ.show()  # показываем наше окно
-
 
     # Таймер, обновляющий список клиентов 1 раз в секунду
     timer = QTimer()
