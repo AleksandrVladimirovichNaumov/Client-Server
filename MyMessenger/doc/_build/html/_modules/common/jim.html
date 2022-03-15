@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>common.jim &#8212; MyMessenger (Client-Server) 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for common.jim</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;module for jim protocol&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+
+<div class="viewcode-block" id="JIM"><a class="viewcode-back" href="../../jim.html#common.jim.JIM">[docs]</a><span class="k">class</span> <span class="nc">JIM</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    протокол структуры сообщений и отправки ответов от сервера</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">100</span><span class="p">:</span> <span class="s1">&#39;базовое уведомление&#39;</span><span class="p">,</span>
+            <span class="mi">101</span><span class="p">:</span> <span class="s1">&#39;важное уведомление&#39;</span><span class="p">,</span>
+            <span class="mi">200</span><span class="p">:</span> <span class="s1">&#39;OK&#39;</span><span class="p">,</span>
+            <span class="mi">201</span><span class="p">:</span> <span class="s1">&#39;объект создан&#39;</span><span class="p">,</span>
+            <span class="mi">202</span><span class="p">:</span> <span class="s1">&#39;список контактов&#39;</span><span class="p">,</span>
+            <span class="mi">203</span><span class="p">:</span> <span class="s1">&#39;контакт удален&#39;</span><span class="p">,</span>
+            <span class="mi">204</span><span class="p">:</span> <span class="s1">&#39;контакт создан&#39;</span><span class="p">,</span>
+            <span class="mi">205</span><span class="p">:</span> <span class="s1">&#39;отправлен запрос на аунтефикацию&#39;</span><span class="p">,</span>
+            <span class="mi">400</span><span class="p">:</span> <span class="s1">&#39;неправильный запрос/JSON-объект&#39;</span><span class="p">,</span>
+            <span class="mi">401</span><span class="p">:</span> <span class="s1">&#39;не авторизован&#39;</span><span class="p">,</span>
+            <span class="mi">402</span><span class="p">:</span> <span class="s1">&#39;неправильный логин/пароль&#39;</span><span class="p">,</span>
+            <span class="mi">403</span><span class="p">:</span> <span class="s1">&#39;пользователь заблокирован&#39;</span><span class="p">,</span>
+            <span class="mi">404</span><span class="p">:</span> <span class="s1">&#39;пользователь/чат отсутствует на сервере&#39;</span><span class="p">,</span>
+            <span class="mi">409</span><span class="p">:</span> <span class="s1">&#39;уже имеется подключение с указанным логином&#39;</span><span class="p">,</span>
+            <span class="mi">410</span><span class="p">:</span> <span class="s1">&#39;адресат существует, но недоступен (offline)&#39;</span><span class="p">,</span>
+            <span class="mi">500</span><span class="p">:</span> <span class="s1">&#39;ошибка сервера&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jim_action</span> <span class="o">=</span> <span class="s1">&#39;action&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jim_user</span> <span class="o">=</span> <span class="s1">&#39;user&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jim_time</span> <span class="o">=</span> <span class="s1">&#39;time&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jim_data</span> <span class="o">=</span> <span class="s1">&#39;data&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jim_to_user</span> <span class="o">=</span> <span class="s1">&#39;to_user&#39;</span>
+
+<div class="viewcode-block" id="JIM.get_jim_data"><a class="viewcode-back" href="../../jim.html#common.jim.JIM.get_jim_data">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_jim_data</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;data getter&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JIM</span><span class="p">()</span><span class="o">.</span><span class="n">jim_data</span></div>
+
+<div class="viewcode-block" id="JIM.get_jim_responses"><a class="viewcode-back" href="../../jim.html#common.jim.JIM.get_jim_responses">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_jim_responses</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;response getter&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JIM</span><span class="p">()</span><span class="o">.</span><span class="n">response</span></div>
+
+<div class="viewcode-block" id="JIM.get_jim_action"><a class="viewcode-back" href="../../jim.html#common.jim.JIM.get_jim_action">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_jim_action</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;action getter&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JIM</span><span class="p">()</span><span class="o">.</span><span class="n">jim_action</span></div>
+
+<div class="viewcode-block" id="JIM.get_jim_user"><a class="viewcode-back" href="../../jim.html#common.jim.JIM.get_jim_user">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_jim_user</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;user getter&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JIM</span><span class="p">()</span><span class="o">.</span><span class="n">jim_user</span></div>
+
+<div class="viewcode-block" id="JIM.get_jim_time"><a class="viewcode-back" href="../../jim.html#common.jim.JIM.get_jim_time">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_jim_time</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;time getter&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JIM</span><span class="p">()</span><span class="o">.</span><span class="n">jim_time</span></div>
+
+<div class="viewcode-block" id="JIM.get_jim_to_user"><a class="viewcode-back" href="../../jim.html#common.jim.JIM.get_jim_to_user">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_jim_to_user</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;to_user getter&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JIM</span><span class="p">()</span><span class="o">.</span><span class="n">jim_to_user</span></div>
+
+<div class="viewcode-block" id="JIM.jim_create_message"><a class="viewcode-back" href="../../jim.html#common.jim.JIM.jim_create_message">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">jim_create_message</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">to_user</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        шаблон для отправки сообщения</span>
+<span class="sd">        :param action: тип запроса</span>
+<span class="sd">        :param user: от кого</span>
+<span class="sd">        :param data: что отправляем</span>
+<span class="sd">        :param to_user: от кому</span>
+<span class="sd">        :return: словарь для отправки на сервер</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="n">action</span><span class="p">,</span>
+            <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()),</span>
+            <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span>
+            <span class="s2">&quot;to_user&quot;</span><span class="p">:</span> <span class="n">to_user</span><span class="p">,</span>
+            <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span>
+
+        <span class="p">}</span></div></div>
+
+
+<div class="viewcode-block" id="JIMClient"><a class="viewcode-back" href="../../jim.html#common.jim.JIMClient">[docs]</a><span class="k">class</span> <span class="nc">JIMClient</span><span class="p">(</span><span class="n">JIM</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    протокол для клиентов. пока что функционал базового протокола JIM</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="JIMServer"><a class="viewcode-back" href="../../jim.html#common.jim.JIMServer">[docs]</a><span class="k">class</span> <span class="nc">JIMServer</span><span class="p">(</span><span class="n">JIM</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    протокол для сервера</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="JIMServer.jim_create_server_response"><a class="viewcode-back" href="../../jim.html#common.jim.JIMServer.jim_create_server_response">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">jim_create_server_response</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">alert</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        шаблон ответа сервера</span>
+<span class="sd">        :param response: ответ</span>
+<span class="sd">        :param alert: код ошибки</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">response</span><span class="p">,</span>
+            <span class="s2">&quot;alert&quot;</span><span class="p">:</span> <span class="n">alert</span><span class="p">,</span>
+        <span class="p">}</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">MyMessenger (Client-Server)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Clienet:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../client.html">client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_gui.html">client_gui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_settings.html">client_settings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_storage.html">client_storage module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../server.html">server module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server_gui.html">server_gui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server_settings.html">server_settings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage.html">storage module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Common:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arg_parser.html">arg_parser module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../decorators.html">decorators module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../descriptor.html">descriptor module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../jim.html">jim module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../metaclasses.html">metaclasses module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../my_socket.html">my_socket module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../client_log_config.html">client_log_config module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server_log_config.html">server_log_config module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Launcher:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../launcher.html">launcher module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Alexander Naumov.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

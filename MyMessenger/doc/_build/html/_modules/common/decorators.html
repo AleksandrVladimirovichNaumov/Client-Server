@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>common.decorators &#8212; MyMessenger (Client-Server) 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for common.decorators</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;module for custom decorators&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<div class="viewcode-block" id="Log"><a class="viewcode-back" href="../../decorators.html#common.decorators.Log">[docs]</a><span class="k">class</span> <span class="nc">Log</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;main class for logger&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_obj</span><span class="p">):</span>
+        <span class="c1"># класс, который оборачивает декортор</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_obj</span> <span class="o">=</span> <span class="n">class_obj</span>
+        <span class="c1"># по умолчанию False, если вызван из неподдерживаемого модуля</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loger</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># из какого модуля вызван</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">from_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># определяем какой файл запускает декоратор для выбора логера</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_module</span> <span class="o">==</span> <span class="s1">&#39;client.py&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;client_logger&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_module</span> <span class="o">==</span> <span class="s1">&#39;server.py&#39;</span><span class="p">:</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">loger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;server_logger&#39;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">from_module</span><span class="si">}</span><span class="s1"> не поддерживается декоратором @log&#39;</span><span class="p">)</span>
+
+    <span class="c1"># декоратор обработывает каждый вызов класса</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loger</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="c1">#   добавляем запись в логи</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">loger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Класс </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">class_obj</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> вызван из </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">from_module</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_obj</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">MyMessenger (Client-Server)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Clienet:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../client.html">client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_gui.html">client_gui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_settings.html">client_settings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_storage.html">client_storage module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../server.html">server module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server_gui.html">server_gui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server_settings.html">server_settings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage.html">storage module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Common:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arg_parser.html">arg_parser module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../decorators.html">decorators module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../descriptor.html">descriptor module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../jim.html">jim module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../metaclasses.html">metaclasses module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../my_socket.html">my_socket module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../client_log_config.html">client_log_config module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server_log_config.html">server_log_config module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Launcher:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../launcher.html">launcher module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Alexander Naumov.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

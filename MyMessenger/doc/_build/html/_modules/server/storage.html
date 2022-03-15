@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>server.storage &#8212; MyMessenger (Client-Server) 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for server.storage</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">__version__</span><span class="p">,</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">Table</span><span class="p">,</span> <span class="n">Column</span><span class="p">,</span> <span class="n">MetaData</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span>\
+    <span class="n">String</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">,</span> <span class="n">UniqueConstraint</span><span class="p">,</span> <span class="n">Text</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">mapper</span><span class="p">,</span> <span class="n">sessionmaker</span>
+
+
+<div class="viewcode-block" id="MessengerStorage"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage">[docs]</a><span class="k">class</span> <span class="nc">MessengerStorage</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Версия SQLAlchemy: </span><span class="si">{</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MessengerStorage.AllUsers"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.AllUsers">[docs]</a>    <span class="k">class</span> <span class="nc">AllUsers</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        класс для таблицы со всеми пользователями</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">public_key</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">public_key</span> <span class="o">=</span> <span class="n">public_key</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_login</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MessengerStorage.OnlineUsers"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.OnlineUsers">[docs]</a>    <span class="k">class</span> <span class="nc">OnlineUsers</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        класс для таблицы с онлайн пользователями.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">user_id</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_login</span> <span class="o">=</span> <span class="n">datetime</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="n">ip</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span></div>
+
+<div class="viewcode-block" id="MessengerStorage.LoginHistory"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.LoginHistory">[docs]</a>    <span class="k">class</span> <span class="nc">LoginHistory</span><span class="p">(</span><span class="n">OnlineUsers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        класс для таблицы с историей последнего подключения к серверу</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MessengerStorage.ContactList"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.ContactList">[docs]</a>    <span class="k">class</span> <span class="nc">ContactList</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        класс для таблицы со cписком контактов</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner_id</span><span class="p">,</span> <span class="n">contact_id</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">owner_id</span> <span class="o">=</span> <span class="n">owner_id</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">contact_id</span> <span class="o">=</span> <span class="n">contact_id</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s1">&#39;sqlite:///server/messenger_db.sqlite&#39;</span><span class="p">,</span>
+                                    <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                    <span class="n">connect_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;check_same_thread&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
+        <span class="c1"># таблица со всеми пользователями</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="s1">&#39;Users&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
+                                <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                                <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+                                <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;last_login&#39;</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">),</span>
+                                <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">),</span>
+                                <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;public_key&#39;</span><span class="p">,</span> <span class="n">Text</span><span class="p">))</span>
+        <span class="c1"># таблица с пользователями онлайн</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">online_user_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="s1">&#39;Online_users&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
+                                       <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                                       <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Users.id&#39;</span><span class="p">),</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                                       <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;last_login&#39;</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">),</span>
+                                       <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">),</span>
+                                       <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;ip&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">))</span>
+        <span class="c1"># таблица с историями подключений</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">login_history_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="s1">&#39;Login_history&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
+                                         <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                                         <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Users.id&#39;</span><span class="p">)),</span>
+                                         <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;last_login&#39;</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">),</span>
+                                         <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">),</span>
+                                         <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;ip&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">))</span>
+
+        <span class="c1"># таблица со списком контактов</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contacts_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="s1">&#39;Contacts&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
+                                    <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                                    <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;owner_id&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Users.id&#39;</span><span class="p">)),</span>
+                                    <span class="n">Column</span><span class="p">(</span><span class="s1">&#39;contact_id&#39;</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Users.id&#39;</span><span class="p">)),</span>
+                                    <span class="n">UniqueConstraint</span><span class="p">(</span><span class="s1">&#39;owner_id&#39;</span><span class="p">,</span> <span class="s1">&#39;contact_id&#39;</span><span class="p">)</span>
+
+                                    <span class="p">)</span>
+        <span class="c1"># создание таблиц</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+        <span class="c1"># связываем классы с таблицами</span>
+        <span class="n">mapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_table</span><span class="p">)</span>
+        <span class="n">mapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OnlineUsers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">online_user_table</span><span class="p">)</span>
+        <span class="n">mapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LoginHistory</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">login_history_table</span><span class="p">)</span>
+        <span class="n">mapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ContactList</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">contacts_table</span><span class="p">)</span>
+        <span class="c1"># создаем сессию</span>
+        <span class="n">server_session</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">server_session</span><span class="p">()</span>
+        <span class="c1"># обнуляем таблицу с активными юзерами при запуске сервера и сохраняем</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OnlineUsers</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="c1"># геттеры</span>
+<div class="viewcode-block" id="MessengerStorage.get_only_usernames"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.get_only_usernames">[docs]</a>    <span class="k">def</span> <span class="nf">get_only_usernames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        list with only usernames</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">list_of_usernames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">username</span> <span class="ow">in</span> <span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">list_of_usernames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">username</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">list_of_usernames</span></div>
+
+<div class="viewcode-block" id="MessengerStorage.get_user_list"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.get_user_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        геттер списка всех пользователей</span>
+<span class="sd">        :return: список (username, last_login)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="o">.</span><span class="n">last_login</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MessengerStorage.get_online_user_list"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.get_online_user_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_online_user_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        геттер списка онлайн пользователей</span>
+<span class="sd">        :return: список (username, last_login, ip, port)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">OnlineUsers</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">OnlineUsers</span><span class="o">.</span><span class="n">last_login</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">OnlineUsers</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">OnlineUsers</span><span class="o">.</span><span class="n">port</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MessengerStorage.get_login_history_list"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.get_login_history_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_login_history_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        геттер истории подключений</span>
+<span class="sd">        :return: список (username, last_login, ip, port)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">LoginHistory</span><span class="o">.</span><span class="n">user_id</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">LoginHistory</span><span class="o">.</span><span class="n">last_login</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">LoginHistory</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">LoginHistory</span><span class="o">.</span><span class="n">port</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MessengerStorage.get_contacts_list"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.get_contacts_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_contacts_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        геттер контактов</span>
+<span class="sd">        :return: список (username)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># определяем id владельца</span>
+        <span class="n">owner_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">id</span>
+        <span class="c1"># определяем id всех контактов</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ContactList</span><span class="o">.</span><span class="n">contact_id</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">owner_id</span><span class="o">=</span><span class="n">owner_id</span><span class="p">)</span>
+        <span class="n">contact_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># находим имя для каждого id</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="c1"># получаем контакт</span>
+                <span class="n">contact</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="o">.</span><span class="n">username</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+                <span class="c1"># так как контакт получен как кортеж, берем его первый элемент</span>
+                <span class="n">contact_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">contact</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">contact_list</span></div>
+
+<div class="viewcode-block" id="MessengerStorage.get_password"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.get_password">[docs]</a>    <span class="k">def</span> <span class="nf">get_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get password of a contact</span>
+<span class="sd">        :return: hash</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># определяем id всех контактов</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="o">.</span><span class="n">password</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">query</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="MessengerStorage.login"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.login">[docs]</a>    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">publick_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        обновление таблиц при подключении пользователя</span>
+<span class="sd">        :param username: имя</span>
+<span class="sd">        :param ip: ip</span>
+<span class="sd">        :param port: порт</span>
+<span class="sd">        :return: -</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># пробуем достать юзера</span>
+        <span class="n">login_user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="c1"># если юзер подключается впервые создаем запись в таблицу всех изеров</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">login_user</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">login_user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">publick_key</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">login_user</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="c1"># если юзер подключается не впервые - обновляем дату входа</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">login_user</span><span class="o">.</span><span class="n">last_login</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+                <span class="c1"># добавляем в таблицу юзеров онлайн</span>
+                <span class="n">new_online_user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">OnlineUsers</span><span class="p">(</span><span class="n">login_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                                                   <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">(),</span>
+                                                   <span class="n">ip</span><span class="p">,</span>
+                                                   <span class="n">port</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_online_user</span><span class="p">)</span>
+                <span class="c1"># добавляем в таблицу историй подключений</span>
+                <span class="n">new_login_history_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LoginHistory</span><span class="p">(</span><span class="n">login_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                                                           <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">(),</span>
+                                                           <span class="n">ip</span><span class="p">,</span>
+                                                           <span class="n">port</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_login_history_item</span><span class="p">)</span>
+
+                <span class="c1"># сохраняем изменения</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MessengerStorage.logout"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.logout">[docs]</a>    <span class="k">def</span> <span class="nf">logout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        удаляем пользователя из таблицы онлайн пользователей при отключении</span>
+<span class="sd">        :param username: имя пользователя</span>
+<span class="sd">        :return: -</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OnlineUsers</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="c1"># сохраняем изменения</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MessengerStorage.add_contact"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.add_contact">[docs]</a>    <span class="k">def</span> <span class="nf">add_contact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner_name</span><span class="p">,</span> <span class="n">contact_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        добавляем контакт</span>
+<span class="sd">        :param owner_name: владелец контакта</span>
+<span class="sd">        :param contact_name: имя контакта</span>
+<span class="sd">        :return: -</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># находим id</span>
+        <span class="n">owner_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">owner_name</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">contact_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">contact_name</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">id</span>
+        <span class="c1"># добавляем запись в таблицу</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">new_contact</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ContactList</span><span class="p">(</span><span class="n">owner_id</span><span class="p">,</span> <span class="n">contact_id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_contact</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MessengerStorage.delete_contact"><a class="viewcode-back" href="../../storage.html#server.storage.MessengerStorage.delete_contact">[docs]</a>    <span class="k">def</span> <span class="nf">delete_contact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner_name</span><span class="p">,</span> <span class="n">contact_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        удаляем контакт</span>
+<span class="sd">        :param owner_name: владелец контакта</span>
+<span class="sd">        :param contact_name: имя контакта</span>
+<span class="sd">        :return: -</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># находим id</span>
+        <span class="n">owner_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">owner_name</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">contact_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AllUsers</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">contact_name</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">id</span>
+        <span class="c1"># добавляем запись в таблицу</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ContactList</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ContactList</span><span class="o">.</span><span class="n">owner_id</span> <span class="o">==</span> <span class="n">owner_id</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ContactList</span><span class="o">.</span><span class="n">contact_id</span> <span class="o">==</span> <span class="n">contact_id</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># Отладка</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">test_db</span> <span class="o">=</span> <span class="n">MessengerStorage</span><span class="p">()</span>
+    <span class="c1"># выполняем &#39;подключение&#39; пользователя</span>
+    <span class="n">test_db</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;client_1&#39;</span><span class="p">,</span> <span class="s1">&#39;192.168.1.4&#39;</span><span class="p">,</span> <span class="mi">8888</span><span class="p">)</span>
+    <span class="n">test_db</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s1">&#39;client_2&#39;</span><span class="p">,</span> <span class="s1">&#39;192.168.1.5&#39;</span><span class="p">,</span> <span class="mi">7777</span><span class="p">)</span>
+    <span class="c1"># выводим список кортежей - активных пользователей</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">test_db</span><span class="o">.</span><span class="n">get_online_user_list</span><span class="p">())</span>
+    <span class="c1"># выполянем &#39;отключение&#39; пользователя</span>
+    <span class="n">test_db</span><span class="o">.</span><span class="n">logout</span><span class="p">(</span><span class="s1">&#39;client_1&#39;</span><span class="p">)</span>
+
+    <span class="c1"># выводим список активных пользователей</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">test_db</span><span class="o">.</span><span class="n">get_online_user_list</span><span class="p">())</span>
+    <span class="c1"># запрашиваем историю входов по пользователю</span>
+    <span class="n">test_db</span><span class="o">.</span><span class="n">get_login_history_list</span><span class="p">()</span>
+    <span class="c1"># выводим список известных пользователей</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">test_db</span><span class="o">.</span><span class="n">get_user_list</span><span class="p">())</span>
+
+    <span class="n">test_db</span><span class="o">.</span><span class="n">add_contact</span><span class="p">(</span><span class="s1">&#39;client_1&#39;</span><span class="p">,</span> <span class="s1">&#39;client_2&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">test_db</span><span class="o">.</span><span class="n">get_contacts_list</span><span class="p">(</span><span class="s1">&#39;client_1&#39;</span><span class="p">))</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">MyMessenger (Client-Server)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Clienet:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../client.html">client module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_gui.html">client_gui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_settings.html">client_settings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client_storage.html">client_storage module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Server:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../server.html">server module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server_gui.html">server_gui module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server_settings.html">server_settings module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage.html">storage module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Common:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../arg_parser.html">arg_parser module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../decorators.html">decorators module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../descriptor.html">descriptor module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../jim.html">jim module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../metaclasses.html">metaclasses module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../my_socket.html">my_socket module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Loggers:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../client_log_config.html">client_log_config module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../server_log_config.html">server_log_config module</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Launcher:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../launcher.html">launcher module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Alexander Naumov.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
