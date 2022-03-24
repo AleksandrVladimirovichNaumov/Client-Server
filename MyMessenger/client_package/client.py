@@ -1,4 +1,4 @@
-"""main module for client app"""
+"""main module for client_files app"""
 
 import binascii
 import hashlib
@@ -15,8 +15,8 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
 
-from client_gui import ClientGui, ClientLoginGui
-from client_storage import ClientStorage
+from client_files.client_gui import ClientGui, ClientLoginGui
+from client_files.client_storage import ClientStorage
 from common.arg_parser import ArgParser
 from common.decorators import Log
 from common.descriptor import ServerPort, ServerHost
@@ -30,7 +30,7 @@ sock_lock = threading.Lock()
 
 @Log
 class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientVerifier):
-    """client"""
+    """client_files"""
     # используем дескриптер ServerPort ServerHost,
     # чтобы проверять номер порта и адрес, к которому хотим подключиться
     port = ServerPort()
@@ -72,7 +72,7 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
 
     def turn_on(self):
         """
-        start a thread of a client
+        start a thread of a client_files
         """
         self.list_of_threads[2].start()
 
@@ -118,7 +118,9 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
         """
         try:
             # Загружаем ключи с файла, если же файла нет, то генерируем новую пару.
-            dir_path = os.path.dirname(os.path.realpath(__file__))
+            # need to change for whl
+            # dir_path = os.path.dirname(os.path.realpath(__file__))
+            dir_path = os.getcwd()
             key_file = os.path.join(dir_path, f'{username}.key')
             if not os.path.exists(key_file):
                 self.keys = RSA.generate(2048, os.urandom)
@@ -128,12 +130,12 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
                 with open(key_file, 'rb') as key:
                     self.keys = RSA.import_key(key.read())
             client_logger.debug("Keys sucsessfully loaded.")
-            # connect to server
+            # connect to server_files
             try:
                 self.sock.connect((self.address, self.port))
             except Exception:
                 pass
-            client_logger.info(f'connected to server [{self.address}:{self.port}]')
+            client_logger.info(f'connected to server_files [{self.address}:{self.port}]')
             # making hash from password
             passwd_bytes = password.encode('utf-8')
             salt = username.lower().encode('utf-8')
@@ -156,7 +158,7 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
                            'public_key': binascii.b2a_base64(digest).decode('ascii')})
 
             server_answer = self.sock.recv(self.size)
-            # decode answer from server
+            # decode answer from server_files
             servers_answer_meaning = self.response_meaning(server_answer)
             client_logger.info(
                 'получено сообщение от сервера '
@@ -222,7 +224,7 @@ class MyMessengerClient(MessengerSocket, JIMClient, ArgParser, metaclass=ClientV
 
     def client_send_message(self, message_type, message, to_user=None):
         """
-        send any type messages from client to server/contacts
+        send any type messages from client_files to server_files/contacts
         """
         self.send_message(self.jim_create_message(message_type, self.username, message, to_user),
                           self.sock)
@@ -275,13 +277,13 @@ if __name__ == "__main__":
     APP = QApplication(sys.argv)  # создание нашего приложение
 
     LOGIN_OBJ = ClientLoginGui()  # creating login dialog
-    LOGIN_OBJ.set_client_obj(my_messenger_client)  # providing client to gui
+    LOGIN_OBJ.set_client_obj(my_messenger_client)  # providing client_files to gui
 
     # checking login - if correct open main windows
     while True:
 
         if LOGIN_OBJ.exec_() == QtWidgets.QDialog.Accepted:
-            # starting client threads
+            # starting client_files threads
             my_messenger_client.turn_on()
             WINDOW_OBJ = ClientGui()  # создаем объект
 

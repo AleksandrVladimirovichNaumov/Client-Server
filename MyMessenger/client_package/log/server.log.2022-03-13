@@ -1,0 +1,360 @@
+2022-03-10 23:25:50,537 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-10 23:26:27,424 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 40064)
+2022-03-10 23:26:27,925 INFO server.py {'action': 'presence', 'time': '2022-03-10 20:26:27.434278', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-10 23:26:28,657 INFO server.py {'action': 'contacts', 'time': '2022-03-10 20:26:27.937410', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-10 23:26:28,660 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-10 23:32:24,449 DEBUG decorators.py Класс MessengerServer вызван из server.py
+2022-03-10 23:32:47,050 DEBUG decorators.py Класс MessengerServer вызван из server.py
+2022-03-10 23:32:47,407 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-10 23:33:05,198 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 40066)
+2022-03-10 23:33:05,698 INFO server.py {'action': 'presence', 'time': '2022-03-10 20:33:05.206839', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-10 23:33:25,238 DEBUG decorators.py Класс MessengerServer вызван из server.py
+2022-03-10 23:33:25,725 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-10 23:33:40,575 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 40068)
+2022-03-10 23:33:41,076 INFO server.py {'action': 'presence', 'time': '2022-03-10 20:33:40.585830', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-10 23:33:42,023 INFO server.py {'action': 'contacts', 'time': '2022-03-10 20:33:41.121572', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-10 23:33:42,028 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-10 23:33:47,838 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 40070)
+2022-03-10 23:33:48,338 INFO server.py {'action': 'presence', 'time': '2022-03-10 20:33:47.847695', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '770c6d0ae5520754096e10a79ddaed71bc2a86bcd886f47d2fb0a75a59ea545bfff16c8c0a3d1eeba77bf9775f28c56c268d6738a96407083e5f5056dcd2baac', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-10 23:33:49,022 INFO server.py {'action': 'contacts', 'time': '2022-03-10 20:33:48.346300', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-10 23:33:49,024 INFO server.py Список контактов был отправлен пользователю NewUser2
+2022-03-10 23:34:41,083 INFO server.py {'action': 'message', 'time': '2022-03-10 20:34:40.982013', 'user': 'NewUser1', 'to_user': 'NewUser2', 'data': 'Hello NewUser2!\n'}
+2022-03-10 23:34:41,083 INFO server.py [('NewUser1', 'Hello NewUser2!\n', 'NewUser2')]
+2022-03-10 23:34:50,596 INFO server.py {'action': 'message', 'time': '2022-03-10 20:34:50.426790', 'user': 'NewUser2', 'to_user': 'NewUser1', 'data': 'Hi!'}
+2022-03-10 23:34:50,596 INFO server.py [('NewUser2', 'Hi!', 'NewUser1')]
+2022-03-11 00:01:10,412 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-11 00:01:13,415 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-11 00:03:56,823 DEBUG decorators.py Класс MessengerServer вызван из server.py
+2022-03-11 00:03:56,990 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 00:04:11,072 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 40072)
+2022-03-11 00:04:11,573 INFO server.py {'action': 'presence', 'time': '2022-03-10 21:04:11.081097', 'user': 'Guest1', 'to_user': '', 'data': {'password': '5ed50bd364458af4c4dd7fa9214db37ca5a7070e35b7a207c6775764fa8bc991d06ffd33c07fb6f488251a2db70c4fdaece2b4c69d83d03a1e7544b9075869ee', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvojuRnS0tGt02wyo73Fs\ntbNrpx16QcZU8W8YCCsSdpoTmRqIgKBLhDHT9F0mu+yDEGuScykQn+ZcXXe06Vcb\nESJN/QsQX6XIfvtjfw6JF7RAN0TgDgVXH6BYplrHuFikKFhKE/gUfRLh4ULOsQMy\nqw9+qfokomnpXVnYlK9qlI04ZqlDm5K2A6A5gupQdJHvm/sHV7OMkPVQQQAx7HC2\nE2RyjO5Cyu9LoRlLFlP5ct8m79psQ8Po+tOlZ8GJ/R5jfViIo7/fWepvS/bfb9V/\nqFPAftyeQ34iGGxa0hdXiEs9Js+o5iWPBrLSinXdQb/FM7EInKN94QKg8gLekKi6\nFwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-11 00:04:12,280 INFO server.py {'action': 'contacts', 'time': '2022-03-10 21:04:11.591593', 'user': 'Guest1', 'to_user': '', 'data': ''}
+2022-03-11 00:04:12,282 INFO server.py Список контактов был отправлен пользователю Guest1
+2022-03-11 00:04:16,287 INFO server.py {'action': 'exit', 'time': '2022-03-10 21:04:15.965321', 'user': 'Guest1', 'to_user': '', 'data': ''}
+2022-03-11 00:04:16,415 INFO server.py Guest1 отключился от сервера
+2022-03-11 00:04:16,916 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-11 00:06:02,225 DEBUG decorators.py Класс MessengerServer вызван из server.py
+2022-03-11 00:06:02,434 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 13:36:35,441 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 13:37:20,728 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 13:38:44,013 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 13:39:57,756 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 13:40:55,103 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 13:42:05,529 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 13:56:01,461 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 13:57:48,959 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 13:58:23,358 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 13:59:33,900 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 14:00:24,213 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 14:01:12,362 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 53458)
+2022-03-11 14:01:12,863 INFO server.py {'action': 'presence', 'time': '2022-03-11 11:01:12.373043', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-11 14:01:13,573 INFO server.py {'action': 'contacts', 'time': '2022-03-11 11:01:12.874782', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-11 14:01:13,575 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-11 14:02:02,638 INFO server.py {'action': 'exit', 'time': '2022-03-11 11:02:02.209911', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-11 14:02:02,741 INFO server.py NewUser1 отключился от сервера
+2022-03-11 14:02:03,743 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-11 14:04:26,590 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 14:04:46,881 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 53460)
+2022-03-11 14:04:47,382 INFO server.py {'action': 'presence', 'time': '2022-03-11 11:04:46.890906', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '770c6d0ae5520754096e10a79ddaed71bc2a86bcd886f47d2fb0a75a59ea545bfff16c8c0a3d1eeba77bf9775f28c56c268d6738a96407083e5f5056dcd2baac', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-11 14:04:48,092 INFO server.py {'action': 'contacts', 'time': '2022-03-11 11:04:47.394092', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-11 14:04:48,094 INFO server.py Список контактов был отправлен пользователю NewUser2
+2022-03-11 14:04:57,640 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 53462)
+2022-03-11 14:04:58,141 INFO server.py {'action': 'presence', 'time': '2022-03-11 11:04:57.649131', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '09871f8aa6bb9d9fbf13324ff2d9e8f9752c4cb58aeb8c55887e31c92664a320c645cbb124e9638cec6d3422952aca5b714f94b71437a842ff0050a5b02ad05c', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-11 14:05:00,646 INFO server.py {'action': 'presence', 'time': '2022-03-11 11:05:00.580158', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '09871f8aa6bb9d9fbf13324ff2d9e8f9752c4cb58aeb8c55887e31c92664a320c645cbb124e9638cec6d3422952aca5b714f94b71437a842ff0050a5b02ad05c', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-11 14:05:04,652 INFO server.py {'action': 'presence', 'time': '2022-03-11 11:05:04.477047', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-11 14:05:05,310 INFO server.py {'action': 'contacts', 'time': '2022-03-11 11:05:04.655220', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-11 14:05:05,315 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-11 15:02:31,655 INFO server.py {'action': 'exit', 'time': '2022-03-11 12:02:31.271694', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-11 15:02:31,754 INFO server.py NewUser1 отключился от сервера
+2022-03-11 15:02:32,255 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-11 15:02:32,756 INFO server.py {'action': 'exit', 'time': '2022-03-11 12:02:32.420055', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-11 15:02:32,857 INFO server.py NewUser2 отключился от сервера
+2022-03-11 15:02:33,358 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-11 15:05:04,034 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-11 15:06:05,263 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-12 14:09:21,581 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-12 14:23:12,981 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-12 14:56:07,716 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 11:41:27,644 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 11:41:43,710 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33742)
+2022-03-13 11:41:44,211 INFO server.py {'action': 'presence', 'time': '2022-03-13 08:41:43.720944', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 11:41:44,930 INFO server.py {'action': 'contacts', 'time': '2022-03-13 08:41:44.222661', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 11:41:44,933 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-13 11:41:49,437 INFO server.py {'action': 'exit', 'time': '2022-03-13 08:41:49.263551', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 11:41:49,557 INFO server.py NewUser1 отключился от сервера
+2022-03-13 11:41:50,558 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 11:42:49,070 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33744)
+2022-03-13 11:42:49,571 INFO server.py {'action': 'presence', 'time': '2022-03-13 08:42:49.078943', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 11:42:50,409 INFO server.py {'action': 'contacts', 'time': '2022-03-13 08:42:49.573935', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 11:42:50,413 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-13 11:42:55,418 INFO server.py {'action': 'exit', 'time': '2022-03-13 08:42:55.375655', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 11:42:55,514 INFO server.py NewUser1 отключился от сервера
+2022-03-13 11:42:57,015 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 11:44:34,680 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33746)
+2022-03-13 11:44:35,181 INFO server.py {'action': 'presence', 'time': '2022-03-13 08:44:34.690018', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 11:44:35,877 INFO server.py {'action': 'contacts', 'time': '2022-03-13 08:44:35.188329', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 11:44:35,879 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-13 11:44:44,389 INFO server.py {'action': 'exit', 'time': '2022-03-13 08:44:43.989651', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 11:44:44,484 INFO server.py NewUser1 отключился от сервера
+2022-03-13 11:44:45,485 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 13:38:30,533 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 13:38:38,849 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33748)
+2022-03-13 13:38:39,349 INFO server.py {'action': 'presence', 'time': '2022-03-13 10:38:38.857971', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '770c6d0ae5520754096e10a79ddaed71bc2a86bcd886f47d2fb0a75a59ea545bfff16c8c0a3d1eeba77bf9775f28c56c268d6738a96407083e5f5056dcd2baac', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 13:39:22,283 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 13:39:41,597 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33750)
+2022-03-13 13:39:42,098 INFO server.py {'action': 'presence', 'time': '2022-03-13 10:39:41.606457', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '770c6d0ae5520754096e10a79ddaed71bc2a86bcd886f47d2fb0a75a59ea545bfff16c8c0a3d1eeba77bf9775f28c56c268d6738a96407083e5f5056dcd2baac', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 13:39:42,843 INFO server.py {'action': 'contacts', 'time': '2022-03-13 10:39:42.102309', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 13:39:42,847 INFO server.py Список контактов был отправлен пользователю NewUser2
+2022-03-13 13:39:57,882 INFO server.py {'action': 'message', 'time': '2022-03-13 10:39:57.485581', 'user': 'NewUser2', 'to_user': 'NewUser1', 'data': 'Hi'}
+2022-03-13 13:39:57,883 INFO server.py [('NewUser2', 'Hi', 'NewUser1')]
+2022-03-13 13:40:23,911 INFO server.py {'action': 'exit', 'time': '2022-03-13 10:40:23.552061', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 13:40:24,034 INFO server.py NewUser2 отключился от сервера
+2022-03-13 13:40:25,035 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 13:40:48,430 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 13:41:03,031 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33752)
+2022-03-13 13:41:03,532 INFO server.py {'action': 'presence', 'time': '2022-03-13 10:41:03.040642', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 13:41:04,217 INFO server.py {'action': 'contacts', 'time': '2022-03-13 10:41:03.536396', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 13:41:04,220 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-13 13:41:13,879 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33754)
+2022-03-13 13:41:14,380 INFO server.py {'action': 'presence', 'time': '2022-03-13 10:41:13.887881', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '29c9f024f66b90dcb1aa020bc33feacfb9fe20ca265ff18e73413afb4a18675531afe52351487b91fa9515fa55da4689f12852e8aaa845b1f6208c48cd507876', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 13:41:18,889 INFO server.py {'action': 'presence', 'time': '2022-03-13 10:41:18.669474', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '770c6d0ae5520754096e10a79ddaed71bc2a86bcd886f47d2fb0a75a59ea545bfff16c8c0a3d1eeba77bf9775f28c56c268d6738a96407083e5f5056dcd2baac', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 13:41:19,583 INFO server.py {'action': 'contacts', 'time': '2022-03-13 10:41:18.891983', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 13:41:19,585 INFO server.py Список контактов был отправлен пользователю NewUser2
+2022-03-13 13:41:28,596 INFO server.py {'action': 'message', 'time': '2022-03-13 10:41:28.555346', 'user': 'NewUser2', 'to_user': 'NewUser1', 'data': 'Hi111'}
+2022-03-13 13:41:28,596 INFO server.py [('NewUser2', 'Hi111', 'NewUser1')]
+2022-03-13 13:41:38,609 INFO server.py {'action': 'message', 'time': '2022-03-13 10:41:38.290954', 'user': 'NewUser1', 'to_user': 'NewUser2', 'data': 'Hello'}
+2022-03-13 13:41:38,609 INFO server.py [('NewUser1', 'Hello', 'NewUser2')]
+2022-03-13 13:41:45,118 INFO server.py {'action': 'exit', 'time': '2022-03-13 10:41:44.676822', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 13:41:45,244 INFO server.py NewUser2 отключился от сервера
+2022-03-13 13:41:45,745 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 13:41:47,247 INFO server.py {'action': 'exit', 'time': '2022-03-13 10:41:46.953780', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 13:41:47,378 INFO server.py NewUser1 отключился от сервера
+2022-03-13 13:41:47,880 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 13:47:29,373 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 13:47:42,874 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33756)
+2022-03-13 13:47:43,375 INFO server.py {'action': 'presence', 'time': '2022-03-13 10:47:42.883506', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 13:47:44,062 INFO server.py {'action': 'contacts', 'time': '2022-03-13 10:47:43.378775', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 13:47:44,072 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-13 13:47:48,506 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33758)
+2022-03-13 13:47:49,006 INFO server.py {'action': 'presence', 'time': '2022-03-13 10:47:48.514944', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '29c9f024f66b90dcb1aa020bc33feacfb9fe20ca265ff18e73413afb4a18675531afe52351487b91fa9515fa55da4689f12852e8aaa845b1f6208c48cd507876', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 13:47:52,512 INFO server.py {'action': 'presence', 'time': '2022-03-13 10:47:52.462135', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '770c6d0ae5520754096e10a79ddaed71bc2a86bcd886f47d2fb0a75a59ea545bfff16c8c0a3d1eeba77bf9775f28c56c268d6738a96407083e5f5056dcd2baac', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 13:47:53,182 INFO server.py {'action': 'contacts', 'time': '2022-03-13 10:47:52.515073', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 13:47:53,189 INFO server.py Список контактов был отправлен пользователю NewUser2
+2022-03-13 13:48:03,202 INFO server.py {'action': 'message', 'time': '2022-03-13 10:48:02.785655', 'user': 'NewUser1', 'to_user': 'NewUser1', 'data': 'aaaa'}
+2022-03-13 13:48:03,202 INFO server.py [('NewUser1', 'aaaa', 'NewUser1')]
+2022-03-13 13:48:12,214 INFO server.py {'action': 'message', 'time': '2022-03-13 10:48:11.985646', 'user': 'NewUser2', 'to_user': 'NewUser2', 'data': 'asd'}
+2022-03-13 13:48:12,214 INFO server.py [('NewUser2', 'asd', 'NewUser2')]
+2022-03-13 13:48:29,236 INFO server.py {'action': 'message', 'time': '2022-03-13 10:48:29.015079', 'user': 'NewUser2', 'to_user': 'NewUser2', 'data': 'asdasd'}
+2022-03-13 13:48:29,236 INFO server.py [('NewUser2', 'asdasd', 'NewUser2')]
+2022-03-13 13:48:35,744 INFO server.py {'action': 'message', 'time': '2022-03-13 10:48:35.348546', 'user': 'NewUser1', 'to_user': 'NewUser1', 'data': 'asdasd'}
+2022-03-13 13:48:35,744 INFO server.py [('NewUser1', 'asdasd', 'NewUser1')]
+2022-03-13 13:48:43,754 INFO server.py {'action': 'message', 'time': '2022-03-13 10:48:43.398964', 'user': 'NewUser2', 'to_user': 'NewUser2', 'data': 'asd'}
+2022-03-13 13:48:43,754 INFO server.py [('NewUser2', 'asd', 'NewUser2')]
+2022-03-13 13:48:50,262 INFO server.py {'action': 'exit', 'time': '2022-03-13 10:48:49.904681', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 13:48:50,375 INFO server.py NewUser2 отключился от сервера
+2022-03-13 13:48:50,876 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 13:48:51,878 INFO server.py {'action': 'exit', 'time': '2022-03-13 10:48:51.440253', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 13:48:51,991 INFO server.py NewUser1 отключился от сервера
+2022-03-13 13:48:52,492 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 13:51:27,177 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 13:51:39,668 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33760)
+2022-03-13 13:51:40,169 INFO server.py {'action': 'presence', 'time': '2022-03-13 10:51:39.678403', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 13:51:40,846 INFO server.py {'action': 'contacts', 'time': '2022-03-13 10:51:40.173164', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 13:51:40,850 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-13 13:51:45,355 INFO server.py {'action': 'exit', 'time': '2022-03-13 10:51:45.342328', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 13:51:45,481 INFO server.py NewUser1 отключился от сервера
+2022-03-13 13:51:46,983 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 13:55:09,653 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33762)
+2022-03-13 13:55:10,153 INFO server.py {'action': 'presence', 'time': '2022-03-13 10:55:09.661794', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '770c6d0ae5520754096e10a79ddaed71bc2a86bcd886f47d2fb0a75a59ea545bfff16c8c0a3d1eeba77bf9775f28c56c268d6738a96407083e5f5056dcd2baac', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 13:55:10,837 INFO server.py {'action': 'contacts', 'time': '2022-03-13 10:55:10.156413', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 13:55:10,840 INFO server.py Список контактов был отправлен пользователю NewUser2
+2022-03-13 13:55:16,346 INFO server.py {'action': 'exit', 'time': '2022-03-13 10:55:15.973177', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 13:55:16,464 INFO server.py NewUser2 отключился от сервера
+2022-03-13 13:55:17,466 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 13:57:50,567 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33766)
+2022-03-13 13:57:51,068 INFO server.py {'action': 'presence', 'time': '2022-03-13 10:57:50.576544', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '770c6d0ae5520754096e10a79ddaed71bc2a86bcd886f47d2fb0a75a59ea545bfff16c8c0a3d1eeba77bf9775f28c56c268d6738a96407083e5f5056dcd2baac', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 13:57:51,736 INFO server.py {'action': 'contacts', 'time': '2022-03-13 10:57:51.075359', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 13:57:51,739 INFO server.py Список контактов был отправлен пользователю NewUser2
+2022-03-13 13:58:03,253 INFO server.py {'action': 'add', 'time': '2022-03-13 10:58:03.212001', 'user': 'NewUser2', 'to_user': 'Boba', 'data': 'NewUser2'}
+2022-03-13 13:58:03,261 INFO server.py Контакт NewUser2 был добавлен в список пользователя NewUser2
+2022-03-13 13:58:11,270 INFO server.py {'action': 'delete', 'time': '2022-03-13 10:58:11.181340', 'user': 'NewUser2', 'to_user': 'Boba', 'data': 'NewUser2'}
+2022-03-13 13:58:11,405 INFO server.py Контакт NewUser2 был удален из списка пользователя NewUser2
+2022-03-13 13:58:21,919 INFO server.py {'action': 'add', 'time': '2022-03-13 10:58:21.506331', 'user': 'NewUser2', 'to_user': 'Boba', 'data': 'NewUser2'}
+2022-03-13 13:58:22,012 INFO server.py Контакт NewUser2 был добавлен в список пользователя NewUser2
+2022-03-13 13:58:25,516 INFO server.py {'action': 'delete', 'time': '2022-03-13 10:58:25.289340', 'user': 'NewUser2', 'to_user': 'Boba', 'data': 'NewUser2'}
+2022-03-13 13:58:25,750 INFO server.py Контакт NewUser2 был удален из списка пользователя NewUser2
+2022-03-13 13:58:32,258 INFO server.py {'action': 'add', 'time': '2022-03-13 10:58:32.034723', 'user': 'NewUser2', 'to_user': 'doda', 'data': 'NewUser2'}
+2022-03-13 13:58:32,423 INFO server.py Контакт NewUser2 был добавлен в список пользователя NewUser2
+2022-03-13 13:58:36,427 INFO server.py {'action': 'delete', 'time': '2022-03-13 10:58:36.393991', 'user': 'NewUser2', 'to_user': 'doda', 'data': 'NewUser2'}
+2022-03-13 13:58:36,512 INFO server.py Контакт NewUser2 был удален из списка пользователя NewUser2
+2022-03-13 13:59:26,569 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:02:31,965 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33768)
+2022-03-13 14:02:32,466 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:02:31.974076', 'user': 'Guset', 'to_user': '', 'data': {'password': '386f52d0d0eb59328fb8bf422b47f83fae9dd0ef3f02bf81271d89ffa272ddb7912233219267f5437fb728e1ef0509334cba53afe88fad6de517d4248ad94345', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi6JNLeIiu+IHIUeeLrpp\nbWNfND5XX+BDH+KaAoWYv7dceHNYgK9jaedl2Xh35eu5jLOBzTwybIy+jAqz9qy4\nzUdJ3aULAy4N6qi6ZAz8c73bsV4l8GqXYaz4vN+PwiwFyMBudVUP5pubGFUiiJ0p\nhDm+oesLhanCaEBlXRa/UwybiPAQq72O14wnpMU5tICvAk1hmGfPmJGDPRkrXwsL\nT7FKjyDmHEcWA45oRA94EsaEaBBMFsObL3OEbXh+hUeG7z3a3/j5liRFbm7jKqLU\nccAiT+K4SJOeou/P0wdvQOV5B9wqwCUy7TxLI/6DZCfnmagz6czeyXKoPYX49b40\nnwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:02:33,266 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:02:32.592194', 'user': 'Guset', 'to_user': '', 'data': ''}
+2022-03-13 14:02:33,268 INFO server.py Список контактов был отправлен пользователю Guset
+2022-03-13 14:02:39,288 INFO server.py {'action': 'add', 'time': '2022-03-13 11:02:39.090974', 'user': 'Guset', 'to_user': 'asd', 'data': 'Guset'}
+2022-03-13 14:02:39,390 INFO server.py Контакт Guset был добавлен в список пользователя Guset
+2022-03-13 14:02:43,394 INFO server.py {'action': 'delete', 'time': '2022-03-13 11:02:43.362803', 'user': 'Guset', 'to_user': 'asd', 'data': 'Guset'}
+2022-03-13 14:02:43,491 INFO server.py Контакт Guset был удален из списка пользователя Guset
+2022-03-13 14:02:48,497 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:02:48.165838', 'user': 'Guset', 'to_user': '', 'data': ''}
+2022-03-13 14:02:48,570 INFO server.py Guset отключился от сервера
+2022-03-13 14:02:49,571 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:24:02,588 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33770)
+2022-03-13 14:24:03,089 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:24:02.597779', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:24:03,738 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:24:03.095932', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 14:24:03,744 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-13 14:24:11,908 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33772)
+2022-03-13 14:24:12,409 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:24:11.917009', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '770c6d0ae5520754096e10a79ddaed71bc2a86bcd886f47d2fb0a75a59ea545bfff16c8c0a3d1eeba77bf9775f28c56c268d6738a96407083e5f5056dcd2baac', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:24:13,081 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:24:12.416021', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 14:24:13,084 INFO server.py Список контактов был отправлен пользователю NewUser2
+2022-03-13 14:24:19,091 INFO server.py {'action': 'message', 'time': '2022-03-13 11:24:18.723738', 'user': 'NewUser2', 'to_user': 'NewUser2', 'data': 'Ho'}
+2022-03-13 14:24:19,092 INFO server.py [('NewUser2', 'Ho', 'NewUser2')]
+2022-03-13 14:24:21,595 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:24:21.519579', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 14:24:21,700 INFO server.py NewUser2 отключился от сервера
+2022-03-13 14:24:22,201 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:24:23,202 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:24:22.884631', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 14:24:23,297 INFO server.py NewUser1 отключился от сервера
+2022-03-13 14:24:23,798 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:26:42,195 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33774)
+2022-03-13 14:26:42,696 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:26:42.205226', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:26:43,513 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:26:42.703498', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 14:26:43,515 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-13 14:26:54,527 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:26:54.314072', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 14:26:54,628 INFO server.py NewUser1 отключился от сервера
+2022-03-13 14:26:55,629 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:31:11,367 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33776)
+2022-03-13 14:31:11,868 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:31:11.374358', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:31:12,554 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:31:11.875207', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 14:31:12,557 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-13 14:31:17,563 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:31:17.404721', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 14:31:17,656 INFO server.py NewUser1 отключился от сервера
+2022-03-13 14:31:18,658 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:34:35,507 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33778)
+2022-03-13 14:34:36,008 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:34:35.516863', 'user': 'Newuser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwqiwx8rTlaB8mJVdKAXI\n8cM4T12OOPwJhX+zhRuDte/VKUk6DJj97Y85pmqCqs0y9IhiE/F/3hAakuKu7iuX\n8GKUerV91LzxAd2xScJrdIGDIDbspFVdwDstvI/hBj5bPOE1+CKaiNPw1TTSeWJZ\n44t2t1TO3JM2U0oKghJmShcqo0624SWOxHvuh+GMQYr7Z2NrBaGCGxSehxQyW9s+\njCpCQ9aRtPm0MQQM8MGtsKh3qbLaWvXy7B/hqYsOKsRjwv+wZ5/hxGmt+NN95QZz\nd9z8jvxe13GWXWSZL8ITXxTl/byycbQyCf30uWe81B3XiglskFZKP4ru4a2jxRiJ\nOwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:34:36,747 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:34:36.105017', 'user': 'Newuser1', 'to_user': '', 'data': ''}
+2022-03-13 14:34:36,748 INFO server.py Список контактов был отправлен пользователю Newuser1
+2022-03-13 14:34:41,754 INFO server.py {'action': 'message', 'time': '2022-03-13 11:34:41.623488', 'user': 'Newuser1', 'to_user': 'Guest1', 'data': 'aa'}
+2022-03-13 14:34:41,755 INFO server.py [('Newuser1', 'aa', 'Guest1')]
+2022-03-13 14:34:46,260 INFO server.py {'action': 'message', 'time': '2022-03-13 11:34:46.114601', 'user': 'Newuser1', 'to_user': 'NewUser1', 'data': 'asda'}
+2022-03-13 14:34:46,261 INFO server.py [('Newuser1', 'asda', 'NewUser1')]
+2022-03-13 14:34:55,273 INFO server.py {'action': 'message', 'time': '2022-03-13 11:34:55.071090', 'user': 'Newuser1', 'to_user': 'NewUser1', 'data': 'sfgfg'}
+2022-03-13 14:34:55,273 INFO server.py [('Newuser1', 'sfgfg', 'NewUser1')]
+2022-03-13 14:35:02,782 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:35:02.394680', 'user': 'Newuser1', 'to_user': '', 'data': ''}
+2022-03-13 14:35:02,871 INFO server.py Newuser1 отключился от сервера
+2022-03-13 14:35:08,287 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 14:35:20,574 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33780)
+2022-03-13 14:35:21,075 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:35:20.583469', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:35:21,855 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:35:21.079084', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 14:35:21,858 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-13 14:35:29,588 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33782)
+2022-03-13 14:35:30,089 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:35:29.597438', 'user': 'Newuser2', 'to_user': '', 'data': {'password': '770c6d0ae5520754096e10a79ddaed71bc2a86bcd886f47d2fb0a75a59ea545bfff16c8c0a3d1eeba77bf9775f28c56c268d6738a96407083e5f5056dcd2baac', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzSbdIB8A39tCzcSbU0cC\nKp23+c0Wi1iLNYpAmweU4iFtwqzxwR2uXT5J2H5ANK8LBcswDI4K5pkhxvZzo5HO\nQUZMTIDf0gntj5v4bStaa0sISRaumvxEckLdvgFJWg49Y1b/HwuzXID2+Z8QWr8H\noVYkK4iaUtbjkguEVkUZ6jvxZ924fAZC49++gsBTCPD937WnHaPgsI+xIQWeNccE\nfJ90Z4iskBeYOCI/W9oKoq0BhtlpZDDzlJrYku11LWZkkNV3AHQDr5vP+mkURI0G\ngSNchBAHlJ8z8Wbwe3S5xjmX2sHVYCAtYA5OGOZqrEM4ZyPd0DYfUm1wIO2K5+Ik\n/wIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:35:30,821 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:35:30.180364', 'user': 'Newuser2', 'to_user': '', 'data': ''}
+2022-03-13 14:35:30,822 INFO server.py Список контактов был отправлен пользователю Newuser2
+2022-03-13 14:35:35,829 INFO server.py {'action': 'message', 'time': '2022-03-13 11:35:35.580542', 'user': 'NewUser1', 'to_user': 'NewUser2', 'data': 'dddd'}
+2022-03-13 14:35:35,829 INFO server.py [('NewUser1', 'dddd', 'NewUser2')]
+2022-03-13 14:35:42,337 INFO server.py {'action': 'message', 'time': '2022-03-13 11:35:42.287463', 'user': 'Newuser2', 'to_user': 'NewUser1', 'data': 'sdfsdsf'}
+2022-03-13 14:35:42,338 INFO server.py [('Newuser2', 'sdfsdsf', 'NewUser1')]
+2022-03-13 14:35:49,348 INFO server.py {'action': 'message', 'time': '2022-03-13 11:35:48.910535', 'user': 'NewUser1', 'to_user': 'NewUser2', 'data': 'asd'}
+2022-03-13 14:35:49,348 INFO server.py [('NewUser1', 'asd', 'NewUser2')]
+2022-03-13 14:35:52,853 INFO server.py {'action': 'message', 'time': '2022-03-13 11:35:52.379772', 'user': 'Newuser2', 'to_user': 'NewUser1', 'data': 'asdasd'}
+2022-03-13 14:35:52,854 INFO server.py [('Newuser2', 'asdasd', 'NewUser1')]
+2022-03-13 14:36:44,663 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 14:38:15,001 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 14:38:29,714 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33786)
+2022-03-13 14:38:30,215 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:38:29.723511', 'user': 'NewUser2', 'to_user': '', 'data': {'password': '770c6d0ae5520754096e10a79ddaed71bc2a86bcd886f47d2fb0a75a59ea545bfff16c8c0a3d1eeba77bf9775f28c56c268d6738a96407083e5f5056dcd2baac', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuJEQVQ/BYLTlSajqQdEV\nkt6+g/aV5jwyfnJZ/9Ef+VnuBQgl2i3+bGJ0NX58OmvrhRHExYbD4May3Ct/q8Qv\nkwPCaYFOSVegTPfPXOkXoKttmd7ptz+1Y7kn8zts5ezQ9hUWdEK8RAxTMJ/FqDUu\nTTCg2ZmNm4l0/IqmX7DFR6rhAeA8wRlzt/YLRQRlRqv1sSTnoIWqc3erOt9E5lc+\npvOeE+vxcrarHGnpHxgPL+RVteZTGKw6n9+GPSbd99FV5hp+e4FDdQ7nI583c1K4\nBCVtDvi1aHGMN+B03X34ZrZ4MEm5za1TvaN27FIp8IIon934gMK+kp6Z6/wCbLAV\nwwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:38:30,921 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:38:30.307376', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 14:38:30,927 INFO server.py Список контактов был отправлен пользователю NewUser2
+2022-03-13 14:38:38,450 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33788)
+2022-03-13 14:38:38,951 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:38:38.460631', 'user': 'NewUser1', 'to_user': '', 'data': {'password': '03ba35391885b38d580a9e99ab79615a817d26674bcb64e0febd1a6e1c20963e261a94656703539e3c6a5300447a65225115839c199cffb555939fe1a1510db7', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsbgUVD7dx51O7CkwUX/K\nC4sqXgp0J7QEHRTL9SlNVOevAqGiPyT0vGdvdRGZqsxpaqM6btC92uJKEiq6tgzj\n6bE3zLory1H67kOSCah0V7JRNAhhL69bn284iGlYIhWnr5uILy/gEt4w7E/2hNY6\nXIpuwHNKPaAtNByh269khezmZjK0aoFv4hIjTB2aLey/eflSNSRA6GTFApCetla7\nrQhl2VEU0skqM5Cf/Ceq/6KasC6L6EgiqHLj2H53KZdD0v9hgFDKnNq6mjJpj5ON\nXWHduPqa1/yGhf2Bw2X3tuPdYykvu/G7T6hT17KXhfxPkURKFNm9mGRfhNSK3jea\nvwIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:38:39,742 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:38:39.071404', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 14:38:39,744 INFO server.py Список контактов был отправлен пользователю NewUser1
+2022-03-13 14:38:49,756 INFO server.py {'action': 'add', 'time': '2022-03-13 11:38:49.565196', 'user': 'NewUser1', 'to_user': 'NewUser2', 'data': 'NewUser1'}
+2022-03-13 14:38:49,838 INFO server.py Контакт NewUser1 был добавлен в список пользователя NewUser1
+2022-03-13 14:39:01,853 INFO server.py {'action': 'add', 'time': '2022-03-13 11:39:01.829079', 'user': 'NewUser2', 'to_user': 'NewUser1', 'data': 'NewUser2'}
+2022-03-13 14:39:01,919 INFO server.py Контакт NewUser2 был добавлен в список пользователя NewUser2
+2022-03-13 14:39:04,923 INFO server.py {'action': 'message', 'time': '2022-03-13 11:39:04.839161', 'user': 'NewUser1', 'to_user': 'NewUser2', 'data': 'Hi'}
+2022-03-13 14:39:04,924 INFO server.py [('NewUser1', 'Hi', 'NewUser2')]
+2022-03-13 14:39:10,932 INFO server.py {'action': 'message', 'time': '2022-03-13 11:39:10.779798', 'user': 'NewUser2', 'to_user': 'NewUser1', 'data': 'hello'}
+2022-03-13 14:39:10,932 INFO server.py [('NewUser2', 'hello', 'NewUser1')]
+2022-03-13 14:39:17,440 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:39:17.129599', 'user': 'NewUser2', 'to_user': '', 'data': ''}
+2022-03-13 14:39:17,506 INFO server.py NewUser2 отключился от сервера
+2022-03-13 14:39:18,007 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:39:18,508 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:39:18.239927', 'user': 'NewUser1', 'to_user': '', 'data': ''}
+2022-03-13 14:39:18,649 INFO server.py NewUser1 отключился от сервера
+2022-03-13 14:39:19,150 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:40:23,402 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33790)
+2022-03-13 14:40:23,903 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:40:23.411280', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f34f35863b1abc61ccaa340057086e40d412044522a3c78acd736d94f5d4052efac8b2197ccf31fc1659e905380f2ab93ebc315fcaec7704fbbf0ca755d2e5cf', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:40:24,672 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:40:23.997094', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 14:40:24,675 INFO server.py Список контактов был отправлен пользователю Guest
+2022-03-13 14:40:32,184 INFO server.py {'action': 'add', 'time': '2022-03-13 11:40:32.059774', 'user': 'Guest', 'to_user': 'Guest', 'data': 'Guest'}
+2022-03-13 14:40:32,261 INFO server.py Контакт Guest был добавлен в список пользователя Guest
+2022-03-13 14:40:37,267 INFO server.py {'action': 'message', 'time': '2022-03-13 11:40:37.177656', 'user': 'Guest', 'to_user': 'Guest', 'data': 'Hi'}
+2022-03-13 14:40:37,268 INFO server.py [('Guest', 'Hi', 'Guest')]
+2022-03-13 14:40:47,781 INFO server.py {'action': 'message', 'time': '2022-03-13 11:40:47.445529', 'user': 'Guest', 'to_user': 'Guest', 'data': 'ohoho'}
+2022-03-13 14:40:47,781 INFO server.py [('Guest', 'ohoho', 'Guest')]
+2022-03-13 14:40:53,789 INFO server.py {'action': 'message', 'time': '2022-03-13 11:40:53.744602', 'user': 'Guest', 'to_user': 'Guest', 'data': 'ddd'}
+2022-03-13 14:40:53,790 INFO server.py [('Guest', 'ddd', 'Guest')]
+2022-03-13 14:40:59,297 INFO server.py {'action': 'message', 'time': '2022-03-13 11:40:58.915667', 'user': 'Guest', 'to_user': 'Guest', 'data': 'sss'}
+2022-03-13 14:40:59,297 INFO server.py [('Guest', 'sss', 'Guest')]
+2022-03-13 14:41:05,305 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:41:05.166827', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 14:41:05,404 INFO server.py Guest отключился от сервера
+2022-03-13 14:41:06,405 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:41:56,730 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33792)
+2022-03-13 14:41:57,231 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:41:56.740433', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f0f4e8f45054352d87efd364da60b10b1f6f6bc7b44acf5f980da12a478a542a61475a7ff26194e78ee27be235e1de0b52d91ad5b32db901a455fc9e04964021', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:42:01,741 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:42:01.640128', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f34f35863b1abc61ccaa340057086e40d412044522a3c78acd736d94f5d4052efac8b2197ccf31fc1659e905380f2ab93ebc315fcaec7704fbbf0ca755d2e5cf', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:42:02,436 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:42:01.746546', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 14:42:02,440 INFO server.py Список контактов был отправлен пользователю Guest
+2022-03-13 14:42:08,947 INFO server.py {'action': 'message', 'time': '2022-03-13 11:42:08.684768', 'user': 'Guest', 'to_user': 'Guest', 'data': 'd'}
+2022-03-13 14:42:08,947 INFO server.py [('Guest', 'd', 'Guest')]
+2022-03-13 14:42:16,456 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:42:16.216715', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 14:42:16,535 INFO server.py Guest отключился от сервера
+2022-03-13 14:42:17,537 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:44:17,178 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33794)
+2022-03-13 14:44:17,678 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:44:17.187544', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f34f35863b1abc61ccaa340057086e40d412044522a3c78acd736d94f5d4052efac8b2197ccf31fc1659e905380f2ab93ebc315fcaec7704fbbf0ca755d2e5cf', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:44:18,330 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:44:17.681673', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 14:44:18,334 INFO server.py Список контактов был отправлен пользователю Guest
+2022-03-13 14:44:24,340 INFO server.py {'action': 'message', 'time': '2022-03-13 11:44:23.898259', 'user': 'Guest', 'to_user': 'Guest', 'data': 'd'}
+2022-03-13 14:44:24,340 INFO server.py [('Guest', 'd', 'Guest')]
+2022-03-13 14:44:31,849 INFO server.py {'action': 'message', 'time': '2022-03-13 11:44:31.737009', 'user': 'Guest', 'to_user': 'Guest', 'data': 'ww'}
+2022-03-13 14:44:31,849 INFO server.py [('Guest', 'ww', 'Guest')]
+2022-03-13 14:44:36,855 INFO server.py {'action': 'message', 'time': '2022-03-13 11:44:36.654067', 'user': 'Guest', 'to_user': 'Guest', 'data': 'gfhg'}
+2022-03-13 14:44:36,855 INFO server.py [('Guest', 'gfhg', 'Guest')]
+2022-03-13 14:44:41,862 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:44:41.524117', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 14:44:41,949 INFO server.py Guest отключился от сервера
+2022-03-13 14:44:42,950 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:46:55,083 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33796)
+2022-03-13 14:46:55,584 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:46:55.092999', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f0f4e8f45054352d87efd364da60b10b1f6f6bc7b44acf5f980da12a478a542a61475a7ff26194e78ee27be235e1de0b52d91ad5b32db901a455fc9e04964021', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:46:59,590 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:46:59.253831', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f34f35863b1abc61ccaa340057086e40d412044522a3c78acd736d94f5d4052efac8b2197ccf31fc1659e905380f2ab93ebc315fcaec7704fbbf0ca755d2e5cf', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:47:00,252 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:46:59.594081', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 14:47:00,255 INFO server.py Список контактов был отправлен пользователю Guest
+2022-03-13 14:47:06,262 INFO server.py {'action': 'message', 'time': '2022-03-13 11:47:05.812663', 'user': 'Guest', 'to_user': 'Guest', 'data': 'asd'}
+2022-03-13 14:47:06,263 INFO server.py [('Guest', 'asd', 'Guest')]
+2022-03-13 14:47:09,268 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:47:08.830366', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 14:47:09,542 INFO server.py Guest отключился от сервера
+2022-03-13 14:47:10,043 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:51:04,980 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 14:51:18,560 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33798)
+2022-03-13 14:51:19,061 INFO server.py {'action': 'presence', 'time': '2022-03-13 11:51:18.569258', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f34f35863b1abc61ccaa340057086e40d412044522a3c78acd736d94f5d4052efac8b2197ccf31fc1659e905380f2ab93ebc315fcaec7704fbbf0ca755d2e5cf', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 14:51:19,970 INFO server.py {'action': 'contacts', 'time': '2022-03-13 11:51:19.064998', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 14:51:19,975 INFO server.py Список контактов был отправлен пользователю Guest
+2022-03-13 14:51:23,979 INFO server.py {'action': 'message', 'time': '2022-03-13 11:51:23.669837', 'user': 'Guest', 'to_user': 'Guest', 'data': 'asd'}
+2022-03-13 14:51:23,980 INFO server.py [('Guest', 'asd', 'Guest')]
+2022-03-13 14:51:27,484 INFO server.py {'action': 'exit', 'time': '2022-03-13 11:51:27.104922', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 14:51:27,590 INFO server.py Guest отключился от сервера
+2022-03-13 14:51:28,591 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 14:59:51,810 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 15:00:03,252 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 33800)
+2022-03-13 15:00:03,752 INFO server.py {'action': 'presence', 'time': '2022-03-13 12:00:03.260933', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f34f35863b1abc61ccaa340057086e40d412044522a3c78acd736d94f5d4052efac8b2197ccf31fc1659e905380f2ab93ebc315fcaec7704fbbf0ca755d2e5cf', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-13 15:00:04,408 INFO server.py {'action': 'contacts', 'time': '2022-03-13 12:00:03.757162', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 15:00:04,411 INFO server.py Список контактов был отправлен пользователю Guest
+2022-03-13 15:00:09,917 INFO server.py {'action': 'delete', 'time': '2022-03-13 12:00:09.427187', 'user': 'Guest', 'to_user': 'Guest', 'data': 'Guest'}
+2022-03-13 15:00:10,016 INFO server.py Контакт Guest был удален из списка пользователя Guest
+2022-03-13 15:00:14,022 INFO server.py {'action': 'add', 'time': '2022-03-13 12:00:13.942906', 'user': 'Guest', 'to_user': 'Guest', 'data': 'Guest'}
+2022-03-13 15:00:14,110 INFO server.py Контакт Guest был добавлен в список пользователя Guest
+2022-03-13 15:00:16,613 INFO server.py {'action': 'message', 'time': '2022-03-13 12:00:16.117167', 'user': 'Guest', 'to_user': 'Guest', 'data': 'df'}
+2022-03-13 15:00:16,613 INFO server.py [('Guest', 'df', 'Guest')]
+2022-03-13 15:00:28,626 INFO server.py {'action': 'exit', 'time': '2022-03-13 12:00:28.303345', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-13 15:00:28,721 INFO server.py Guest отключился от сервера
+2022-03-13 15:00:29,722 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-13 15:09:10,691 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-13 15:17:15,864 INFO server.py Сервер 127.0.0.1:7777 запущен

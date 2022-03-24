@@ -2,8 +2,8 @@
 import argparse
 import sys
 
-# from client.client_settings import CLIENT_USERNAME
-# from server.server_settings import SERVER_PORT, SERVER_IP
+# from client_files.client_settings import CLIENT_USERNAME
+# from server_files.server_settings import SERVER_PORT, SERVER_IP
 
 
 class ArgParser():

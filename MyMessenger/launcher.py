@@ -1,4 +1,4 @@
-"""launcher to start a server and two clients"""
+"""launcher to start a server_files and two clients"""
 import subprocess
 import time
 
@@ -11,7 +11,7 @@ while True:
     if ACTION == 'q':
         break
     elif ACTION == 's':
-        PROCESS.append(subprocess.Popen('gnome-terminal -- python3 server/server.py', shell=True))
+        PROCESS.append(subprocess.Popen('gnome-terminal -- python3 server_files/server_files.py', shell=True))
         print('s')
         time.sleep(4)
         for i in range(2):

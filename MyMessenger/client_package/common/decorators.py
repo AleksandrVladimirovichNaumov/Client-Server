@@ -13,10 +13,10 @@ class Log:
         # из какого модуля вызван
         self.from_module = sys.argv[0]
         # определяем какой файл запускает декоратор для выбора логера
-        if self.from_module == 'client.py':
+        if self.from_module == 'client_files.py':
             self.loger = logging.getLogger('client_logger')
 
-        elif self.from_module == 'server.py':
+        elif self.from_module == 'server_files.py':
 
             self.loger = logging.getLogger('server_logger')
 

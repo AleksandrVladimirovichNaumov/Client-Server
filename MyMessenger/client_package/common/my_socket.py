@@ -40,6 +40,6 @@ class MessengerSocket:
             if isinstance(message, dict):
                 bytes_message = json.dumps(message).encode(self.encoding)
                 client.send(bytes_message)
-                # print(f'сообщение отправлено получателю {client}')
+                # print(f'сообщение отправлено получателю {client_files}')
         except Exception as exception:
             print(f'Ошибка отправки сообщения: {exception}')

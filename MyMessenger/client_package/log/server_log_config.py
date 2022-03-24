@@ -1,10 +1,11 @@
-"""module for server logger"""
+"""module for server_files logger"""
 import os
 import sys
 from logging import handlers
 import logging
 
-path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'server.log')
+# path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'server_files.log')
+path = os.path.join(os.getcwd(), 'server.log')
 server_format = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(message)s')
 
 #поток для логов

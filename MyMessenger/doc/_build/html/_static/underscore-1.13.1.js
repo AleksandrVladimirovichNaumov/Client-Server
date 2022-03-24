@@ -16,7 +16,7 @@
   var VERSION = '1.13.1';
 
   // Establish the root object, `window` (`self`) in the browser, `global`
-  // on the server, or `this` in some virtual machines. We use `self`
+  // on the server_files, or `this` in some virtual machines. We use `self`
   // instead of `window` for `WebWorker` support.
   var root = typeof self == 'object' && self.self === self && self ||
             typeof global == 'object' && global.global === global && global ||
@@ -964,7 +964,7 @@
     return obj;
   }
 
-  // Generate a unique integer id (unique within the entire client session).
+  // Generate a unique integer id (unique within the entire client_files session).
   // Useful for temporary DOM ids.
   var idCounter = 0;
   function uniqueId(prefix) {

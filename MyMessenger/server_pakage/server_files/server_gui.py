@@ -1,10 +1,10 @@
-"""module for server GUI"""
+"""module for server_files GUI"""
 from PyQt5 import uic
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, qApp
 
 from common.descriptor import ServerPort, ServerHost
-from server_settings import SERVER_PORT, SERVER_MAX_CONNECTIONS, SERVER_IP
+from server_files.server_settings import SERVER_PORT, SERVER_MAX_CONNECTIONS, SERVER_IP
 
 
 class AdminConsole(QWidget):
@@ -19,7 +19,7 @@ class AdminConsole(QWidget):
     def __init__(self):
         super().__init__()
         # Использование функции loadUi()
-        uic.loadUi('server/gui_server.ui', self)  # загружаем наше окно
+        uic.loadUi('server_files/gui_server.ui', self)  # загружаем наше окно
 
         # Обрабокта события нажатия кнопки
         self.actionExit.triggered.connect(qApp.quit)
@@ -110,7 +110,7 @@ class AdminConsole(QWidget):
         logs_listview = QStandardItemModel()
         # пробуем открыть файл с логами
         try:
-            with open('log/server.log') as logs_file:
+            with open('log/server_files.log') as logs_file:
                 # построчно заполняем логи в модель
                 for line in logs_file:
                     row = QStandardItem(line)

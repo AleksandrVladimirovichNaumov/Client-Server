@@ -1,4 +1,4 @@
-"""Module for client GUI"""
+"""Module for client_files GUI"""
 from PyQt5 import QtWidgets, QtCore, uic
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QWidget, qApp
@@ -6,13 +6,13 @@ from PyQt5.QtWidgets import QWidget, qApp
 
 class ClientGui(QWidget):
     '''
-    class for gui client
+    class for gui client_files
     '''
 
     def __init__(self):
         super().__init__()
         # usage of loadUi()
-        uic.loadUi('client/gui_client.ui', self)  # load client window
+        uic.loadUi('client_files/gui_client.ui', self)  # load client_files window
         # local database
         self.database = None
 
@@ -20,7 +20,7 @@ class ClientGui(QWidget):
         # active contact
         self.active_contact = ''
 
-        # client events processing
+        # client_files events processing
         self.actionExit.triggered.connect(qApp.quit)
         self.pushButton.clicked.connect(self.send_message)
         self.pushButton_2.clicked.connect(self.save_settings)
@@ -30,8 +30,8 @@ class ClientGui(QWidget):
 
     def contact_list(self):
         """
-        make a contact list for a client
-        :param database: local client db
+        make a contact list for a client_files
+        :param database: local client_files db
         :return: list of clients
         """
         contact_list_result = QStandardItemModel()
@@ -56,7 +56,7 @@ class ClientGui(QWidget):
 
     def set_client_obj(self, client_obj):
         """
-        set client object to work with client.py
+        set client_files object to work with client_files.py
         """
         self.client_obj = client_obj
         self.lineEdit_2.setText(self.client_obj.username)
@@ -73,7 +73,7 @@ class ClientGui(QWidget):
 
     def add_contact(self):
         """
-        adding contact to database local and server
+        adding contact to database local and server_files
         """
         new_contact = self.lineEdit_4.text()
         if new_contact != '':
@@ -87,7 +87,7 @@ class ClientGui(QWidget):
 
     def delete_contact(self):
         """
-        deleting contact from database local and server
+        deleting contact from database local and server_files
         """
 
         selected_contact = self.listView.currentIndex().data()
@@ -169,13 +169,13 @@ class ClientLoginGui(QtWidgets.QDialog):
         self.setWindowTitle('Registration / Authentication')
         self.setFixedWidth(400)
 
-        # adding client_obj to work with client.py
+        # adding client_obj to work with client_files.py
 
         self.client_object = None
 
     def set_client_obj(self, client_obj):
         """
-        set client object to work with client.py
+        set client_files object to work with client_files.py
         """
         self.client_object = client_obj
 

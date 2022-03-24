@@ -1,4 +1,4 @@
-"""module for server settings"""
+"""module for server_files settings"""
 SERVER_IP = '127.0.0.1'
 SERVER_PORT = 7777
 SERVER_MAX_CONNECTIONS = 5

@@ -1,4 +1,4 @@
-"""main server module"""
+"""main server_files module"""
 import binascii
 import hmac
 import os
@@ -17,16 +17,16 @@ from common.metaclasses import ServerVerifier
 from common.my_socket import MessengerSocket
 from log.server_log_config import server_logger
 from common.decorators import Log
-from server_gui import AdminConsole
-from server_settings import SERVER_MAX_CONNECTIONS
-from storage import MessengerStorage
+from server_files.server_gui import AdminConsole
+from server_files.server_settings import SERVER_MAX_CONNECTIONS
+from server_files.storage import MessengerStorage
 
 conflag_lock = threading.Lock()
 
 
 @Log
 class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVerifier):
-    """server"""
+    """server_files"""
     # используем дескриптер ServerPort ServerHost, чтобы проверять номер порта и адрес
     port = ServerPort()
     address = ServerHost()
@@ -65,7 +65,7 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
 
     def turn_on(self):
         """
-        start server main thread
+        start server_files main thread
         """
         self.server_thread.start()
 
@@ -147,7 +147,7 @@ class MessengerServer(MessengerSocket, JIMServer, ArgParser, metaclass=ServerVer
 
     def answer(self, received_message, client):
         """
-        create answer from server
+        create answer from server_files
         """
         server_logger.info(received_message)
 

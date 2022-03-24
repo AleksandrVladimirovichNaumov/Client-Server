@@ -1,19 +1,20 @@
-"""module for work with client local database"""
+"""module for work with client_files local database"""
 import datetime
 import os
 
 from sqlalchemy import __version__, create_engine, Table, Column, MetaData,\
     Integer, String, Boolean, DateTime
 from sqlalchemy.orm import mapper, sessionmaker
+from sqlalchemy.sql import default_comparator
 
 
 class ClientStorage:
-    """main class for client local database"""
+    """main class for client_files local database"""
     print(f"Version of SQLAlchemy: {__version__}")
 
     class ContactList:
         """
-        local copy of client list
+        local copy of client_files list
         """
 
         def __init__(self, contact_username):
@@ -33,7 +34,7 @@ class ClientStorage:
             self.datetime = date_time
 
     def __init__(self, username):
-        # each client will have local db
+        # each client_files will have local db
         path = os.path.dirname(os.path.realpath(__file__))
         filename = f'db_{username}.db3'
         self.engine = create_engine(f'sqlite:///{os.path.join(path, filename)}',

@@ -1,0 +1,52 @@
+2022-03-14 20:05:51,432 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-14 20:15:32,949 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-14 20:15:53,420 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 32874)
+2022-03-14 20:15:53,921 INFO server.py {'action': 'presence', 'time': '2022-03-14 17:15:53.429690', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f0f4e8f45054352d87efd364da60b10b1f6f6bc7b44acf5f980da12a478a542a61475a7ff26194e78ee27be235e1de0b52d91ad5b32db901a455fc9e04964021', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-14 20:15:58,929 INFO server.py {'action': 'presence', 'time': '2022-03-14 17:15:58.666221', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f34f35863b1abc61ccaa340057086e40d412044522a3c78acd736d94f5d4052efac8b2197ccf31fc1659e905380f2ab93ebc315fcaec7704fbbf0ca755d2e5cf', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-14 20:15:59,637 INFO server.py {'action': 'contacts', 'time': '2022-03-14 17:15:58.939750', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-14 20:15:59,641 INFO server.py Список контактов был отправлен пользователю Guest
+2022-03-14 20:16:09,654 INFO server.py {'action': 'message', 'time': '2022-03-14 17:16:09.365787', 'user': 'Guest', 'to_user': 'Guest', 'data': 'lol'}
+2022-03-14 20:16:09,654 INFO server.py [('Guest', 'lol', 'Guest')]
+2022-03-14 20:16:17,163 INFO server.py {'action': 'add', 'time': '2022-03-14 17:16:16.937854', 'user': 'Guest', 'to_user': 'NewUser1', 'data': 'Guest'}
+2022-03-14 20:16:17,166 INFO server.py Контакт Guest был добавлен в список пользователя Guest
+2022-03-14 20:16:24,174 INFO server.py {'action': 'message', 'time': '2022-03-14 17:16:24.140496', 'user': 'Guest', 'to_user': 'NewUser1', 'data': 'fuck'}
+2022-03-14 20:16:24,175 INFO server.py [('Guest', 'fuck', 'NewUser1')]
+2022-03-14 20:16:36,190 INFO server.py {'action': 'message', 'time': '2022-03-14 17:16:35.934523', 'user': 'Guest', 'to_user': 'Guest', 'data': 'lol'}
+2022-03-14 20:16:36,190 INFO server.py [('Guest', 'lol', 'Guest')]
+2022-03-14 20:16:42,198 INFO server.py {'action': 'delete', 'time': '2022-03-14 17:16:41.751196', 'user': 'Guest', 'to_user': 'NewUser1', 'data': 'Guest'}
+2022-03-14 20:16:42,300 INFO server.py Контакт Guest был удален из списка пользователя Guest
+2022-03-14 20:17:01,323 INFO server.py {'action': 'add', 'time': '2022-03-14 17:17:01.115222', 'user': 'Guest', 'to_user': 'NewUser1', 'data': 'Guest'}
+2022-03-14 20:17:01,393 INFO server.py Контакт Guest был добавлен в список пользователя Guest
+2022-03-14 20:17:06,899 INFO server.py {'action': 'delete', 'time': '2022-03-14 17:17:06.806467', 'user': 'Guest', 'to_user': 'NewUser1', 'data': 'Guest'}
+2022-03-14 20:17:06,974 INFO server.py Контакт Guest был удален из списка пользователя Guest
+2022-03-14 20:17:09,477 INFO server.py {'action': 'exit', 'time': '2022-03-14 17:17:09.104930', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-14 20:17:10,300 INFO server.py Guest отключился от сервера
+2022-03-14 20:17:10,802 INFO server.py Expecting value: line 1 column 1 (char 0)
+2022-03-14 22:59:58,682 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-14 23:00:11,119 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-14 23:00:27,803 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 32876)
+2022-03-14 23:00:28,304 INFO server.py {'action': 'presence', 'time': '2022-03-14 20:00:27.812546', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f0f4e8f45054352d87efd364da60b10b1f6f6bc7b44acf5f980da12a478a542a61475a7ff26194e78ee27be235e1de0b52d91ad5b32db901a455fc9e04964021', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-14 23:00:32,850 INFO server.py {'action': 'presence', 'time': '2022-03-14 20:00:32.387743', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f34f35863b1abc61ccaa340057086e40d412044522a3c78acd736d94f5d4052efac8b2197ccf31fc1659e905380f2ab93ebc315fcaec7704fbbf0ca755d2e5cf', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-14 23:00:33,586 INFO server.py {'action': 'contacts', 'time': '2022-03-14 20:00:32.857457', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-14 23:00:33,588 INFO server.py Список контактов был отправлен пользователю Guest
+2022-03-14 23:00:40,096 INFO server.py {'action': 'message', 'time': '2022-03-14 20:00:40.041317', 'user': 'Guest', 'to_user': 'Guest', 'data': 'asd'}
+2022-03-14 23:00:40,096 INFO server.py [('Guest', 'asd', 'Guest')]
+2022-03-14 23:00:44,102 INFO server.py {'action': 'message', 'time': '2022-03-14 20:00:44.004994', 'user': 'Guest', 'to_user': 'Guest', 'data': 'asd'}
+2022-03-14 23:00:44,103 INFO server.py [('Guest', 'asd', 'Guest')]
+2022-03-14 23:00:46,607 INFO server.py {'action': 'message', 'time': '2022-03-14 20:00:46.484095', 'user': 'Guest', 'to_user': 'Guest', 'data': 'asd'}
+2022-03-14 23:00:46,607 INFO server.py [('Guest', 'asd', 'Guest')]
+2022-03-14 23:01:04,646 INFO server.py {'action': 'add', 'time': '2022-03-14 20:01:04.592983', 'user': 'Guest', 'to_user': 'NewUser1', 'data': 'Guest'}
+2022-03-14 23:01:04,727 INFO server.py Контакт Guest был добавлен в список пользователя Guest
+2022-03-14 23:01:08,733 INFO server.py {'action': 'delete', 'time': '2022-03-14 20:01:08.664292', 'user': 'Guest', 'to_user': 'NewUser1', 'data': 'Guest'}
+2022-03-14 23:01:08,809 INFO server.py Контакт Guest был удален из списка пользователя Guest
+2022-03-14 23:01:15,316 INFO server.py {'action': 'exit', 'time': '2022-03-14 20:01:15.262245', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-14 23:01:15,432 INFO server.py Guest отключился от сервера
+2022-03-14 23:07:55,370 INFO server.py Сервер 127.0.0.1:7777 запущен
+2022-03-14 23:08:08,092 INFO server.py Сервер: получен запрос на соединение от клиента с адресом и портом: ('127.0.0.1', 32878)
+2022-03-14 23:08:08,593 INFO server.py {'action': 'presence', 'time': '2022-03-14 20:08:08.101880', 'user': 'Guest', 'to_user': '', 'data': {'password': 'f34f35863b1abc61ccaa340057086e40d412044522a3c78acd736d94f5d4052efac8b2197ccf31fc1659e905380f2ab93ebc315fcaec7704fbbf0ca755d2e5cf', 'public_key': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5LmVX9jaLfGIifkKSzr9\nl5y+s2t6UHEj9hVUCNSXH8nZqUT4Hjspxbr+tbG60UCvEpMjln4YSWFoZwF6LLUf\ngCPomAThSeCv2QxVpkQs04e+ijPX4B0cb5nMfaOv6oVrCatDFLMUkRqKeG4ZAMak\nfJiziONlI9yT6WH3M7rWtUBZTR/zC2JTf/MkGl4r2Z/PpSsjN7RSs3sAt9L94/F/\nfLCobXUqFfdhr5I6bkEisEaTJj8VgUIrZ8HgrUFuhiZNV+riKxjEAO+P8n/1Rb4C\nq7ggIqE+FpZNtBKLWDXleGdldf4omy3lQD4SRnXU/jU0DWCh4ggqcnkVzxRh7msb\neQIDAQAB\n-----END PUBLIC KEY-----'}}
+2022-03-14 23:08:09,317 INFO server.py {'action': 'contacts', 'time': '2022-03-14 20:08:08.609870', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-14 23:08:09,321 INFO server.py Список контактов был отправлен пользователю Guest
+2022-03-14 23:08:18,831 INFO server.py {'action': 'message', 'time': '2022-03-14 20:08:18.791100', 'user': 'Guest', 'to_user': 'Guest', 'data': 'ss'}
+2022-03-14 23:08:18,832 INFO server.py [('Guest', 'ss', 'Guest')]
+2022-03-14 23:08:23,338 INFO server.py {'action': 'exit', 'time': '2022-03-14 20:08:23.003220', 'user': 'Guest', 'to_user': '', 'data': ''}
+2022-03-14 23:08:23,427 INFO server.py Guest отключился от сервера

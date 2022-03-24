@@ -1,9 +1,10 @@
-"""module for client logger"""
+"""module for client_files logger"""
 import logging
 import os.path
 import sys
 
-path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'client.log')
+# path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'client_files.log')
+path = os.path.join(os.getcwd(), 'client.log')
 client_format = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(message)s')
 
 # поток для логов

@@ -1,6 +1,7 @@
 """module for descriptor"""
 import ipaddress
 import logging
+import sys
 
 server_loger = logging.getLogger('server_logger')
 client_logger = logging.getLogger('client_logger')
@@ -52,7 +53,7 @@ class ServerHost:
                 client_logger.critical(exception)
             elif str(type(instance)) == "<class 'server_gui.AdminConsole'>":
                 raise ValueError
-            exit(1)
+            sys.exit(1)
 
     def __set_name__(self, owner, name):
         self.name = name
